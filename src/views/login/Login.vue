@@ -43,7 +43,7 @@ export default {
         if (!usuario.value || !password.value) {
           alert("Por favor, preencha todos os campos.");
         } else {
-          console.log("Efetuando login");
+          alert("Efetuando login");
           authService.login(usuario.value,password.value);
        }
       },
