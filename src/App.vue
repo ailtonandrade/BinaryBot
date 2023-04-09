@@ -1,13 +1,13 @@
-<script setup lang="ts">
-import Login from "./views/login/Login.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Login />
+  <main>
+    <router-view />
+  </main>
 </template>
 
 <style scoped>
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 
 .logo {
   height: 6em;
@@ -21,5 +21,4 @@ import Login from "./views/login/Login.vue";
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
-
 </style>
