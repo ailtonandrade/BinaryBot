@@ -9,7 +9,7 @@ const authService = {
       localStorage.setItem("token", token);
       return token;
     } catch (error) {
-    alert("Erro : "+error.response.data);
+    alert("Erro ao autenticar : "+error.response.data);
       throw new Error(error.response.data.message || "Erro ao efetuar login.");
     }
   },
