@@ -27,13 +27,13 @@
 
 <script>
 import { ref } from "vue";
-import authService from '../../services/authService.ts';
+import AuthService from "../../services/AuthService";
 
 export default {
   setup() {
     const title = ref("BinaryBot");
     const description = ref(
-  "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
+      "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
     const usuario = ref("");
     const password = ref("");
@@ -44,8 +44,8 @@ export default {
           alert("Por favor, preencha todos os campos.");
         } else {
           alert("Efetuando login");
-          authService.login(usuario.value,password.value);
-       }
+          AuthService.login(usuario.value, password.value);
+        }
       },
     };
 

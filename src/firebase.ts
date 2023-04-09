@@ -9,7 +9,7 @@ const firebaseConfig = {
   messagingSenderId: "SEU_MESSAGING_SENDER_ID",
   appId: "SEU_APP_ID",
 };
-
 firebase.initializeApp(firebaseConfig);
-
 export const firestore = firebase.firestore();
+
+export default firebase;
