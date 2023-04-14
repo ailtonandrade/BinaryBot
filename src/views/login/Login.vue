@@ -62,8 +62,13 @@ export default {
               methods.verificaLogin(response.data);
             })
             .catch((error) => {
-              alert("Usuário não encontrado");
-            });
+              console.log(error);
+              alert(error.message);
+            })
+            .finally(() => {
+              objUser.value.username = "";
+              objUser.value.password = "";
+            })
         }
       },
       verificaLogin(data) {
