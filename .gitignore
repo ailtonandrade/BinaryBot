@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 #Project files
-.package-lock.json
+package-lock.json
