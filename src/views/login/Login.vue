@@ -22,7 +22,14 @@
         />
       </div>
       <div class="mb-3 d-flex justify-content-center">
-        <button type="button" class="btn btn-primary" @click="methods.login()">
+        <button
+          type="button"
+          :disabled="
+            objUser.username.length < 5 || objUser.password.length <= 8
+          "
+          class="btn btn-primary"
+          @click="methods.login()"
+        >
           Entrar
         </button>
       </div>
@@ -37,7 +44,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import AuthService from "../../services/AuthService";
 import { useRouter } from "vue-router";
 
@@ -63,22 +70,29 @@ export default {
             })
             .catch((error) => {
               console.log(error);
-              alert(error.message);
+              alert(error.response.data);
             })
             .finally(() => {
               objUser.value.username = "";
               objUser.value.password = "";
-            })
+            });
         }
       },
       verificaLogin(data) {
         if (data) {
-          localStorage.setItem("token",data.hash);
-          router.push("/dashboard"); 
+          localStorage.setItem("token", data.hash);
+          router.push("/dashboard");
         }
+      },
+      formatInput() {
+        objUser.value.username = objUser.value.username.trim();
+        objUser.value.password = objUser.value.password.trim();
       },
     };
 
+    watch(objUser.value, (newV, oldV) => {
+        methods.formatInput();
+    });
     return {
       title,
       description,

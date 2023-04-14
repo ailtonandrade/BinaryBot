@@ -17,7 +17,7 @@ class Auxiliar {
         Email: string,
         Password: string
     }) {
-        acc.Password = bcrypt.hashSync(acc.Password);
+        acc.Password = bcrypt.hashSync(acc.Password, this.salt);
         return acc;
     }
 }
