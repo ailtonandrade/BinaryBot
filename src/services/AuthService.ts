@@ -9,8 +9,8 @@ class AuthService {
   private auxiliar = Auxiliar;
 
   async login(user: { username: string, password: string }) {
-
-    return axios.post(baseUrl + "login", await this.auxiliar.getHashUser(user));
+  const _user = Object.assign({},user);
+    return axios.post(baseUrl + "login", await this.auxiliar.getHashUser(_user));
   }
 
   async register(acc: {
@@ -22,7 +22,8 @@ class AuthService {
     Email: string,
     Password: string
   }) {
-    axios.post(baseUrl + "register", await this.auxiliar.getHashAcc(acc));
+    const _acc = Object.assign({},acc);
+    return axios.post(baseUrl + "register", await this.auxiliar.getHashAcc(_acc));
   }
 }
 export default new AuthService();

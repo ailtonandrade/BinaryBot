@@ -10,6 +10,7 @@
           class="form-control"
           id="name"
           v-model="objUser.username"
+          placeholder="usuari011011"
         />
       </div>
       <div class="mb-3">
@@ -19,6 +20,7 @@
           class="form-control"
           id="password"
           v-model="objUser.password"
+          placeholder="p@ssw0rd"
         />
       </div>
       <div class="mb-3 d-flex justify-content-center">
