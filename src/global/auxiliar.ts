@@ -10,6 +10,9 @@ class Auxiliar {
     formatOnlyCharsAndNumbers(val: string) {
         return val.replaceAll(" ", "").replace(/[^\w\s]/gi, "");
     };
+    formatOnlyCharsNumbersAndWhiteSpace(val: string) {
+        return val.replaceAll("  ", " ").replace(/[^\w\s]/gi, "");
+    };
     formatToPhone(val: string) {
         // Remove todos os caracteres não numéricos
         val = val.replace(/\D/g, '');
@@ -29,15 +32,27 @@ class Auxiliar {
         return val.replace(/\D/g, "");
     };
     formatToDoc(val: string) {
-        val = val.replace(/\D/g, "");
-        val = val.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-        return val;
+        if (val.toLowerCase().endsWith("x")) {
+            val = val.slice(0,13);
+            val = val.replace(/^(\d{3})(\d{3})(\d{3})([xX\d])$/, "$1.$2.$3-$4");
+            return val;
+        }
+        else {
+            val = val.replace(/\D/g, ""); 
+            val = val.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4"); 
+            return val;
+        }
+
     };
     validate(p: string): boolean {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return regex.test(p);
-      }
-      
+    }
+    validateDocCharMatches(val : string){
+        const DocXmatches = val.match(/x/g);
+        return DocXmatches?.length ? DocXmatches?.length : 0;
+    }
+
     getHashUser(user: { username: string, password: string }) {
         user.password = bcrypt.hashSync(user.password, salt);
         return user;
