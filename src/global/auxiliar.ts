@@ -1,6 +1,4 @@
-import * as bcrypt from 'bcryptjs'
-
-const salt = bcrypt.genSaltSync(10);
+import { enc, MD5 } from 'crypto-js';
 
 class Auxiliar {
 
@@ -54,7 +52,7 @@ class Auxiliar {
     }
 
     getHashUser(user: { username: string, password: string }) {
-        user.password = bcrypt.hashSync(user.password, salt);
+        user.password = MD5(user.password).toString(enc.Hex);
         return user;
     }
     async getHashAcc(acc: {
@@ -66,7 +64,7 @@ class Auxiliar {
         Email: string,
         Password: string
     }) {
-        acc.Password = bcrypt.hashSync(acc.Password, salt);
+        acc.Password = MD5(acc.Password).toString(enc.Hex);
         return acc;
     }
 }

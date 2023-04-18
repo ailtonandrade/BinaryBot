@@ -7,27 +7,27 @@
       <p>{{ description }}</p>
     </div>
     <div class="card">
-      <div v-if="userRole == Roles.ADMIN">
+      <div v-if="1==1"></div>
+      <div v-if="userData == Perfils.ADMIN">
         <admin-board></admin-board>
       </div>
-      <div v-if="userRole == Roles.GUEST">
+      <div v-if="userData == Perfils.GUEST">
         <span>visitante</span>
       </div>
-      <div v-if="userRole == Roles.SIGNATED">
+      <div v-if="userData == Perfils.SIGNATED">
         <span>assinante</span>
-      </div>
-      <div v-if="userRole == Roles.NEAR_EXPIRATION">
-        <span>vencimento próximo</span>
       </div>
     </div>
   </template>
   
   <script lang="ts">
   import { ref, onMounted } from "vue";
-  import { Roles } from '../../enums/roles';
+  import { Perfils } from '../../enums/perfils';
   import { useRouter } from "vue-router";
   import Menu from "../components/menu.vue";
 import AdminBoard from './adminBoard/adminBoard.vue';
+import AuthService from "../../services/AuthService";
+import { AxiosResponse } from "axios";
 
   export default {
     components: {
@@ -40,13 +40,22 @@ import AdminBoard from './adminBoard/adminBoard.vue';
         "Informações de conta."
       );
       const router = useRouter();
-      const userRole = ref();
+      const userData = ref();
       const methods = {
-        
+        responseData(data:AxiosResponse){
+
+        }
       };
 
       onMounted(() => {
-        userRole.value = localStorage.getItem("role");
+        AuthService.getPerfil()
+            .then((response) => {
+              methods.responseData(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              alert(error.response.data.message);
+            })
     });
 
       return {
@@ -54,8 +63,8 @@ import AdminBoard from './adminBoard/adminBoard.vue';
         description,
         methods,
         router,
-        userRole,
-        Roles
+        userData,
+        Perfils
       };
     },
   };
