@@ -42,15 +42,17 @@ import { AxiosResponse } from "axios";
       const router = useRouter();
       const userData = ref();
       const methods = {
-        responseData(data:AxiosResponse){
-
+        responseData(data:any){
+          if(data){
+            console.table(data);
+          }
         }
       };
 
       onMounted(() => {
         AuthService.getPerfil()
             .then((response) => {
-              methods.responseData(response);
+              methods.responseData(response.data);
             })
             .catch((error) => {
               console.log(error);

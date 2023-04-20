@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Auxiliar from '../global/auxiliar';
+import http from './http';
 
 const baseUrl = 'https://localhost:7079/';
 
@@ -26,9 +27,7 @@ class AuthService {
   }
 
   async getPerfil() {
-    console.table(axios.defaults.headers);
-    return axios.post(baseUrl + "perfil");
+    return http.post("perfil");
   }
-
 }
 export default new AuthService();
