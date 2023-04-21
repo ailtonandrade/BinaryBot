@@ -2,36 +2,112 @@
   <div class="row">
     <div class="container-fluid">
       <div class="d-flex card-header">
-        <div class="col-6">
-          <span>{{ title }}</span>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
+        <div class="col-12 d-flex justify-content-start">
           <router-link to="/">
-            <a>Voltar</a>
+            <a>Inicio</a>
           </router-link>
         </div>
       </div>
     </div>
     <div class="container-fluid">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <form>
-              <div class="mb-6">
-                <label for="code" class="form-label">Código de Validação</label>
-                <input type="text" class="form-control" id="name" v-model="acc.Code" @change="methods.validateCode()" />
-                <div class="box-error">
-                  <span class="textError">{{ error.Name }}</span>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="col-12">
+              <h1>{{ title }}</h1>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="mb-5">
+                  <h4 class="form-label">
+                    Digite o código que acabou de receber por email
+                  </h4>
+                  <span
+                    >O código de validação tem uma expiração de uma hora, a
+                    partir do momento em que recebeu este email. caso necessite
+                    podemos <a href="#">enviar um novo código.</a>
+                  </span>
                 </div>
-              </div>
-              
-              <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="methods.register()"
-                  :disabled="!methods.canRegister()">
-                  Validar
-                </button>
-              </div>
-            </form>
+                <div class="mb-6 d-flex flex-row justify-content-center">
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-1"
+                    v-model="acc.CodeI"
+                    @click="
+                      () => {
+                        acc.CodeI = '';
+                      }
+                    "
+                    @keyup="methods.validateCode(1)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-2"
+                    v-model="acc.CodeII"
+                    @click="
+                      () => {
+                        acc.CodeII = '';
+                      }
+                    "
+                    @keyup="methods.validateCode(2)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-3"
+                    v-model="acc.CodeIII"
+                    @click="
+                      () => {
+                        acc.CodeIII = '';
+                      }
+                    "
+                    @keyup="methods.validateCode(3)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-4"
+                    v-model="acc.CodeIV"
+                    @click="
+                      () => {
+                        acc.CodeIV = '';
+                      }
+                    "
+                    @keyup="methods.validateCode(4)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-5"
+                    v-model="acc.CodeV"
+                    @click="
+                      () => {
+                        acc.CodeV = '';
+                      }
+                    "
+                    @keyup="methods.validateCode(5)"
+                  />
+                </div>
+                <div class="mb-6 d-flex flex-row justify-content-center">
+                  <div class="box-error">
+                    <span class="textError">{{ error.Code }}</span>
+                  </div>
+                </div>
+                <div class="mb-6 mt-4 d-flex justify-content-center">
+                  <button
+                    id="send-validation"
+                    type="button"
+                    class="btn btn-primary"
+                    @click="methods.validate()"
+                    :disabled="!canValidate"
+                  >
+                    Validar
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -40,237 +116,184 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const title = ref("Cadastro");
-    const description = ref("Registrando uma nova conta");
+    const title = ref("Validar Registro");
+    const description = ref("Digite o código para continuar.");
     const router = useRouter();
-    const canRegister = ref(false);
+    const canValidate = ref(false);
     const acc = ref({
-      NCodeame: "",
+      CodeI: "",
+      CodeII: "",
+      CodeIII: "",
+      CodeIV: "",
+      CodeV: "",
+      perfil: "",
     });
     const error = ref({
       Code: "",
     });
 
     const methods = {
-      register() {
-        if (methods.canRegister()) {
-          AuthService.register(acc.value)
+      validate() {
+        if (methods.canValidate()) {
+          AuthService.setValidate(methods.buildValidateObj())
             .then(() => {
-              alert("Registro efetuado com sucesso.");
+              alert("Validação realizada com sucesso.");
               router.push("/");
             })
             .catch((err) => {
+              document.getElementById("digit-1")?.focus();
+              error.value.Code = "Erro ao validar o código";
               console.log(err.message);
+              methods.getValidate();
+            })
+            .finally(()=> {
+              methods.clearDigit();
             });
         }
       },
-      formatInput() {
-        acc.value.Name = auxiliar.formatOnlyChars(acc.value.Name);
-        acc.value.UserName = auxiliar.formatOnlyCharsAndNumbers(
-          acc.value.UserName
-        );
-        acc.value.Document = auxiliar.formatToDoc(acc.value.Document);
-        acc.value.Email = acc.value.Email.replaceAll(" ", "");
-        acc.value.Phone = auxiliar.formatToPhone(acc.value.Phone);
-        acc.value.ZipCode = auxiliar.formatOnlyCharsAndNumbers(acc.value.ZipCode);
-        acc.value.Country = auxiliar.formatOnlyChars(acc.value.Country);
-        acc.value.Address = auxiliar.formatOnlyCharsNumbersAndWhiteSpace(acc.value.Address);
-        acc.value.ComplementAddress = auxiliar.formatOnlyCharsNumbersAndWhiteSpace(acc.value.ComplementAddress);
-        acc.value.Password = acc.value.Password.replaceAll(" ", "");
-        acc.value.ConfirmPassword = acc.value.ConfirmPassword.replaceAll(
-          " ",
-          ""
-        );
+      buildValidateObj() {
+        const validateObj = {
+          code:
+            acc.value.CodeI +
+            acc.value.CodeII +
+            acc.value.CodeIII +
+            acc.value.CodeIV +
+            acc.value.CodeV,
+          urlMatch: new URLSearchParams(window.location.search).get('hf'),
+        };
+        console.table(validateObj);
+        return validateObj;
       },
       clearErrors() {
-        error.value.Name = "";
-        error.value.UserName = "";
-        error.value.Document = "";
-        error.value.Email = "";
-        error.value.Phone = "";
-        error.value.Birthday = "";
-        error.value.ZipCode = "";
-        error.value.Country = "";
-        error.value.Address = "";
-        error.value.ComplementAddress = "";
-        error.value.Password = "";
-        error.value.ConfirmPassword = "";
+        error.value.Code = "";
       },
-      validateName() {
-        if (acc.value.Name.length > 0 && acc.value.Name.length < 8) {
-          error.value.Name =
-            "Este campo pode não estar preenchido corretamente.\n";
-        } else if (acc.value.Name.length == 0) {
-          error.value.Name = "Campo obrigatório.\n";
-        } else {
-          error.value.Name = "";
+      clearDigit() {
+        acc.value.CodeI = "";
+        acc.value.CodeII = "";
+        acc.value.CodeIII = "";
+        acc.value.CodeIV = "";
+        acc.value.CodeV = "";
+        canValidate.value = false;
+        console.log("não validado");
+      },
+      validateCode(index: number) {
+        switch (index) {
+          case 1: {
+            if (acc.value.CodeI.length > 1) {
+              acc.value.CodeI = acc.value.CodeI.substring(0, 1);
+            } else if (acc.value.CodeI.length === 1) {
+              acc.value.CodeI = acc.value.CodeI.toUpperCase();
+              document.getElementById("digit-" + ++index)?.focus();
+            }
+            break;
+          }
+          case 2: {
+            if (acc.value.CodeII.length > 1) {
+              acc.value.CodeII = acc.value.CodeII.substring(0, 1);
+            } else if (acc.value.CodeII.length === 1) {
+              acc.value.CodeII = acc.value.CodeII.toUpperCase();
+              document.getElementById("digit-" + ++index)?.focus();
+            }
+            break;
+          }
+          case 3: {
+            if (acc.value.CodeIII.length > 1) {
+              acc.value.CodeIII = acc.value.CodeIII.substring(0, 1);
+            } else if (acc.value.CodeIII.length === 1) {
+              acc.value.CodeIII = acc.value.CodeIII.toUpperCase();
+              document.getElementById("digit-" + ++index)?.focus();
+            }
+            break;
+          }
+          case 4: {
+            if (acc.value.CodeIV.length > 1) {
+              acc.value.CodeIV = acc.value.CodeIV.substring(0, 1);
+            } else if (acc.value.CodeIV.length === 1) {
+              acc.value.CodeIV = acc.value.CodeIV.toUpperCase();
+              document.getElementById("digit-" + ++index)?.focus();
+            }
+            break;
+          }
+          case 5: {
+            if (acc.value.CodeV.length > 1) {
+              acc.value.CodeV = acc.value.CodeV.substring(0, 1);
+            } else if (acc.value.CodeV.length === 1) {
+              acc.value.CodeV = acc.value.CodeV.toUpperCase();
+              document.getElementById("send-validation")?.focus();
+            }
+            break;
+          }
         }
       },
-      validateUserName() {
-        if (acc.value.UserName.length > 0 && acc.value.UserName.length < 8) {
-          error.value.UserName =
-            "Nome de usuário precisa ter ao menos 8 caracteres.\n";
-        } else if (acc.value.UserName.length == 0) {
-          error.value.UserName = "Campo obrigatório.\n";
-        } else {
-          error.value.UserName = "";
-        }
-      },
-      validateBirthday() {
-        const now =
-          new Date().getFullYear() - new Date(acc.value.Birthday).getFullYear();
-        if (acc.value.Birthday == null) {
-          error.value.Birthday = "Campo obrigatório.\n";
-        } else if (now > 100) {
-          error.value.Birthday = "Insira uma data válida.\n";
-        } else if (now < 19) {
-          error.value.Birthday =
-            "O usuário precisa ter ao menos 18 anos de idade.\n";
-        } else {
-          error.value.Birthday = "";
-        }
-      },
-      validateDocument() {
-
-        if (acc.value.Document.length == 0) {
-          error.value.Document = "Campo obrigatório.\n";
-        } else if (
-          auxiliar.validateDocCharMatches(acc.value.Document) > 1
-        ) {
-          error.value.Document = "Preencha corretamente o campo com um CPF válido.\n";
-        } else if (
-          acc.value.Document.length > 0 &&
-          acc.value.Document.length < 13 &&
-          acc.value.Document.toLowerCase().endsWith("x")
-        ) {
-          error.value.Document = "Preencha corretamente o campo com seu CPF.\n";
-        } else if (
-          acc.value.Document.length > 0 &&
-          acc.value.Document.length < 14 &&
-          !acc.value.Document.toLowerCase().endsWith("x")
-        ) {
-          error.value.Document = "Preencha corretamente o campo com seu CPF.\n";
-        } else {
-          error.value.Document = "";
-        }
-      },
-      validatePhone() {
-        if (acc.value.Phone.length == 0) {
-          error.value.Phone = "Campo obrigatório.\n";
-        } else if (acc.value.Phone.length > 0 && acc.value.Phone.length < 14) {
-          error.value.Phone =
-            "Preencha corretamente o campo com seu Telefone/Celular.\n";
-        } else {
-          error.value.Phone = "";
-        }
-      },
-      validateEmail() {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (acc.value.Email.length == 0) {
-          error.value.Email = "Campo obrigatório.\n";
-        } else if (!regex.test(acc.value.Email)) {
-          error.value.Email = "Informe um email válido";
-        } else {
-          error.value.Email = "";
-        }
-      },
-      validateZipCode() {
-        if (acc.value.ZipCode.length > 0 && acc.value.ZipCode.length < 5) {
-          error.value.ZipCode =
-            "Zip code ou CEP precisa ter ao menos 5 caracteres.\n";
-        } else if (acc.value.ZipCode.length == 0) {
-          error.value.ZipCode = "Campo obrigatório.\n";
-        } else {
-          error.value.ZipCode = "";
-        }
-      },
-      validateCountry() {
-        if (acc.value.Country.length > 0 && acc.value.Country.length < 3) {
-          error.value.Country =
-            "Este campo pode não estar preenchido corretamente.\n";
-        } else if (acc.value.Country.length == 0) {
-          error.value.Country = "Campo obrigatório.\n";
-        } else {
-          error.value.Country = "";
-        }
-      },
-      validateAddress() {
-        if (acc.value.Address.length == 0) {
-          error.value.Address = "Campo obrigatório.\n";
-        } else {
-          error.value.Address = "";
-        }
-      },
-      validatePassword() {
-        if (acc.value.Password.length == 0) {
-          error.value.Password = "Campo obrigatório.\n";
-        } else if (
-          acc.value.Password.length > 0 &&
-          acc.value.Password.length < 8
-        ) {
-          error.value.Password = "Senha deve conter ao menos 8 caracteres.\n";
-        } else if (!auxiliar.validate(acc.value.Password)) {
-          error.value.Password =
-            "Senha deve conter letras maiúsculas, minúsculas, caracteres especiais e números.\n";
-        } else {
-          error.value.Password = "";
-        }
-      },
-      validateConfirmPassword() {
-        if (acc.value.ConfirmPassword.length == 0) {
-          error.value.ConfirmPassword = "Campo obrigatório.\n";
-        } else if (acc.value.Password !== acc.value.ConfirmPassword) {
-          error.value.ConfirmPassword = "Senhas não coincidem.";
-        } else if (!auxiliar.validate(acc.value.ConfirmPassword)) {
-          error.value.ConfirmPassword =
-            "Senha deve conter letras maiúsculas, minúsculas, caracteres especiais e números.\n";
-        } else {
-          error.value.ConfirmPassword = "";
-        }
-      },
-      canRegister() {
+      canValidate() {
         if (
-          error.value.Name.trim() == "" &&
-          error.value.UserName.trim() == "" &&
-          error.value.Document.trim() == "" &&
-          error.value.Email.trim() == "" &&
-          error.value.Phone.trim() == "" &&
-          error.value.Birthday.trim() == "" &&
-          error.value.Password.trim() == "" &&
-          error.value.ConfirmPassword.trim() == "" &&
-          acc.value.Name.trim() != "" &&
-          acc.value.UserName.trim() != "" &&
-          acc.value.Document.trim() != "" &&
-          acc.value.Email.trim() != "" &&
-          acc.value.Phone.trim() != "" &&
-          acc.value.Birthday.trim() != "" &&
-          acc.value.Password.trim() != "" &&
-          acc.value.ConfirmPassword.trim() != ""
+          error.value.Code.trim() == "" &&
+          acc.value.CodeI.length === 1 &&
+          acc.value.CodeII.length === 1 &&
+          acc.value.CodeIII.length === 1 &&
+          acc.value.CodeIV.length === 1 &&
+          acc.value.CodeV.length === 1
         ) {
-          return true;
+          canValidate.value = true;
+          return canValidate.value;
         }
-        return false;
+        canValidate.value = false;
+        return canValidate.value;
+      },
+      formatInput() {
+        if (acc.value.CodeI.length > 1) {
+          acc.value.CodeI = acc.value.CodeI.substr(0, 1);
+        }
+        if (acc.value.CodeII.length > 1) {
+          acc.value.CodeII = acc.value.CodeII.substr(0, 1);
+        }
+        if (acc.value.CodeIII.length > 1) {
+          acc.value.CodeIII = acc.value.CodeIII.substr(0, 1);
+        }
+        if (acc.value.CodeIV.length > 1) {
+          acc.value.CodeIV = acc.value.CodeIV.substr(0, 1);
+        }
+        if (acc.value.CodeV.length > 1) {
+          acc.value.CodeV = acc.value.CodeV.substr(0, 1);
+        }
+      },
+      responseData(data: any) {
+        if (data) {
+          localStorage.setItem("token", data.hash);
+        }
+      },
+      getValidate() {
+        AuthService.getValidate()
+          .then((response) => {
+            console.table(response.data);
+            methods.responseData(response.data);
+          })
+          .catch((ex) => {
+            error.value.Code = ex.message;
+          });
       },
     };
-
+    onMounted(() => {
+      document.getElementById("digit-1")?.focus();
+      methods.getValidate();
+    });
     watch(acc.value, (newV, oldV) => {
+      methods.canValidate();
       methods.formatInput();
-      methods.canRegister();
     });
 
     return {
       title,
       description,
       acc,
-      canRegister,
+      canValidate,
       error,
       methods,
     };
@@ -281,11 +304,18 @@ export default {
 <style scoped>
 .textError {
   color: rgb(155, 57, 57);
-  font-size: 7pt;
+  font-size: 9pt;
+  text-align: center;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-
+.card-digit {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+}
 .box-error {
   height: 18px;
 }

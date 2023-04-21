@@ -7,8 +7,8 @@ class Http {
 
   private auxiliar = Auxiliar;
 
-  async post(endpoint:string) {
-    return axios.post(baseUrl + endpoint, null,{
+  async post(endpoint: string, data: any) {
+    return axios.post(baseUrl + endpoint, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
