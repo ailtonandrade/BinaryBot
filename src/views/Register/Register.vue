@@ -152,7 +152,6 @@ export default {
               router.push("/");
             })
             .catch((err) => {
-              console.log(err.message);
             });
         }
       },

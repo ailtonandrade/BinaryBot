@@ -25,7 +25,7 @@
                   <span
                     >O código de validação tem uma expiração de uma hora, a
                     partir do momento em que recebeu este email. caso necessite
-                    podemos <a href="#">enviar um novo código.</a>
+                    podemos <a href="#" @click="methods.reSendCode()">enviar um novo código.</a>
                   </span>
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
@@ -147,10 +147,10 @@ export default {
               alert("Validação realizada com sucesso.");
               router.push("/");
             })
-            .catch((err) => {
+            .catch((response) => {
+              console.table(response);
               document.getElementById("digit-1")?.focus();
               error.value.Code = "Erro ao validar o código";
-              console.log(err.message);
               methods.getValidate();
             })
             .finally(()=> {
@@ -272,13 +272,24 @@ export default {
       getValidate() {
         AuthService.getValidate()
           .then((response) => {
-            console.table(response.data);
             methods.responseData(response.data);
           })
           .catch((ex) => {
-            error.value.Code = ex.message;
+            console.log(ex.response.data);
+            router.push("/");
           });
       },
+      reSendCode(){
+        AuthService.reSendCode()
+          .then((response) => {
+            alert(response.data);
+            router.push("/");
+          })
+          .catch((ex) => {
+            console.table(ex);
+            error.value.Code = ex.response;
+          });
+      }
     };
     onMounted(() => {
       document.getElementById("digit-1")?.focus();

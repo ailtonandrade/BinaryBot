@@ -89,8 +89,8 @@
                 <span class="textError">{{ error.ConfirmPassword }}</span>
               </div>
               <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="methods.register()"
-                  :disabled="!methods.canRegister()">
+                <button type="button" class="btn btn-primary" @click="methods.edit()"
+                  :disabled="!methods.canEdit()">
                   Cadastrar
                 </button>
               </div>
@@ -103,17 +103,17 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch,onMounted } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const title = ref("Cadastro");
-    const description = ref("Registrando uma nova conta");
+    const title = ref("Meus dados");
+    const description = ref("Editando seu perfil");
     const router = useRouter();
-    const canRegister = ref(false);
+    const canEdit = ref(false);
     const acc = ref({
       Name: "",
       UserName: "",
@@ -144,15 +144,15 @@ export default {
     });
 
     const methods = {
-      register() {
-        if (methods.canRegister()) {
-          AuthService.register(acc.value)
+      edit() {
+        if (methods.canEdit()) {
+          AuthService.edit(acc.value)
             .then(() => {
               alert("Registro efetuado com sucesso.");
               router.push("/");
             })
-            .catch((err) => {
-              console.log(err.message);
+            .catch((ex) => {
+              alert(ex.response.data);
             });
         }
       },
@@ -321,7 +321,7 @@ export default {
           error.value.ConfirmPassword = "";
         }
       },
-      canRegister() {
+      canEdit() {
         if (
           error.value.Name.trim() == "" &&
           error.value.UserName.trim() == "" &&
@@ -345,17 +345,25 @@ export default {
         return false;
       },
     };
-
+    onMounted(() => {
+      AuthService.getInfoUser(acc)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((ex) => {
+        alert(ex.response.data);
+      })
+    })
     watch(acc.value, (newV, oldV) => {
       methods.formatInput();
-      methods.canRegister();
+      methods.canEdit();
     });
 
     return {
       title,
       description,
       acc,
-      canRegister,
+      canEdit,
       error,
       methods,
     };

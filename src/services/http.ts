@@ -10,7 +10,7 @@ class Http {
   async post(endpoint: string, data: any) {
     return axios.post(baseUrl + endpoint, data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: localStorage.getItem('token') != '' ? `Bearer ${localStorage.getItem('token')}` : '',
         'Content-Type': 'application/json',
       }
     });

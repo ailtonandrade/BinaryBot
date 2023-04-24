@@ -50,22 +50,14 @@ class Auxiliar {
         const DocXmatches = val.match(/x/g);
         return DocXmatches?.length ? DocXmatches?.length : 0;
     }
-
-    getHashUser(user: { username: string, password: string }) {
-        user.password = MD5(user.password).toString(enc.Hex);
-        return user;
-    }
-    async getHashAcc(acc: {
-        Name: string,
-        UserName: string,
-        Birthday: string,
-        Document: string,
-        Phone: string,
-        Email: string,
-        Password: string
-    }) {
-        acc.Password = MD5(acc.Password).toString(enc.Hex);
-        return acc;
+   
+    async getHash(obj:any) {
+        console.log("before");
+        console.log(obj.Password);
+        obj.Password = MD5(obj.Password).toString(enc.Hex);
+        console.log("After");
+        console.log(obj.Password);
+        return obj;
     }
 }
 export default new Auxiliar();

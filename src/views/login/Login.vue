@@ -5,41 +5,31 @@
     <form>
       <div class="mb-3">
         <label for="usuario" class="form-label">Usuário:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          v-model="objUser.username"
-          placeholder="usuari011011"
-        />
+        <input type="text" class="form-control" id="name" v-model="objUser.username" placeholder="usuari011011" />
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Senha:</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          v-model="objUser.password"
-          placeholder="p@ssw0rd"
-        />
+        <input type="password" class="form-control" id="password" v-model="objUser.Password" placeholder="p@ssw0rd" />
       </div>
       <div class="mb-3 d-flex justify-content-center">
-        <button
-          type="button"
-          :disabled="
-            objUser.username.length < 5 || objUser.password.length <= 8
-          "
-          class="btn btn-primary"
-          @click="methods.login()"
-        >
+        <button type="button" :disabled="objUser.username.length < 5 || objUser.Password.length <= 8
+          " class="btn btn-primary" @click="methods.login()">
           Entrar
         </button>
       </div>
-      <div class="mb-3">
-        <label class="pr-1" for="">Ainda não tem uma conta ? Realize um</label>
-        <router-link to="/register">
-          <a>Novo cadastro</a>
-        </router-link>
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="mb-3">
+          <router-link to="/forgot-pass">
+            <u><a class=" text-secondary">Esqueci a senha</a></u>
+          </router-link>
+        </div>
+        <div class="mb-3">
+          <label class="pr-1" for="">Ainda não tem uma conta ? Realize um</label>
+          <router-link to="/register">
+            <a>Novo cadastro</a>
+          </router-link>
+        </div>
+
       </div>
     </form>
   </div>
@@ -58,12 +48,12 @@ export default {
     );
     const objUser = ref({
       username: "",
-      password: "",
+      Password: "",
     });
     const router = useRouter();
     const methods = {
       async login() {
-        if (!objUser.value.username || !objUser.value.password) {
+        if (!objUser.value.username || !objUser.value.Password) {
           alert("Por favor, preencha todos os campos.");
         } else {
           AuthService.login(objUser.value)
@@ -76,7 +66,7 @@ export default {
             })
             .finally(() => {
               objUser.value.username = "";
-              objUser.value.password = "";
+              objUser.value.Password = "";
             });
         }
       },
@@ -88,12 +78,12 @@ export default {
       },
       formatInput() {
         objUser.value.username = objUser.value.username.trim();
-        objUser.value.password = objUser.value.password.trim();
+        objUser.value.Password = objUser.value.Password.trim();
       },
     };
 
     watch(objUser.value, (newV, oldV) => {
-        methods.formatInput();
+      methods.formatInput();
     });
     return {
       title,
