@@ -5,6 +5,7 @@ import Redefine from "./views/login/Redefine.vue";
 import Dashboard from "./views/dashboard/Dashboard.vue";
 import Register from "./views/Register/Register.vue";
 import ValidateCodeVue from "./views/Register/ValidateCode.vue";
+import EditVue from "./views/dashboard/Edit.vue";
 
 export default createRouter({
   history: createWebHistory(),
@@ -32,6 +33,10 @@ export default createRouter({
     {
       path: "/redefine-pass",
       component: Redefine,
+    },
+    {
+      path: "/edit",
+      component: EditVue,
     },
   ],
 });

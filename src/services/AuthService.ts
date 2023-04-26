@@ -18,8 +18,8 @@ class AuthService {
     return http.post("edit",await Auxiliar.getHash(data));
   }
 
-  async getInfoUser(data:any) {
-    return http.post("get-info-user",await Auxiliar.getHash(data));
+  async getInfoUser() {
+    return http.post("get-info-user",null);
   }
 
   async getPerfil() {
@@ -41,7 +41,6 @@ class AuthService {
   }
   async redefine(data:any) {
     data.UrlMatch = new URLSearchParams(window.location.search).get('hs');
-    console.table(data);
     return http.post("redefine-pass",await Auxiliar.getHash(data));
   }
 }

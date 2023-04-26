@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <Menu></Menu>
+  </div>
   <div class="row">
     <div class="container-fluid">
       <div class="d-flex card-header">
@@ -19,78 +22,65 @@
             <form>
               <div class="mb-6">
                 <label for="name" class="form-label">Nome Completo:</label>
-                <input type="text" class="form-control" id="name" v-model="acc.Name" @change="methods.validateName()" />
+                <input type="text" class="form-control" id="name" v-model="user.Name" @change="methods.validateName()" />
                 <div class="box-error">
                   <span class="textError">{{ error.Name }}</span>
                 </div>
               </div>
               <div class="mb-6">
-                <label for="usuario" class="form-label">Usuário:</label>
-                <input type="text" class="form-control" id="username" v-model="acc.UserName"
-                  @change="methods.validateUserName()" />
-                <span class="textError">{{ error.UserName }}</span>
-              </div>
-              <div class="mb-6">
                 <label for="birthday" class="form-label">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="birthday" v-model="acc.Birthday"
+                <input type="date" class="form-control" id="birthday" v-model="user.Birthday"
                   @change="methods.validateBirthday()" />
                 <span class="textError">{{ error.Birthday }}</span>
               </div>
               <div class="mb-6">
                 <label for="document" class="form-label">CPF:</label>
-                <input type="text" class="form-control" id="document" v-model="acc.Document" :maxlength="14"
+                <input type="text" class="form-control" id="document" v-model="user.Document" :maxlength="14"
                   @change="methods.validateDocument()" />
                 <span class="textError">{{ error.Document }}</span>
               </div>
               <div class="mb-6">
                 <label for="phone" class="form-label">Telefone/Celular:</label>
-                <input type="text" class="form-control" id="phone" v-model="acc.Phone" :maxlength="15"
+                <input type="text" class="form-control" id="phone" v-model="user.Phone" :maxlength="15"
                   @change="methods.validatePhone()" />
                 <span class="textError">{{ error.Phone }}</span>
               </div>
               <div class="mb-6">
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" class="form-control" id="email" v-model="acc.Email"
-                  @change="methods.validateEmail()" />
-                <span class="textError">{{ error.Email }}</span>
-              </div>
-              <div class="mb-6">
                 <label for="zipcode" class="form-label">CEP:</label>
-                <input type="text" class="form-control" id="zipcode" v-model="acc.ZipCode"
+                <input type="text" class="form-control" id="zipcode" v-model="user.ZipCode"
                   @change="methods.validateZipCode()" />
                 <span class="textError">{{ error.ZipCode }}</span>
               </div>
               <div class="mb-6">
                 <label for="country" class="form-label">País:</label>
-                <input type="text" class="form-control" id="country" v-model="acc.Country"
+                <input type="text" class="form-control" id="country" v-model="user.Country"
                   @change="methods.validateCountry()" />
                 <span class="textError">{{ error.Country }}</span>
               </div>
               <div class="mb-6">
                 <label for="address" class="form-label">Endereço:</label>
-                <input type="text" class="form-control" id="address" v-model="acc.Address"
+                <input type="text" class="form-control" id="address" v-model="user.Address"
                   @change="methods.validateAddress()" />
                 <span class="textError">{{ error.Address }}</span>
               </div>
               <div class="mb-6">
                 <label for="complement-address" class="form-label">Complemento:</label>
-                <input type="text" class="form-control" id="complement-address" v-model="acc.ComplementAddress" />
+                <input type="text" class="form-control" id="complement-address" v-model="user.ComplementAddress" />
               </div>
               <div class="mb-6">
                 <label for="password" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="password" v-model="acc.Password"
+                <input type="password" class="form-control" id="password" v-model="user.Password"
                   @change="methods.validatePassword()" />
                 <span class="textError">{{ error.Password }}</span>
               </div>
               <div class="mb-6">
                 <label for="confirmPassword" class="form-label">Confirme sua senha:</label>
-                <input type="password" class="form-control" id="confirmPassword" v-model="acc.ConfirmPassword"
+                <input type="password" class="form-control" id="confirmPassword" v-model="user.ConfirmPassword"
                   @change="methods.validateConfirmPassword()" />
                 <span class="textError">{{ error.ConfirmPassword }}</span>
               </div>
               <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="methods.edit()"
-                  :disabled="!methods.canEdit()">
+                <button type="button" class="btn btn-primary" @click="methods.edit()" :disabled="!methods.canEdit()">
                   Cadastrar
                 </button>
               </div>
@@ -103,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch,onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -114,27 +104,23 @@ export default {
     const description = ref("Editando seu perfil");
     const router = useRouter();
     const canEdit = ref(false);
-    const acc = ref({
+    const user = ref({
       Name: "",
-      UserName: "",
       Birthday: "",
       Document: "",
       Phone: "",
-      Email: "",
-      Password: "",
       ZipCode: "",
       Country: "",
       Address: "",
       ComplementAddress: "",
+      Password: "",
       ConfirmPassword: "",
     });
     const error = ref({
       Name: "",
-      UserName: "",
       Birthday: "",
       Document: "",
       Phone: "",
-      Email: "",
       ZipCode: "",
       Country: "",
       Address: "",
@@ -146,7 +132,7 @@ export default {
     const methods = {
       edit() {
         if (methods.canEdit()) {
-          AuthService.edit(acc.value)
+          AuthService.edit(user.value)
             .then(() => {
               alert("Registro efetuado com sucesso.");
               router.push("/");
@@ -157,28 +143,19 @@ export default {
         }
       },
       formatInput() {
-        acc.value.Name = auxiliar.formatOnlyChars(acc.value.Name);
-        acc.value.UserName = auxiliar.formatOnlyCharsAndNumbers(
-          acc.value.UserName
-        );
-        acc.value.Document = auxiliar.formatToDoc(acc.value.Document);
-        acc.value.Email = acc.value.Email.replaceAll(" ", "");
-        acc.value.Phone = auxiliar.formatToPhone(acc.value.Phone);
-        acc.value.ZipCode = auxiliar.formatOnlyCharsAndNumbers(acc.value.ZipCode);
-        acc.value.Country = auxiliar.formatOnlyChars(acc.value.Country);
-        acc.value.Address = auxiliar.formatOnlyCharsNumbersAndWhiteSpace(acc.value.Address);
-        acc.value.ComplementAddress = auxiliar.formatOnlyCharsNumbersAndWhiteSpace(acc.value.ComplementAddress);
-        acc.value.Password = acc.value.Password.replaceAll(" ", "");
-        acc.value.ConfirmPassword = acc.value.ConfirmPassword.replaceAll(
-          " ",
-          ""
-        );
+        user.value.Name = user.value.Name ?? auxiliar.formatOnlyChars(user.value.Name);
+        user.value.Document = user.value.Document ?? auxiliar.formatToDoc(user.value.Document);
+        user.value.Phone = user.value.Phone ?? auxiliar.formatToPhone(user.value.Phone);
+        user.value.ZipCode = user.value.ZipCode ?? auxiliar.formatOnlyCharsAndNumbers(user.value.ZipCode);
+        user.value.Country = user.value.Country ?? auxiliar.formatOnlyChars(user.value.Country);
+        user.value.Address = user.value.Address ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.Address);
+        user.value.ComplementAddress = user.value.ComplementAddress ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.ComplementAddress);
+        user.value.Password = user.value.Password ?? user.value.Password.replaceAll(" ", "");
+
       },
       clearErrors() {
         error.value.Name = "";
-        error.value.UserName = "";
         error.value.Document = "";
-        error.value.Email = "";
         error.value.Phone = "";
         error.value.Birthday = "";
         error.value.ZipCode = "";
@@ -189,29 +166,19 @@ export default {
         error.value.ConfirmPassword = "";
       },
       validateName() {
-        if (acc.value.Name.length > 0 && acc.value.Name.length < 8) {
+        if (user.value.Name.length > 0 && user.value.Name.length < 8) {
           error.value.Name =
             "Este campo pode não estar preenchido corretamente.\n";
-        } else if (acc.value.Name.length == 0) {
+        } else if (user.value.Name.length == 0) {
           error.value.Name = "Campo obrigatório.\n";
         } else {
           error.value.Name = "";
         }
       },
-      validateUserName() {
-        if (acc.value.UserName.length > 0 && acc.value.UserName.length < 8) {
-          error.value.UserName =
-            "Nome de usuário precisa ter ao menos 8 caracteres.\n";
-        } else if (acc.value.UserName.length == 0) {
-          error.value.UserName = "Campo obrigatório.\n";
-        } else {
-          error.value.UserName = "";
-        }
-      },
       validateBirthday() {
         const now =
-          new Date().getFullYear() - new Date(acc.value.Birthday).getFullYear();
-        if (acc.value.Birthday == null) {
+          new Date().getFullYear() - new Date(user.value.Birthday).getFullYear();
+        if (user.value.Birthday == null) {
           error.value.Birthday = "Campo obrigatório.\n";
         } else if (now > 100) {
           error.value.Birthday = "Insira uma data válida.\n";
@@ -224,22 +191,22 @@ export default {
       },
       validateDocument() {
 
-        if (acc.value.Document.length == 0) {
+        if (user.value.Document.length == 0) {
           error.value.Document = "Campo obrigatório.\n";
         } else if (
-          auxiliar.validateDocCharMatches(acc.value.Document) > 1
+          auxiliar.validateDocCharMatches(user.value.Document) > 1
         ) {
           error.value.Document = "Preencha corretamente o campo com um CPF válido.\n";
         } else if (
-          acc.value.Document.length > 0 &&
-          acc.value.Document.length < 13 &&
-          acc.value.Document.toLowerCase().endsWith("x")
+          user.value.Document.length > 0 &&
+          user.value.Document.length < 13 &&
+          user.value.Document.toLowerCase().endsWith("x")
         ) {
           error.value.Document = "Preencha corretamente o campo com seu CPF.\n";
         } else if (
-          acc.value.Document.length > 0 &&
-          acc.value.Document.length < 14 &&
-          !acc.value.Document.toLowerCase().endsWith("x")
+          user.value.Document.length > 0 &&
+          user.value.Document.length < 14 &&
+          !user.value.Document.toLowerCase().endsWith("x")
         ) {
           error.value.Document = "Preencha corretamente o campo com seu CPF.\n";
         } else {
@@ -247,62 +214,51 @@ export default {
         }
       },
       validatePhone() {
-        if (acc.value.Phone.length == 0) {
+        if (user.value.Phone.length == 0) {
           error.value.Phone = "Campo obrigatório.\n";
-        } else if (acc.value.Phone.length > 0 && acc.value.Phone.length < 14) {
+        } else if (user.value.Phone.length > 0 && user.value.Phone.length < 14) {
           error.value.Phone =
             "Preencha corretamente o campo com seu Telefone/Celular.\n";
         } else {
           error.value.Phone = "";
         }
       },
-      validateEmail() {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (acc.value.Email.length == 0) {
-          error.value.Email = "Campo obrigatório.\n";
-        } else if (!regex.test(acc.value.Email)) {
-          error.value.Email = "Informe um email válido";
-        } else {
-          error.value.Email = "";
-        }
-      },
       validateZipCode() {
-        if (acc.value.ZipCode.length > 0 && acc.value.ZipCode.length < 5) {
+        if (user.value.ZipCode.length > 0 && user.value.ZipCode.length < 5) {
           error.value.ZipCode =
             "Zip code ou CEP precisa ter ao menos 5 caracteres.\n";
-        } else if (acc.value.ZipCode.length == 0) {
+        } else if (user.value.ZipCode.length == 0) {
           error.value.ZipCode = "Campo obrigatório.\n";
         } else {
           error.value.ZipCode = "";
         }
       },
       validateCountry() {
-        if (acc.value.Country.length > 0 && acc.value.Country.length < 3) {
+        if (user.value.Country.length > 0 && user.value.Country.length < 3) {
           error.value.Country =
             "Este campo pode não estar preenchido corretamente.\n";
-        } else if (acc.value.Country.length == 0) {
+        } else if (user.value.Country.length == 0) {
           error.value.Country = "Campo obrigatório.\n";
         } else {
           error.value.Country = "";
         }
       },
       validateAddress() {
-        if (acc.value.Address.length == 0) {
+        if (user.value.Address.length == 0) {
           error.value.Address = "Campo obrigatório.\n";
         } else {
           error.value.Address = "";
         }
       },
       validatePassword() {
-        if (acc.value.Password.length == 0) {
+        if (user.value.Password.length == 0) {
           error.value.Password = "Campo obrigatório.\n";
         } else if (
-          acc.value.Password.length > 0 &&
-          acc.value.Password.length < 8
+          user.value.Password.length > 0 &&
+          user.value.Password.length < 8
         ) {
           error.value.Password = "Senha deve conter ao menos 8 caracteres.\n";
-        } else if (!auxiliar.validate(acc.value.Password)) {
+        } else if (!auxiliar.validate(user.value.Password)) {
           error.value.Password =
             "Senha deve conter letras maiúsculas, minúsculas, caracteres especiais e números.\n";
         } else {
@@ -310,11 +266,11 @@ export default {
         }
       },
       validateConfirmPassword() {
-        if (acc.value.ConfirmPassword.length == 0) {
+        if (user.value.ConfirmPassword.length == 0) {
           error.value.ConfirmPassword = "Campo obrigatório.\n";
-        } else if (acc.value.Password !== acc.value.ConfirmPassword) {
+        } else if (user.value.Password !== user.value.ConfirmPassword) {
           error.value.ConfirmPassword = "Senhas não coincidem.";
-        } else if (!auxiliar.validate(acc.value.ConfirmPassword)) {
+        } else if (!auxiliar.validate(user.value.ConfirmPassword)) {
           error.value.ConfirmPassword =
             "Senha deve conter letras maiúsculas, minúsculas, caracteres especiais e números.\n";
         } else {
@@ -324,37 +280,43 @@ export default {
       canEdit() {
         if (
           error.value.Name.trim() == "" &&
-          error.value.UserName.trim() == "" &&
           error.value.Document.trim() == "" &&
-          error.value.Email.trim() == "" &&
           error.value.Phone.trim() == "" &&
           error.value.Birthday.trim() == "" &&
           error.value.Password.trim() == "" &&
           error.value.ConfirmPassword.trim() == "" &&
-          acc.value.Name.trim() != "" &&
-          acc.value.UserName.trim() != "" &&
-          acc.value.Document.trim() != "" &&
-          acc.value.Email.trim() != "" &&
-          acc.value.Phone.trim() != "" &&
-          acc.value.Birthday.trim() != "" &&
-          acc.value.Password.trim() != "" &&
-          acc.value.ConfirmPassword.trim() != ""
+          user.value.Name.trim() != "" &&
+          user.value.Document.trim() != "" &&
+          user.value.Phone.trim() != "" &&
+          user.value.Birthday.trim() != "" &&
+          user.value.Password.trim() != "" &&
+          user.value.ConfirmPassword.trim() != ""
         ) {
           return true;
         }
         return false;
       },
+      responseData(data:any){
+        console.table(data);
+        user.value.Name = data.name;
+        user.value.Birthday = data.birthday;
+        user.value.Phone = data.phone;
+        user.value.ZipCode = data.zipcode;
+        user.value.Address = data.address;
+        user.value.Document = data.document;
+        user.value.ComplementAddress = data.pomplementAddress;
+      }
     };
     onMounted(() => {
-      AuthService.getInfoUser(acc)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((ex) => {
-        alert(ex.response.data);
-      })
+      AuthService.getInfoUser()
+        .then((response) => {
+          methods.responseData(response.data);
+        })
+        .catch((ex) => {
+          console.table(ex.data);
+        })
     })
-    watch(acc.value, (newV, oldV) => {
+    watch(user.value, (newV, oldV) => {
       methods.formatInput();
       methods.canEdit();
     });
@@ -362,7 +324,7 @@ export default {
     return {
       title,
       description,
-      acc,
+      user,
       canEdit,
       error,
       methods,

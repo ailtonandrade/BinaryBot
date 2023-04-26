@@ -61,8 +61,6 @@ export default {
               methods.verificaLogin(response.data);
             })
             .catch((error) => {
-              console.log(error);
-              alert(error.response.data);
             })
             .finally(() => {
               objUser.value.username = "";

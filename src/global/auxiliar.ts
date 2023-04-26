@@ -2,16 +2,17 @@ import { enc, MD5 } from 'crypto-js';
 
 class Auxiliar {
 
-    formatOnlyChars(val: string) {
+    formatOnlyChars(val: string = "") {
         return val.replaceAll("  ", " ").replace(/[^a-zA-Z\s]/g, "");
     };
-    formatOnlyCharsAndNumbers(val: string) {
+    formatOnlyCharsAndNumbers(val: string = "") {
         return val.replaceAll(" ", "").replace(/[^\w\s]/gi, "");
     };
-    formatOnlyCharsNumbersAndWhiteSpace(val: string) {
-        return val.replaceAll("  ", " ").replace(/[^\w\s]/gi, "");
+    formatOnlyCharsNumbersAndWhiteSpace(val: string = "") {
+        
+        return val != null ? val.replace(/[^\w\s]/gi, "").replaceAll("  ", " ") : "";
     };
-    formatToPhone(val: string) {
+    formatToPhone(val: string = "") {
         // Remove todos os caracteres não numéricos
         val = val.replace(/\D/g, '');
 
@@ -26,10 +27,10 @@ class Auxiliar {
             return val;
         }
     };
-    formatOnlyNumbers(val: string) {
+    formatOnlyNumbers(val: string = "") {
         return val.replace(/\D/g, "");
     };
-    formatToDoc(val: string) {
+    formatToDoc(val: string = "") {
         if (val.toLowerCase().endsWith("x")) {
             val = val.slice(0,13);
             val = val.replace(/^(\d{3})(\d{3})(\d{3})([xX\d])$/, "$1.$2.$3-$4");
@@ -42,21 +43,17 @@ class Auxiliar {
         }
 
     };
-    validate(p: string): boolean {
+    validate(p: string = ""): boolean {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return regex.test(p);
     }
-    validateDocCharMatches(val : string){
+    validateDocCharMatches(val : string = ""){
         const DocXmatches = val.match(/x/g);
         return DocXmatches?.length ? DocXmatches?.length : 0;
     }
    
     async getHash(obj:any) {
-        console.log("before");
-        console.log(obj.Password);
         obj.Password = MD5(obj.Password).toString(enc.Hex);
-        console.log("After");
-        console.log(obj.Password);
         return obj;
     }
 }
