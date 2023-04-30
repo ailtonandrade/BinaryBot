@@ -6,6 +6,7 @@ class Auxiliar {
         return val.replaceAll("  ", " ").replace(/[^a-zA-Z\s]/g, "");
     };
     formatOnlyCharsAndNumbers(val: string = "") {
+        val= " ";
         return val.replaceAll(" ", "").replace(/[^\w\s]/gi, "");
     };
     formatOnlyCharsNumbersAndWhiteSpace(val: string = "") {

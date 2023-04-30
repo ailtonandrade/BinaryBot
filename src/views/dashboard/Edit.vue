@@ -150,7 +150,6 @@ export default {
         user.value.Country = user.value.Country ?? auxiliar.formatOnlyChars(user.value.Country);
         user.value.Address = user.value.Address ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.Address);
         user.value.ComplementAddress = user.value.ComplementAddress ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.ComplementAddress);
-        user.value.Password = user.value.Password ?? user.value.Password.replaceAll(" ", "");
 
       },
       clearErrors() {
@@ -288,7 +287,7 @@ export default {
           user.value.Name.trim() != "" &&
           user.value.Document.trim() != "" &&
           user.value.Phone.trim() != "" &&
-          user.value.Birthday.trim() != "" &&
+          user.value.Birthday != null &&
           user.value.Password.trim() != "" &&
           user.value.ConfirmPassword.trim() != ""
         ) {
@@ -301,10 +300,10 @@ export default {
         user.value.Name = data.name;
         user.value.Birthday = data.birthday;
         user.value.Phone = data.phone;
-        user.value.ZipCode = data.zipcode;
+        user.value.ZipCode = data.zipCode;
         user.value.Address = data.address;
         user.value.Document = data.document;
-        user.value.ComplementAddress = data.pomplementAddress;
+        user.value.ComplementAddress = data.complementAddress;
       }
     };
     onMounted(() => {
