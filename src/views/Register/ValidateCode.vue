@@ -22,73 +22,32 @@
                   <h4 class="form-label">
                     Digite o código que acabou de receber por email
                   </h4>
-                  <span
-                    >O código de validação tem uma expiração de uma hora, a
+                  <span>O código de validação tem uma expiração de uma hora, a
                     partir do momento em que recebeu este email. caso necessite
                     podemos <a href="#" @click="methods.reSendCode()">enviar um novo código.</a>
                   </span>
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
-                  <input
-                    type="text"
-                    class="form-control card-digit"
-                    id="digit-1"
-                    v-model="acc.CodeI"
-                    @click="
-                      () => {
-                        acc.CodeI = '';
-                      }
-                    "
-                    @keyup="methods.validateCode(1)"
-                  />
-                  <input
-                    type="text"
-                    class="form-control card-digit"
-                    id="digit-2"
-                    v-model="acc.CodeII"
-                    @click="
-                      () => {
-                        acc.CodeII = '';
-                      }
-                    "
-                    @keyup="methods.validateCode(2)"
-                  />
-                  <input
-                    type="text"
-                    class="form-control card-digit"
-                    id="digit-3"
-                    v-model="acc.CodeIII"
-                    @click="
-                      () => {
-                        acc.CodeIII = '';
-                      }
-                    "
-                    @keyup="methods.validateCode(3)"
-                  />
-                  <input
-                    type="text"
-                    class="form-control card-digit"
-                    id="digit-4"
-                    v-model="acc.CodeIV"
-                    @click="
-                      () => {
-                        acc.CodeIV = '';
-                      }
-                    "
-                    @keyup="methods.validateCode(4)"
-                  />
-                  <input
-                    type="text"
-                    class="form-control card-digit"
-                    id="digit-5"
-                    v-model="acc.CodeV"
-                    @click="
-                      () => {
-                        acc.CodeV = '';
-                      }
-                    "
-                    @keyup="methods.validateCode(5)"
-                  />
+                  <input type="text" class="form-control card-digit" id="digit-1" v-model="acc.CodeI" @click="() => {
+                      acc.CodeI = '';
+                    }
+                    " @keyup="methods.validateCode(1)" />
+                  <input type="text" class="form-control card-digit" id="digit-2" v-model="acc.CodeII" @click="() => {
+                      acc.CodeII = '';
+                    }
+                    " @keyup="methods.validateCode(2)" />
+                  <input type="text" class="form-control card-digit" id="digit-3" v-model="acc.CodeIII" @click="() => {
+                      acc.CodeIII = '';
+                    }
+                    " @keyup="methods.validateCode(3)" />
+                  <input type="text" class="form-control card-digit" id="digit-4" v-model="acc.CodeIV" @click="() => {
+                      acc.CodeIV = '';
+                    }
+                    " @keyup="methods.validateCode(4)" />
+                  <input type="text" class="form-control card-digit" id="digit-5" v-model="acc.CodeV" @click="() => {
+                      acc.CodeV = '';
+                    }
+                    " @keyup="methods.validateCode(5)" />
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
                   <div class="box-error">
@@ -96,13 +55,8 @@
                   </div>
                 </div>
                 <div class="mb-6 mt-4 d-flex justify-content-center">
-                  <button
-                    id="send-validation"
-                    type="button"
-                    class="btn btn-primary"
-                    @click="methods.validate()"
-                    :disabled="!canValidate"
-                  >
+                  <button id="send-validation" type="button" class="btn btn-primary" @click="methods.validate()"
+                    :disabled="!canValidate">
                     Validar
                   </button>
                 </div>
@@ -116,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -139,7 +93,7 @@ export default {
       Code: "",
     });
 
-    const methods = {
+    const methods = reactive({
       validate() {
         if (methods.canValidate()) {
           AuthService.setValidate(methods.buildValidateObj())
@@ -153,7 +107,7 @@ export default {
               error.value.Code = "Erro ao validar o código";
               methods.getValidate();
             })
-            .finally(()=> {
+            .finally(() => {
               methods.clearDigit();
             });
         }
@@ -275,11 +229,10 @@ export default {
             methods.responseData(response.data);
           })
           .catch((ex) => {
-            console.log(ex.response.data);
             router.push("/");
           });
       },
-      reSendCode(){
+      reSendCode() {
         AuthService.reSendCode()
           .then((response) => {
             alert(response.data);
@@ -290,7 +243,8 @@ export default {
             error.value.Code = ex.response;
           });
       }
-    };
+    });
+
     onMounted(() => {
       document.getElementById("digit-1")?.focus();
       methods.getValidate();
@@ -306,7 +260,7 @@ export default {
       acc,
       canValidate,
       error,
-      methods,
+      ...toRefs(methods),
     };
   },
 };
@@ -320,6 +274,7 @@ export default {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
+
 .card-digit {
   height: 50px;
   width: 50px;
@@ -327,6 +282,7 @@ export default {
   font-weight: bold;
   font-size: large;
 }
+
 .box-error {
   height: 18px;
 }

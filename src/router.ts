@@ -7,7 +7,7 @@ import Register from "./views/Register/Register.vue";
 import ValidateCodeVue from "./views/Register/ValidateCode.vue";
 import EditVue from "./views/dashboard/Edit.vue";
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
@@ -17,6 +17,7 @@ export default createRouter({
     {
       path: "/dashboard",
       component: Dashboard,
+      meta: { requiresAuth: true },
     },
     {
       path: "/register",
@@ -37,6 +38,31 @@ export default createRouter({
     {
       path: "/edit",
       component: EditVue,
+      meta: { requiresAuth: true },
     },
   ],
+
+  
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // Se a rota requer autenticação
+    const token = localStorage.getItem('token'); // Recupere o token do localStorage
+   
+    if (!token) {
+      
+      // Se não houver token, redirecione para a página de login
+      next('/');
+    } else {
+      // Caso contrário, continue para a rota desejada
+      next();
+    }
+  } else {
+   
+    // Se a rota não requer autenticação, continue para a rota desejada
+    next();
+  }
+});
+
+export default router;

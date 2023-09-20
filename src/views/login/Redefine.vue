@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "../../global/auxiliar";
@@ -46,7 +46,7 @@ export default {
       UrlMatch: "",
     });
     const router = useRouter();
-    const methods = {
+    const methods = reactive({
       register() {
         if (methods.canRegister()) {
           AuthService.redefine(acc.value)
@@ -107,7 +107,7 @@ export default {
         }
         return false;
       },
-    };
+    });
 
     watch(acc.value, (newV, oldV) => {
       methods.formatInput();
@@ -118,7 +118,7 @@ export default {
       description,
       acc,
       error,
-      methods,
+      ...toRefs(methods),
     };
   },
 };

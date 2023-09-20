@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import { useRouter } from "vue-router";
 
@@ -43,7 +43,7 @@ export default {
       input: "",
     });
     const router = useRouter();
-    const methods = {
+    const methods = reactive({
       async send() {
         if (!objUser.value.input) {
           alert("Por favor, preencha o campo para prosseguir.");
@@ -70,7 +70,7 @@ export default {
       formatInput() {
         objUser.value.input = objUser.value.input.trim();
       },
-    };
+    });
 
     watch(objUser.value, (newV, oldV) => {
       methods.formatInput();
@@ -79,7 +79,7 @@ export default {
       title,
       description,
       objUser,
-      methods,
+      ...toRefs(methods),
     };
   },
 };

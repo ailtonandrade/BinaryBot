@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -129,7 +129,7 @@ export default {
       ConfirmPassword: "",
     });
 
-    const methods = {
+    const methods = reactive({
       edit() {
         if (methods.canEdit()) {
           AuthService.edit(user.value)
@@ -295,7 +295,7 @@ export default {
         }
         return false;
       },
-      responseData(data:any){
+      responseData(data: any) {
         console.table(data);
         user.value.Name = data.name;
         user.value.Birthday = data.birthday;
@@ -305,7 +305,8 @@ export default {
         user.value.Document = data.document;
         user.value.ComplementAddress = data.complementAddress;
       }
-    };
+    });
+
     onMounted(() => {
       AuthService.getInfoUser()
         .then((response) => {
@@ -326,7 +327,7 @@ export default {
       user,
       canEdit,
       error,
-      methods,
+      ...toRefs(methods),
     };
   },
 };

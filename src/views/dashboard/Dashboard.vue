@@ -1,74 +1,74 @@
 <template>
-    <div>
-        <Menu></Menu>
+  <div>
+    <Menu></Menu>
+  </div>
+  <div class="container">
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+  </div>
+  <div class="card">
+    <div v-if="1 == 1"></div>
+    <div v-if="userData == Perfils.ADMIN">
+      <admin-board></admin-board>
     </div>
-    <div class="container">
-      <h1>{{ title }}</h1>
-      <p>{{ description }}</p>
+    <div v-if="userData == Perfils.GUEST">
+      <span>visitante</span>
     </div>
-    <div class="card">
-      <div v-if="1==1"></div>
-      <div v-if="userData == Perfils.ADMIN">
-        <admin-board></admin-board>
-      </div>
-      <div v-if="userData == Perfils.GUEST">
-        <span>visitante</span>
-      </div>
-      <div v-if="userData == Perfils.SIGNATED">
-        <span>assinante</span>
-      </div>
+    <div v-if="userData == Perfils.SIGNATED">
+      <span>assinante</span>
     </div>
-  </template>
+  </div>
+</template>
   
-  <script lang="ts">
-  import { ref, onMounted } from "vue";
-  import { Perfils } from '../../enums/perfils';
-  import { useRouter } from "vue-router";
-  import Menu from "../components/menu.vue";
+<script lang="ts">
+import { ref, onMounted, toRefs, reactive } from "vue";
+import { useRouter } from "vue-router";
+import Menu from "../components/menu.vue";
+import { Perfils } from '../../enums/perfils';
 import AdminBoard from './adminBoard/adminBoard.vue';
 import AuthService from "../../services/AuthService";
-import { AxiosResponse } from "axios";
 
-  export default {
-    components: {
-        Menu,
-        AdminBoard
-    },
-    setup() {
-      const title = ref("Painel");
-      const description = ref(
-        "Informações de conta."
-      );
-      const router = useRouter();
-      const userData = ref();
-      const methods = {
-        responseData(data:any){
-          if(data){
-            console.table(data);
-          }
+export default {
+  components: {
+    Menu,
+    AdminBoard,
+  },
+  setup() {
+    const title = ref("Painel");
+    const description = ref(
+      "Informações de conta."
+    );
+
+    const router = useRouter();
+    const userData = ref();
+    const methods = reactive({
+      responseData(data: any) {
+        if (data) {
+          //console.table(data);
         }
-      };
-
-      onMounted(() => {
-        AuthService.getPerfil()
-            .then((response) => {
-              methods.responseData(response.data);
-            })
-            .catch((error) => {
-              console.log(error);
-              alert(error.response.data.message);
-            })
+      }
     });
 
-      return {
-        title,
-        description,
-        methods,
-        router,
-        userData,
-        Perfils
-      };
-    },
-  };
-  </script>
+    onMounted(() => {
+      AuthService.getPerfil()
+        .then((response) => {
+          methods.responseData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.response.data.message);
+        })
+    });
+
+    return {
+      title,
+      description,
+      ...toRefs(methods),
+      router,
+      userData,
+      Perfils
+    };
+  },
+};
+</script>
   

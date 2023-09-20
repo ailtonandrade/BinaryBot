@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -143,7 +143,7 @@ export default {
       ConfirmPassword: "",
     });
 
-    const methods = {
+    const methods = reactive({
       register() {
         if (methods.canRegister()) {
           AuthService.register(acc.value)
@@ -343,7 +343,7 @@ export default {
         }
         return false;
       },
-    };
+    });
 
     watch(acc.value, (newV, oldV) => {
       methods.formatInput();
@@ -356,7 +356,7 @@ export default {
       acc,
       canRegister,
       error,
-      methods,
+      ...toRefs(methods),
     };
   },
 };

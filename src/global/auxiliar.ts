@@ -54,8 +54,9 @@ class Auxiliar {
     }
    
     async getHash(obj:any) {
-        obj.Password = MD5(obj.Password).toString(enc.Hex);
-        return obj;
+        const newObj = JSON.parse(JSON.stringify(obj));
+        newObj.password = MD5(newObj.password).toString(enc.Hex);
+        return newObj;
     }
 }
 export default new Auxiliar();
