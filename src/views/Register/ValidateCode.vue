@@ -24,30 +24,30 @@
                   </h4>
                   <span>O código de validação tem uma expiração de uma hora, a
                     partir do momento em que recebeu este email. caso necessite
-                    podemos <a href="#" @click="methods.reSendCode()">enviar um novo código.</a>
+                    podemos <a href="#" @click="reSendCode()">enviar um novo código.</a>
                   </span>
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
                   <input type="text" class="form-control card-digit" id="digit-1" v-model="acc.CodeI" @click="() => {
                       acc.CodeI = '';
                     }
-                    " @keyup="methods.validateCode(1)" />
+                    " @keyup="validateCode(1)" />
                   <input type="text" class="form-control card-digit" id="digit-2" v-model="acc.CodeII" @click="() => {
                       acc.CodeII = '';
                     }
-                    " @keyup="methods.validateCode(2)" />
+                    " @keyup="validateCode(2)" />
                   <input type="text" class="form-control card-digit" id="digit-3" v-model="acc.CodeIII" @click="() => {
                       acc.CodeIII = '';
                     }
-                    " @keyup="methods.validateCode(3)" />
+                    " @keyup="validateCode(3)" />
                   <input type="text" class="form-control card-digit" id="digit-4" v-model="acc.CodeIV" @click="() => {
                       acc.CodeIV = '';
                     }
-                    " @keyup="methods.validateCode(4)" />
+                    " @keyup="validateCode(4)" />
                   <input type="text" class="form-control card-digit" id="digit-5" v-model="acc.CodeV" @click="() => {
                       acc.CodeV = '';
                     }
-                    " @keyup="methods.validateCode(5)" />
+                    " @keyup="validateCode(5)" />
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
                   <div class="box-error">
@@ -55,7 +55,7 @@
                   </div>
                 </div>
                 <div class="mb-6 mt-4 d-flex justify-content-center">
-                  <button id="send-validation" type="button" class="btn btn-primary" @click="methods.validate()"
+                  <button id="send-validation" type="button" class="btn btn-primary" @click="validate()"
                     :disabled="!canValidate">
                     Validar
                   </button>
@@ -258,7 +258,6 @@ export default {
       title,
       description,
       acc,
-      canValidate,
       error,
       ...toRefs(methods),
     };
