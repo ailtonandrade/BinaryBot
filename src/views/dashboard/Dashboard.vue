@@ -1,6 +1,9 @@
 <template>
   <div>
     <Menu></Menu>
+    <div v-for="">
+      <MessageBox></MessageBox>
+    </div>
   </div>
   <div class="container">
     <h1>{{ title }}</h1>
@@ -21,30 +24,37 @@
 </template>
   
 <script lang="ts">
-import { ref, onMounted, toRefs, reactive } from "vue";
+import { ref, onMounted, toRefs, reactive, inject } from "vue";
 import { useRouter } from "vue-router";
 import Menu from "../components/menu.vue";
 import { Perfils } from '../../enums/perfils';
 import AdminBoard from './adminBoard/adminBoard.vue';
+import MessageBox from '../components/MessageBox.vue';
 import AuthService from "../../services/AuthService";
+
 
 export default {
   components: {
     Menu,
     AdminBoard,
+    MessageBox,
   },
   setup() {
     const title = ref("Painel");
     const description = ref(
       "Informações de conta."
     );
-
     const router = useRouter();
     const userData = ref();
+    const showMessageBox = ref(false);
+    const messagesBox = ref([])
     const methods = reactive({
       responseData(data: any) {
         if (data) {
-          //console.table(data);
+          if (data.confirmedEmail == false) {
+            showMessageBox.value = true;
+            messagesBox.value.push({"Atenção","Confirmação de email não realizada","Reenviar email de confirmação","reconfirmEmail"})
+          }
         }
       }
     });
@@ -63,6 +73,8 @@ export default {
     return {
       title,
       description,
+      showMessageBox,
+      messagesBox,
       ...toRefs(methods),
       router,
       userData,

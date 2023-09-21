@@ -1,23 +1,50 @@
-
 <template>
   <main>
+    <MessageBox
+      :isModalVisible="showModalMessageBox"
+      :message="messageModalMessageBox"
+      :buttonTitle="buttonTitleModalMessageBox"
+      :funcEmit="funcEmitModalMessageBox"
+    />
     <router-view />
   </main>
 </template>
 <script lang="ts">
-import { provide } from "vue";
-
+import { ref, onMounted, reactive, toRefs, provide } from "vue";
+import MessageBox from "./views/components/MessageBox.vue";
 export default {
-  components :{
-    
+  components: {
+    MessageBox,
   },
   setup() {
+    const showModalMessageBox = ref(false);
+    const messageModalMessageBox = ref("");
+    const buttonTitleModalMessageBox = ref("");
+    const funcEmitModalMessageBox = ref("");
+    const methods = reactive({
+      showMessageBox(
+        _message: string,
+        _buttonTitle: string,
+        _funcEmit: string
+      ) {
+        showModalMessageBox.value = true;
+        messageModalMessageBox.value = _message;
+        buttonTitleModalMessageBox.value = _buttonTitle;
+        funcEmitModalMessageBox.value = _funcEmit;
+      },
+    });
 
+    //provide("showMessageBox", methods.showMessageBox);
+    
     return {
-
-    }
-  }
-}
+      showModalMessageBox,
+      messageModalMessageBox,
+      buttonTitleModalMessageBox,
+      funcEmitModalMessageBox,
+      ...toRefs(methods),
+    };
+  },
+};
 </script>
 <style scoped>
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
