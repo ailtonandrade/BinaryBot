@@ -2,12 +2,12 @@
   <nav class="navbar-dark bg-dark">
     <div class="container">
       <div class="row">
-        <div class="col-6" @click="redirectToHome">
+        <div class="col-6" @click="redirectToHome()">
           <a class="navbar-brand" href="#">BinaryBot</a>
         </div>
         <div class="col-6 nav-btn-row">
           <div class="btn-nav">
-            <button class="" @click="logout">Sair</button>
+            <button class="" @click="logout()">Sair</button>
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@ export default {
     });
 
     return {
+      router,
       ...toRefs(methods),
     };
   },

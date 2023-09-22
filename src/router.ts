@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "./views/login/Login.vue";
 import Forgot from "./views/login/Forgot.vue";
 import Redefine from "./views/login/Redefine.vue";
-import Dashboard from "./views/dashboard/Dashboard.vue";
+import Dashboard from "./views/login/dashboard/Dashboard.vue";
 import Register from "./views/Register/Register.vue";
 import ValidateCodeVue from "./views/Register/ValidateCode.vue";
-import EditVue from "./views/dashboard/Edit.vue";
+import EditVue from "./views/login/dashboard/Edit.vue";
 
 const router = createRouter({
   history: createWebHistory(),

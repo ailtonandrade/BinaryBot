@@ -94,8 +94,8 @@
 
 <script lang="ts">
 import { ref, watch, onMounted, reactive, toRefs } from "vue";
-import AuthService from "../../services/AuthService";
-import auxiliar from "../../global/auxiliar";
+import AuthService from "../../../services/AuthService";
+import auxiliar from "../../../global/auxiliar";
 import { useRouter } from "vue-router";
 
 export default {

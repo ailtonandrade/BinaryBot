@@ -1,0 +1,33 @@
+.p-3{
+    padding:3;
+  }
+  .p-1{
+    padding:1;
+  }
+  .justify-center{
+    justify-content: center;
+  }
+  .align-center {
+    align-items: center;
+  }
+  .flex-space-around{
+    align-items: center;
+    justify-content: space-around;
+  }
+  .flex-space-evenly{
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+.warning {
+    background-color: rgb(255, 170, 13);
+    color: rgb(75, 54, 0);
+  }
+  
+  .warning button {
+    background-color: rgb(190, 142, 18);
+    color: rgb(39, 28, 2);
+  }

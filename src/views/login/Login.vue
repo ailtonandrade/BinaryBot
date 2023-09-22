@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import { ref, watch, inject, reactive, toRefs } from "vue";
+import { ref, watch, provide, reactive, toRefs, inject } from "vue";
 import AuthService from "../../services/AuthService";
 import { useRouter } from "vue-router";
-
 export default {
+  components: {},
   setup() {
     const title = ref("BinaryBot");
     const description = ref(
@@ -73,6 +73,9 @@ export default {
     });
     const logging = ref(false);
     const router = useRouter();
+    const accountData = ref();
+    const test = inject("test");
+    console.log(test);
     const methods = reactive({
       login() {
         if (!objUser.value.username || !objUser.value.password) {
@@ -99,8 +102,20 @@ export default {
       verificaLogin(data) {
         if (data) {
           localStorage.setItem("token", data.hash);
-
-          router.push("/dashboard");
+          AuthService.getPerfil()
+            .then((response) => {
+              methods.responseData(response.data);
+              router.push("/dashboard");
+            })
+            .catch((error) => {
+              console.log(error);
+              alert(error.response.data.message);
+            });
+        }
+      },
+      responseData(data) {
+        if (data) {
+          accountData.value = JSON.parse(JSON.stringify(data));
         }
       },
       formatInput() {
@@ -108,14 +123,20 @@ export default {
         objUser.value.password = objUser.value.password.trim();
       },
     });
+
+    provide("accountDataRef", accountData.value);
+
     watch(objUser.value, (newV, oldV) => {
       methods.formatInput();
     });
+
+
     return {
       title,
       description,
       objUser,
       router,
+      accountData,
       ...toRefs(methods),
       logging,
     };

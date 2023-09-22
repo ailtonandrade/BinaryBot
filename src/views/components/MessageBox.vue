@@ -1,57 +1,86 @@
 <template>
-  <div>
-    <div v-if="isModalVisible" class="modal">
-      <div class="modal-content">
-        <p>{{ message }}</p>
+  <div v-for="(m, index) in listMessages" :key="index">
+    <div class="container modal-box-content p-1" :class="m.modalBoxClass">
+      <div class="flex-row justify-center col-12">
+        <div class="col-10">
+          <span class="modal-box-title">{{ m.title }} - </span>
+          <span class="modal-box-message">{{ m.message }}</span>
+        </div>
+        <div class="modal-box-close col-2">
+          <button class="btn-close">X</button>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="col-12">
+          <a href="#" @click.prevent="funcEmit('resendEmailConfirm')" class="modal-box-btn btn-close">{{ m.btnText }}</a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { onMounted, computed, defineComponent } from "vue";
+import { toRefs, reactive, defineComponent } from "vue";
+import "../../styles/commom.css";
 
 export default defineComponent({
   props: {
-    isModalVisible: Boolean,
-    message: String,
-    buttonTitle: String,
-    funcEmit: String,
+    listMessages: Array,
   },
-  setup(props) {
-    const _isModalVisible = computed(() => {
-      // Você pode acessar as props diretamente de forma reativa
-      console.log(props.message); // Exemplo de acesso a message
-      console.log(props.buttonTitle); // Exemplo de acesso a buttonTitle
-      console.log(props.funcEmit); // Exemplo de acesso a funcEmit
-      return props.isModalVisible;
-    });
-    console.log(_isModalVisible.value); // Exemplo de acesso a isModalVisible
-
+  emits: ["resendEmailConfirm"],
+  setup(props, { emit }) {
+    const methods = reactive({
+      funcEmit(func:any){
+        emit(func);
+      }
+    })
     return {
-      _isModalVisible,
+      ...toRefs(methods)
     };
   },
 });
 </script>
-<style scope>
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro para destacar o modal */
-  display: flex;
-  justify-content: center; /* Centralizar horizontalmente */
-  align-items: center; /* Centralizar verticalmente */
+<style scoped>
+.modal-box-title {
+  font-weight: 600;
 }
-
-.modal-content {
-  background-color: #fff; /* Cor de fundo do modal */
-  padding: 20px;
+.modal-box-message {
+  font-weight: 200;
+}
+.modal-box-btn {
+  min-height: 15px;
+  min-width: 55px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra do modal */
-  max-width: 80%; /* Largura máxima do modal */
+  color: black;
+}
+.modal-box-btn:hover {
+  text-decoration: underline;
+}
+.modal-box-close {
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-close{
+  transition: 0.5s;
+  outline: none;
+}
+.btn-close:hover{
+  opacity: 0.9;
+}
+.btn-close:active{
+  opacity: 0.2;
+}
+.modal-box-close button {
+  height: 30px;
+  width: 30px;
+  border-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.modal-box-content {
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  flex-direction: row;
+  align-items: center;
 }
 </style>
