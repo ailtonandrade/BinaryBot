@@ -63,19 +63,16 @@ import { useRouter } from "vue-router";
 export default {
   components: {},
   setup() {
-    const title = ref("BinaryBot");
+    const title = ref("");
     const description = ref(
       "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
     const objUser = ref({
-      username: "",
-      password: "",
+      username: "admin",
+      password: "Tomeisa1204@",
     });
     const logging = ref(false);
     const router = useRouter();
-    const accountData = ref();
-    const test = inject("test");
-    console.log(test);
     const methods = reactive({
       login() {
         if (!objUser.value.username || !objUser.value.password) {
@@ -87,7 +84,6 @@ export default {
               methods.verificaLogin(response.data);
             })
             .catch((error) => {
-              console.log(error);
               if (error?.response?.data?.length > 0) {
                 alert(error.response.data);
               }
@@ -104,18 +100,23 @@ export default {
           localStorage.setItem("token", data.hash);
           AuthService.getPerfil()
             .then((response) => {
-              methods.responseData(response.data);
-              router.push("/dashboard");
+              if (response?.data) {
+                methods.responseData(response.data);
+                router.goTo("dashboard");
+              }
             })
             .catch((error) => {
-              console.log(error);
-              alert(error.response.data.message);
+              alert(error);
             });
         }
       },
       responseData(data) {
         if (data) {
-          accountData.value = JSON.parse(JSON.stringify(data));
+          localStorage.setItem("birthday", data.birthday);
+          localStorage.setItem("document", data.document);
+          localStorage.setItem("name", data.name);
+          localStorage.setItem("userName", data.userName);
+          localStorage.setItem("confirmedEmail", data.confirmedEmail);
         }
       },
       formatInput() {
@@ -124,19 +125,15 @@ export default {
       },
     });
 
-    provide("accountDataRef", accountData.value);
-
     watch(objUser.value, (newV, oldV) => {
       methods.formatInput();
     });
-
 
     return {
       title,
       description,
       objUser,
       router,
-      accountData,
       ...toRefs(methods),
       logging,
     };

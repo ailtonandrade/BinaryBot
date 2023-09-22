@@ -22,11 +22,11 @@ export default {
     const router = useRouter();
     const methods = reactive({
       redirectToHome() {
-        router.push("/dashboard");
+        router.goTo("dashboard");
       },
       logout() {
         localStorage.clear();
-        router.push("/");
+        router.goTo("home");
       },
     });
 

@@ -12,7 +12,12 @@
       </div>
       <div class="col-12">
         <div class="col-12">
-          <a href="#" @click.prevent="funcEmit('resendEmailConfirm')" class="modal-box-btn btn-close">{{ m.btnText }}</a>
+          <a
+            href="#"
+            @click.prevent="funcEmit(m.funcEmit)"
+            class="modal-box-btn btn-close"
+            >{{ m.btnText }}</a
+          >
         </div>
       </div>
     </div>
@@ -27,15 +32,15 @@ export default defineComponent({
   props: {
     listMessages: Array,
   },
-  emits: ["resendEmailConfirm"],
+  emits: ["reconfirmEmail"],
   setup(props, { emit }) {
     const methods = reactive({
-      funcEmit(func){
+      funcEmit(func) {
         emit(func);
-      }
-    })
+      },
+    });
     return {
-      ...toRefs(methods)
+      ...toRefs(methods),
     };
   },
 });
@@ -60,14 +65,14 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
 }
-.btn-close{
+.btn-close {
   transition: 0.5s;
   outline: none;
 }
-.btn-close:hover{
+.btn-close:hover {
   opacity: 0.9;
 }
-.btn-close:active{
+.btn-close:active {
   opacity: 0.2;
 }
 .modal-box-close button {
@@ -78,9 +83,24 @@ export default defineComponent({
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 .modal-box-content {
+  animation: slideDown 0.3s ease;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   flex-direction: row;
   align-items: center;
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.modal-box-content:hover {
+  transform: translateX(2px);
+  transition: 0.3s ease;
 }
 </style>

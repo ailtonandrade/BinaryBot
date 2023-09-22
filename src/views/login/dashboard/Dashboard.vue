@@ -2,11 +2,6 @@
   <div>
     <div>
       <Menu></Menu>
-      <MessageBox
-        :listMessages="messagesBox"
-        @resendEmailConfirm="resendEmailConfirm()"
-      >
-      </MessageBox>
     </div>
     <div class="container">
       <h1>{{ title }}</h1>
@@ -27,51 +22,61 @@
 </template>
   
 <script>
-import { ref, onMounted, toRefs, reactive, inject, defineComponent } from "vue";
+import { ref, computed, onMounted, toRefs, reactive, inject, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import Menu from "../../components/menu.vue";
 import { Perfils } from "../../../enums/perfils";
 import AdminBoard from "./adminBoard/adminBoard.vue";
-import MessageBox from "../../components/MessageBox.vue";
 import AuthService from "../../../services/AuthService";
 
 export default defineComponent({
   components: {
     Menu,
     AdminBoard,
-    MessageBox,
   },
-  setup() {
-    
+  setup(props) {
     const title = ref("Painel");
     const description = ref("Informações de conta.");
     const router = useRouter();
     const userData = ref();
-    const messagesBox = ref([]);
-    const accountData = inject("test");
-    console.log(accountData);
-    
+    //modal box
+    const _showModalBox = inject("showModalBox");
+    //message box
+    const _listMessageBox = inject("listMessageBox");
+    const _actionMessageBox = inject("actionMessageBox");
+    const handleActionMessageBox = computed(() => {
+      runActionMessageBox(_actionMessageBox);
+    });
+
     const methods = reactive({
       resendEmailConfirm() {},
+      runActionMessageBox(action) {
+        switch (action) {
+          case "reconfirmEmail": {
+            console.log("reconfirmEmail");
+            break;
+          }
+        }
+      },
     });
+
     onMounted(() => {
-      console.log(accountData);
-      // if (accountData.value.confirmedEmail == false) {
-      //   messagesBox.value.push({
-      //     title: "Atenção",
-      //     message: "Confirmação de email não realizada",
-      //     btnText: "Reenviar email de confirmação",
-      //     modalBoxClass: "warning",
-      //     func: "reconfirmEmail",
-      //   });
-      // }
+      if (localStorage.getItem("confirmedEmail") === "false") {
+        _listMessageBox.value.push({
+          title: "Atenção",
+          message: "Confirmação de email não realizada",
+          btnText: "Reenviar email de confirmação",
+          modalBoxClass: "warning",
+          func: "reconfirmEmail",
+        });
+        _showModalBox();
+      }
     });
 
     return {
       title,
       description,
-      messagesBox,
-      accountData,
+      handleActionMessageBox,
       ...toRefs(methods),
       router,
       userData,

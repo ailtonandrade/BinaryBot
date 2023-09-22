@@ -11,10 +11,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      name: "home",
       path: "/",
       component: Login,
     },
     {
+      name: "dashboard",
       path: "/dashboard",
       component: Dashboard,
       meta: { requiresAuth: true },
@@ -24,34 +26,52 @@ const router = createRouter({
       component: Register,
     },
     {
+      name: "validate",
       path: "/validate",
       component: ValidateCodeVue,
     },
     {
+      name: "forgot-pass",
       path: "/forgot-pass",
       component: Forgot,
     },
     {
+      name: "redefine-pass",
       path: "/redefine-pass",
       component: Redefine,
     },
     {
+      name: "edit",
       path: "/edit",
       component: EditVue,
       meta: { requiresAuth: true },
     },
   ],
 
-  
+
 });
+
+// Função de navegação personalizada com objeto no query param
+router.goTo = (routeName, objectData) => {
+
+  if (Array.isArray(objectData)) {
+    router.push({ name: routeName, params: { obj: JSON.stringify(objectData) } });
+  }
+  else if (typeof objectData === 'object') {
+    router.push({ name: routeName, params: { obj: JSON.stringify(objectData) } });
+  } else {
+    router.push({ name: routeName, params: { obj: JSON.stringify(objectData) } });
+  }
+};
+
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Se a rota requer autenticação
     const token = localStorage.getItem('token'); // Recupere o token do localStorage
-   
+
     if (!token) {
-      
+
       // Se não houver token, redirecione para a página de login
       next('/');
     } else {
@@ -59,7 +79,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else {
-   
+
     // Se a rota não requer autenticação, continue para a rota desejada
     next();
   }
