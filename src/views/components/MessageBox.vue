@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { toRefs, reactive, defineComponent } from "vue";
 import "../../styles/commom.css";
 
@@ -30,7 +30,7 @@ export default defineComponent({
   emits: ["resendEmailConfirm"],
   setup(props, { emit }) {
     const methods = reactive({
-      funcEmit(func:any){
+      funcEmit(func){
         emit(func);
       }
     })

@@ -7,7 +7,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
 import { ref, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 export default {

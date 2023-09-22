@@ -3,7 +3,7 @@
     <router-view />
   </main>
 </template>
-<script lang="ts">
+<script>
 import { inject, onMounted, reactive, toRefs, provide } from "vue";
 
 export default {
@@ -12,8 +12,6 @@ export default {
 
   },
   setup() {
-    const test = inject('test');
-    console.log(test);
     return {
     };
   },

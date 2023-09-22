@@ -22,7 +22,7 @@
             <form>
               <div class="mb-6">
                 <label for="name" class="form-label">Nome Completo:</label>
-                <input type="text" class="form-control" id="name" v-model="user.Name" @change="methods.validateName()" />
+                <input type="text" class="form-control" id="name" v-model="user.Name" @change="validateName()" />
                 <div class="box-error">
                   <span class="textError">{{ error.Name }}</span>
                 </div>
@@ -30,37 +30,37 @@
               <div class="mb-6">
                 <label for="birthday" class="form-label">Data de Nascimento:</label>
                 <input type="date" class="form-control" id="birthday" v-model="user.Birthday"
-                  @change="methods.validateBirthday()" />
+                  @change="validateBirthday()" />
                 <span class="textError">{{ error.Birthday }}</span>
               </div>
               <div class="mb-6">
                 <label for="document" class="form-label">CPF:</label>
                 <input type="text" class="form-control" id="document" v-model="user.Document" :maxlength="14"
-                  @change="methods.validateDocument()" />
+                  @change="validateDocument()" />
                 <span class="textError">{{ error.Document }}</span>
               </div>
               <div class="mb-6">
                 <label for="phone" class="form-label">Telefone/Celular:</label>
                 <input type="text" class="form-control" id="phone" v-model="user.Phone" :maxlength="15"
-                  @change="methods.validatePhone()" />
+                  @change="validatePhone()" />
                 <span class="textError">{{ error.Phone }}</span>
               </div>
               <div class="mb-6">
                 <label for="zipcode" class="form-label">CEP:</label>
                 <input type="text" class="form-control" id="zipcode" v-model="user.ZipCode"
-                  @change="methods.validateZipCode()" />
+                  @change="validateZipCode()" />
                 <span class="textError">{{ error.ZipCode }}</span>
               </div>
               <div class="mb-6">
                 <label for="country" class="form-label">País:</label>
                 <input type="text" class="form-control" id="country" v-model="user.Country"
-                  @change="methods.validateCountry()" />
+                  @change="validateCountry()" />
                 <span class="textError">{{ error.Country }}</span>
               </div>
               <div class="mb-6">
                 <label for="address" class="form-label">Endereço:</label>
                 <input type="text" class="form-control" id="address" v-model="user.Address"
-                  @change="methods.validateAddress()" />
+                  @change="validateAddress()" />
                 <span class="textError">{{ error.Address }}</span>
               </div>
               <div class="mb-6">
@@ -70,17 +70,17 @@
               <div class="mb-6">
                 <label for="password" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="password" v-model="user.Password"
-                  @change="methods.validatePassword()" />
+                  @change="validatePassword()" />
                 <span class="textError">{{ error.Password }}</span>
               </div>
               <div class="mb-6">
                 <label for="confirmPassword" class="form-label">Confirme sua senha:</label>
                 <input type="password" class="form-control" id="confirmPassword" v-model="user.ConfirmPassword"
-                  @change="methods.validateConfirmPassword()" />
+                  @change="validateConfirmPassword()" />
                 <span class="textError">{{ error.ConfirmPassword }}</span>
               </div>
               <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="methods.edit()" :disabled="!methods.canEdit()">
+                <button type="button" class="btn btn-primary" @click="edit()" :disabled="!canEdit()">
                   Cadastrar
                 </button>
               </div>
@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { ref, watch, onMounted, reactive, toRefs } from "vue";
 import AuthService from "../../../services/AuthService";
 import auxiliar from "../../../global/auxiliar";
@@ -295,7 +295,7 @@ export default {
         }
         return false;
       },
-      responseData(data: any) {
+      responseData(data) {
         console.table(data);
         user.value.Name = data.name;
         user.value.Birthday = data.birthday;
@@ -325,7 +325,6 @@ export default {
       title,
       description,
       user,
-      canEdit,
       error,
       ...toRefs(methods),
     };

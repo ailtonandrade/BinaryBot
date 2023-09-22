@@ -14,7 +14,7 @@
     </div>
   </nav>
 </template>
-<script lang="ts">
+<script>
 import { toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 export default {

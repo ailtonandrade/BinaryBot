@@ -5,9 +5,7 @@ const baseUrl = 'https://localhost:7079/';
 
 class Http {
 
-  private auxiliar = Auxiliar;
-
-  async post(endpoint: string, data: any) {
+  async post(endpoint, data) {
     return axios.post(baseUrl + endpoint, data, {
       headers: {
         Authorization: localStorage.getItem('token') != '' ? `Bearer ${localStorage.getItem('token')}` : '',

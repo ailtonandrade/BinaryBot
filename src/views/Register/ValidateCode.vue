@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { onMounted, ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
@@ -137,7 +137,7 @@ export default {
         canValidate.value = false;
         console.log("não validado");
       },
-      validateCode(index: number) {
+      validateCode(index) {
         switch (index) {
           case 1: {
             if (acc.value.CodeI.length > 1) {
@@ -218,7 +218,7 @@ export default {
           acc.value.CodeV = acc.value.CodeV.substr(0, 1);
         }
       },
-      responseData(data: any) {
+      responseData(data) {
         if (data) {
           localStorage.setItem("token", data.hash);
         }
