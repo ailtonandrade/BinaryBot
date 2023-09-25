@@ -1,13 +1,13 @@
 <template>
-  <div v-for="(m, index) in listMessages" :key="index">
-    <div class="container modal-box-content p-1" :class="m.modalBoxClass">
+  <div v-for="(m, index) in listMessageBox" :key="index">
+    <div class="container modal-box-content p-3" :class="m.modalBoxClass">
       <div class="flex-row justify-center col-12">
         <div class="col-10">
           <span class="modal-box-title">{{ m.title }} - </span>
           <span class="modal-box-message">{{ m.message }}</span>
         </div>
         <div class="modal-box-close col-2">
-          <button class="btn-close">X</button>
+          <button @click="closeMessageBox(index)" class="btn-close">X</button>
         </div>
       </div>
       <div class="col-12">
@@ -25,18 +25,19 @@
 </template>
 
 <script>
-import { toRefs, reactive, defineComponent } from "vue";
+import { inject, toRefs, reactive, onMounted, defineComponent } from "vue";
 import "../../styles/commom.css";
 
 export default defineComponent({
-  props: {
-    listMessages: Array,
-  },
-  emits: ["reconfirmEmail"],
+  props: ["listMessageBox"],
+  emits: ["reconfirmEmail", "closeMessageBox"],
   setup(props, { emit }) {
     const methods = reactive({
       funcEmit(func) {
-        emit(func);
+        emit("action", func);
+      },
+      closeMessageBox(index) {
+        props.listMessageBox.splice(index, 1);
       },
     });
     return {
@@ -44,8 +45,18 @@ export default defineComponent({
     };
   },
 });
+onMounted(() => {
+  
+});
 </script>
 <style scoped>
+.modal-box-content {
+  animation: slideDown 0.3s ease;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  flex-direction: row;
+  align-items: center;
+}
 .modal-box-title {
   font-weight: 600;
 }
@@ -82,13 +93,7 @@ export default defineComponent({
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-.modal-box-content {
-  animation: slideDown 0.3s ease;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  flex-direction: row;
-  align-items: center;
-}
+
 @keyframes slideDown {
   from {
     transform: translateY(-10px);

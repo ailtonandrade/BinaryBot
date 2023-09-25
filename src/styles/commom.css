@@ -10,27 +10,8 @@
   display: flex;
 }
 
-.justify-center {
-  justify-content: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
-}
-
-.align-top {
-  align-items: top;
-}
-
-.align-center {
-  align-items: center;
-}
-.text-center {
-  text-align: center;
-}
-
-.text-top {
-  text-align: top;
+.flex-end {
+  justify-content: flex-end;
 }
 
 .flex-space-around {
@@ -49,6 +30,29 @@
   display: flex;
   flex-direction: row;
 }
+.justify-center {
+  justify-content: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.align-top {
+  align-items: top;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-top {
+  text-align: top;
+}
 
 .warning {
   background-color: rgb(255, 170, 13);
@@ -56,6 +60,17 @@
 }
 
 .warning button {
+  background-color: rgb(39, 28, 2);
+  color: rgb(190, 142, 18);
+}
+
+.warning button:active {
   background-color: rgb(190, 142, 18);
   color: rgb(39, 28, 2);
+}
+.message-box {
+  position: relative;
+  color:red;
+  top: 1000%;
+  left: 1000%;
 }

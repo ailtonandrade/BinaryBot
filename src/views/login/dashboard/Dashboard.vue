@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div>
-      <Menu></Menu>
-    </div>
     <div class="container">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
@@ -22,16 +19,22 @@
 </template>
   
 <script>
-import { ref, computed, onMounted, toRefs, reactive, inject, defineComponent } from "vue";
+import {
+  ref,
+  computed,
+  onMounted,
+  toRefs,
+  reactive,
+  inject,
+  defineComponent,
+} from "vue";
 import { useRouter } from "vue-router";
-import Menu from "../../components/menu.vue";
 import { Perfils } from "../../../enums/perfils";
 import AdminBoard from "./adminBoard/adminBoard.vue";
 import AuthService from "../../../services/AuthService";
 
 export default defineComponent({
   components: {
-    Menu,
     AdminBoard,
   },
   setup(props) {
@@ -43,6 +46,7 @@ export default defineComponent({
     const _showModalBox = inject("showModalBox");
     //message box
     const _listMessageBox = inject("listMessageBox");
+    const _addMessageBox = inject("addMessageBox");
     const _actionMessageBox = inject("actionMessageBox");
     const handleActionMessageBox = computed(() => {
       runActionMessageBox(_actionMessageBox);
@@ -62,14 +66,19 @@ export default defineComponent({
 
     onMounted(() => {
       if (localStorage.getItem("confirmedEmail") === "false") {
-        _listMessageBox.value.push({
-          title: "Atenção",
-          message: "Confirmação de email não realizada",
-          btnText: "Reenviar email de confirmação",
-          modalBoxClass: "warning",
-          func: "reconfirmEmail",
-        });
-        _showModalBox();
+        _addMessageBox(
+          "Atenção",
+          "Confirmação de email não realizada",
+          "Reenviar email de confirmação",
+          "warning",
+          "reconfirmEmail"
+        );
+        _showModalBox(
+          "Atenção",
+          "Confirmação de email não realizada.",
+          "resendConfirmEmail",
+          "Reenviar confirmação"
+        );
       }
     });
 

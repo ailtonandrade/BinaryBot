@@ -2,19 +2,25 @@
   <div class="body justify-center modal-box-content">
     <div class="col-12">
       <div class="flex col-12 align-top flex-space-between">
-        <h1 class="title">Atenção</h1>
+        <h1 class="title">{{ title }}</h1>
         <button @click="closeModal()" class="btn-close">X</button>
       </div>
       <hr />
       <div class="flex-row">
         <div class="flex col-12 justify-center">
           <p class="message">
-            Não foi possível estabelecer uma conexão. Verifique as configurações
-            do servidor.
+            {{ message }}
           </p>
         </div>
       </div>
       <hr />
+      <div class="flex-row">
+        <div class="col-12 flex flex-end">
+          <button class="btn-action-confirm" @click="toAction()">
+            {{ description }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,11 +33,15 @@ export default defineComponent({
     title: String,
     message: String,
     action: String,
+    description: String,
   },
   setup(props, { emit }) {
     const methods = reactive({
       closeModal() {
         emit("closeModal");
+      },
+      toAction() {
+        console.log("ação modal box = " + props.action);
       },
     });
     return {
@@ -53,11 +63,11 @@ export default defineComponent({
   font-size: large;
 }
 .modal-box-content {
-  min-height: 30vh;
+  min-height: 35vh;
   width: 80%;
   min-width: 150px;
   max-width: 450px;
-  padding-top: 30px;
+  padding-top: 20px;
 }
 /* btn close */
 .btn-close {

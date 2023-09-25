@@ -9,26 +9,34 @@
           type="text"
           class="form-control"
           id="name"
-          v-model="objUser.username"
+          v-model="objUser.UserName"
           placeholder="usuari011011"
         />
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Senha:</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          v-model="objUser.password"
-          placeholder="p@ssw0rd"
-        />
+        <div style="display: flex" class="form-control">
+          <input
+            style="border-style: none; width: 100%"
+            :type="showPassword ? 'text' : 'password'"
+            id="password"
+            v-model="objUser.Password"
+            placeholder="p@ssw0rd"
+          />
+          <button
+            @click.prevent="showPassword = !showPassword"
+            class="showPassword card"
+          >
+            {{ showPassword ? "#" : "@" }}
+          </button>
+        </div>
       </div>
       <div class="mb-3 d-flex justify-content-center">
         <button
           type="button"
           :disabled="
-            objUser.username.length < 5 ||
-            objUser.password.length <= 8 ||
+            objUser.UserName.length < 5 ||
+            objUser.Password.length <= 8 ||
             logging
           "
           class="btn btn-primary"
@@ -67,15 +75,16 @@ export default {
     const description = ref(
       "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
+    const showPassword = ref(false);
     const objUser = ref({
-      username: "admin",
-      password: "Tomeisa1204@",
+      UserName: "admin",
+      Password: "Tomeisa1204@",
     });
     const logging = ref(false);
     const router = useRouter();
     const methods = reactive({
       login() {
-        if (!objUser.value.username || !objUser.value.password) {
+        if (!objUser.value.UserName || !objUser.value.Password) {
           alert("Por favor, preencha todos os campos.");
         } else {
           logging.value = true;
@@ -89,8 +98,8 @@ export default {
               }
             })
             .finally(() => {
-              objUser.value.username = "";
-              objUser.value.password = "";
+              objUser.value.UserName = "";
+              objUser.value.Password = "";
               logging.value = false;
             });
         }
@@ -120,8 +129,8 @@ export default {
         }
       },
       formatInput() {
-        objUser.value.username = objUser.value.username.trim();
-        objUser.value.password = objUser.value.password.trim();
+        objUser.value.UserName = objUser.value.UserName.trim();
+        objUser.value.Password = objUser.value.Password.trim();
       },
     });
 
@@ -133,6 +142,7 @@ export default {
       title,
       description,
       objUser,
+      showPassword,
       router,
       ...toRefs(methods),
       logging,

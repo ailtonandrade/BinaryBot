@@ -15,17 +15,21 @@
   </nav>
 </template>
 <script>
-import { toRefs, reactive } from "vue";
+import { inject, toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 export default {
   setup() {
     const router = useRouter();
+    const clearModalBox = inject("clearModalBox");
+    const clearMessageBox = inject("clearMessageBox");
     const methods = reactive({
       redirectToHome() {
         router.goTo("dashboard");
       },
       logout() {
         localStorage.clear();
+        clearModalBox();
+        clearMessageBox();
         router.goTo("home");
       },
     });
@@ -58,4 +62,5 @@ button:hover {
 
 .btn-nav:hover {
   opacity: 0.8;
-}</style>
+}
+</style>

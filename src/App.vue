@@ -1,29 +1,57 @@
 <template>
   <main>
-    <router-view> </router-view>
+    <Menu v-if="isLoggedIn" />
     <MessageBox
-      v-if="_listMessageBox?.length > 0"
-      :listMessages="_listMessageBox"
-      @action="actionMessageBox(event)"
+      class="message-box"
+      v-if="_listMessageBox.length > 0"
+      :listMessageBox="_listMessageBox"
+      @action="actionMessageBox($event)"
+      @closeMessageBox="closeMessageBox()"
     />
+    <div class="router-view">
+      <router-view> </router-view>
+    </div>
     <ModalBox
       v-if="_showModalBox"
       @closeModal="closeModalBox()"
+      :title="_dataModalBox.title"
+      :message="_dataModalBox.message"
+      :description="_dataModalBox.description"
+      :action="_dataModalBox.action"
       class="modal-box"
     />
   </main>
 </template>
 <script>
-import { inject, provide, reactive, ref, toRefs } from "vue";
+import {
+  computed,
+  watch,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  onMounted,
+} from "vue";
 import ModalBox from "./views/components/modalBox.vue";
 import MessageBox from "./views/components/MessageBox.vue";
+import Menu from "./views/components/menu/menu.vue";
+import AuthService from "./services/AuthService";
+import { useRouter } from "vue-router";
 
 export default {
   name: "App",
-  components: { ModalBox, MessageBox },
+  components: { Menu, ModalBox, MessageBox },
   setup() {
+    const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
-    
+    const router = useRouter();
+    const _dataModalBox = ref({
+      title: "",
+      message: "",
+      action: "",
+      description: "",
+    });
+
     const _listMessageBox = ref([]);
     const _actionMessageBox = ref();
 
@@ -31,18 +59,66 @@ export default {
       closeModalBox() {
         _showModalBox.value = false;
       },
-      showModalBox() {
+      showModalBox(title, message, action, description) {
+        _dataModalBox.value.title = title;
+        _dataModalBox.value.message = message;
+        _dataModalBox.value.action = action;
+        _dataModalBox.value.description = description;
         _showModalBox.value = true;
+      },
+      addMessageBox(title, message, btnText, modalBoxClass, funcEmit) {
+        _listMessageBox.value.push({
+          title: title,
+          message: message,
+          btnText: btnText,
+          modalBoxClass: modalBoxClass,
+          funcEmit: funcEmit,
+        });
+      },
+      clearMessageBox() {
+        _listMessageBox.value = [];
+      },
+      clearModalBox() {
+        _showModalBox.value = false;
       },
       actionMessageBox(event) {
         _actionMessageBox.value = event;
       },
+      async requestAccess() {
+        const res = await AuthService.getValidateCurrent();
+        if (res.statusCode == 100 || res.statusCode == 401) {
+          isLoggedIn.value = false;
+        } else if (res.statusCode == 200) {
+          isLoggedIn.value = true;
+          router.goTo("dashboard");
+        }
+      },
     });
 
-    provide("actionMessageBox", _actionMessageBox);
-    provide("listMessageBox", _listMessageBox);
+    onMounted(async () => {
+      await methods.requestAccess();
+    });
+
+    watch(router.currentRoute, async (oldValue, newValue) => {
+      if (oldValue != newValue) {
+        try {
+          await methods.requestAccess();
+        } catch (err) {
+          throw err;
+        }
+      }
+    });
+
+    provide("clearModalBox", methods.clearModalBox);
+    provide("clearMessageBox", methods.clearMessageBox);
+    provide("addMessageBox", methods.addMessageBox);
+    provide("actionMessageBox", _actionMessageBox.value);
+    provide("listMessageBox", _listMessageBox.value);
     provide("showModalBox", methods.showModalBox);
     return {
+      router,
+      isLoggedIn,
+      _dataModalBox,
       _showModalBox,
       _listMessageBox,
       ...toRefs(methods),
@@ -53,24 +129,28 @@ export default {
 <style scoped>
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
+
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
 .modal-box {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-width: 365px;
+}
+.message-box {
+  position: fixed;
+  z-index: 1;
+}
+.router-view {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: -1;
 }
 </style>
