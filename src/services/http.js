@@ -13,6 +13,7 @@ class Http {
           'Content-Type': 'application/json',
         }
       })
+
       return response;
     } catch (err) {
       throw err;

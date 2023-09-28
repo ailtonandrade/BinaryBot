@@ -6,17 +6,17 @@
       <div class="mb-6">
         <label for="password" class="form-label">Senha:</label>
         <input type="password" class="form-control" id="password" v-model="acc.Password"
-          @change="methods.validatePassword()" />
+          @change="validatePassword()" />
         <span class="textError">{{ error.Password }}</span>
       </div>
       <div class="mb-6">
         <label for="confirmPassword" class="form-label">Confirme sua senha:</label>
         <input type="password" class="form-control" id="confirmPassword" v-model="acc.ConfirmPassword"
-          @change="methods.validateConfirmPassword()" />
-        <span class="textError">{{ error.ConfirmPassword }}</span>
+          @change="validateConfirmPassword()" />
+        <span class="textError mb-6 mt-4 flex-row justify-center">{{ error.ConfirmPassword }}</span>
       </div>
-      <div class="mb-6 mt-4 d-flex justify-content-center">
-        <button type="button" class="btn btn-primary" @click="methods.register()" :disabled="!methods.canRegister()">
+      <div class="mb-6 mt-4 flex-row justify-center">
+        <button type="button" class="btn btn-primary" @click="register()" :disabled="!canRegister()">
           Redefinir
         </button>
       </div>
@@ -27,6 +27,7 @@
 <script>
 import { ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
+import AccountService from "../../services/AccountService";
 import { useRouter } from "vue-router";
 import auxiliar from "../../global/auxiliar";
 
@@ -49,7 +50,7 @@ export default {
     const methods = reactive({
       register() {
         if (methods.canRegister()) {
-          AuthService.redefine(acc.value)
+          AccountService.redefine(acc.value)
             .then(() => {
               alert("Redefinição efetuada com sucesso.");
               router.push("/");

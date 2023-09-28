@@ -62,8 +62,11 @@
               </div>
               <div class="mb-6">
                 <label for="country" class="form-label">País:</label>
-                <input type="text" class="form-control" id="country" v-model="acc.Country"
-                  @change="validateCountry()" />
+                <select type="text" class="form-control" id="country" v-model="acc.Country"
+                  @change="validateCountry()" >
+                <option selected value="BR">BR</option>  
+                <option value="USA">USA</option>  
+                </select>
                 <span class="textError">{{ error.Country }}</span>
               </div>
               <div class="mb-6">
@@ -104,7 +107,7 @@
 
 <script>
 import { ref, watch, reactive, toRefs } from "vue";
-import AuthService from "../../services/AuthService";
+import AccountService from "../../services/AccountService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
 
@@ -113,7 +116,6 @@ export default {
     const title = ref("Cadastro");
     const description = ref("Registrando uma nova conta");
     const router = useRouter();
-    const canRegister = ref(false);
     const acc = ref({
       Name: "",
       UserName: "",
@@ -146,7 +148,7 @@ export default {
     const methods = reactive({
       register() {
         if (methods.canRegister()) {
-          AuthService.register(acc.value)
+          AccountService.register(acc.value)
             .then(() => {
               alert("Registro efetuado com sucesso.");
               router.push("/");
@@ -198,7 +200,7 @@ export default {
         }
       },
       validateUserName() {
-        if (acc.value.UserName.length > 0 && acc.value.UserName.length < 8) {
+        if (acc.value.UserName?.length > 0 && acc.value.UserName?.length < 8) {
           error.value.UserName =
             "Nome de usuário precisa ter ao menos 8 caracteres.\n";
         } else if (acc.value.UserName.length == 0) {
@@ -277,7 +279,7 @@ export default {
         }
       },
       validateCountry() {
-        if (acc.value.Country.length > 0 && acc.value.Country.length < 3) {
+        if (acc.value.Country.length > 0 && acc.value.Country.length < 2) {
           error.value.Country =
             "Este campo pode não estar preenchido corretamente.\n";
         } else if (acc.value.Country.length == 0) {
@@ -322,22 +324,22 @@ export default {
       },
       canRegister() {
         if (
-          error.value.Name.trim() == "" &&
-          error.value.UserName.trim() == "" &&
-          error.value.Document.trim() == "" &&
-          error.value.Email.trim() == "" &&
-          error.value.Phone.trim() == "" &&
-          error.value.Birthday.trim() == "" &&
-          error.value.Password.trim() == "" &&
-          error.value.ConfirmPassword.trim() == "" &&
-          acc.value.Name.trim() != "" &&
-          acc.value.UserName.trim() != "" &&
-          acc.value.Document.trim() != "" &&
-          acc.value.Email.trim() != "" &&
-          acc.value.Phone.trim() != "" &&
-          acc.value.Birthday.trim() != "" &&
-          acc.value.Password.trim() != "" &&
-          acc.value.ConfirmPassword.trim() != ""
+          error.value.Name?.trim() == "" &&
+          error.value.UserName?.trim() == "" &&
+          error.value.Document?.trim() == "" &&
+          error.value.Email?.trim() == "" &&
+          error.value.Phone?.trim() == "" &&
+          error.value.Birthday?.trim() == "" &&
+          error.value.Password?.trim() == "" &&
+          error.value.ConfirmPassword?.trim() == "" &&
+          acc.value.Name?.trim() != "" &&
+          acc.value.UserName?.trim() != "" &&
+          acc.value.Document?.trim() != "" &&
+          acc.value.Email?.trim() != "" &&
+          acc.value.Phone?.trim() != "" &&
+          acc.value.Birthday?.trim() != "" &&
+          acc.value.Password?.trim() != "" &&
+          acc.value.ConfirmPassword?.trim() != ""
         ) {
           return true;
         }

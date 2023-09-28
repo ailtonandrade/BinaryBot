@@ -86,11 +86,11 @@ export default {
       login() {
         if (!objUser.value.UserName || !objUser.value.Password) {
           _showModalBox(
-          "Atenção",
-          "Por favor, preencha todos os campos.",
-          "",
-          ""
-        );
+            "Atenção",
+            "Por favor, preencha todos os campos.",
+            "",
+            ""
+          );
         } else {
           logging.value = true;
           AuthService.login(objUser.value)
@@ -98,8 +98,8 @@ export default {
               methods.verificaLogin(response.data);
             })
             .catch((error) => {
-              if (error?.response?.data?.length > 0) {
-                alert(error.response.data);
+              if (error?.response?.data?.message) {
+                alert(error.response.data.message);
               }
             })
             .finally(() => {
@@ -126,7 +126,6 @@ export default {
       },
       responseData(data) {
         if (data) {
-          console.log(data)
           localStorage.setItem("birthday", data.birthday);
           localStorage.setItem("document", data.document);
           localStorage.setItem("name", data.name);

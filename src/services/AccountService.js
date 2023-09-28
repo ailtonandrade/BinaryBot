@@ -19,15 +19,12 @@ class AuthService {
     const searchParams = new URLSearchParams(window.location.search);
     return http.post(baseUrl+"/re-send-code", { urlMatch: searchParams.get('hf')});
   }
-  async setValidate(validate) {
-    return http.post(baseUrl+"/validate-acc", validate);
-  }
   async rescuePass(obj) {
     return http.post(baseUrl+"/forgot-pass", obj);
   }
   async redefine(data) {
-    data.UrlMatch = new URLSearchParams(window.location.search).get('hs');
-    return http.post(baseUrl+"/redefine-pass",await Auxiliar.getHash(data));
+    data.UrlMatch = new URLSearchParams(window.location.search).get('hf');
+    return http.post(baseUrl+"/redefine",await Auxiliar.getHashRedefine(data));
   }
 }
 export default new AuthService();

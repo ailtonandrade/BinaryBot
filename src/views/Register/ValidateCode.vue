@@ -95,17 +95,21 @@ export default {
 
     const methods = reactive({
       validate() {
+        error.value.Code = "";
+
         if (methods.canValidate()) {
-          AuthService.setValidate(methods.buildValidateObj())
+          let obj = methods.buildValidateObj();
+          AuthService.setValidate(obj)
             .then(() => {
               alert("Validação realizada com sucesso.");
               router.push("/");
             })
             .catch((response) => {
-              console.table(response);
-              document.getElementById("digit-1")?.focus();
-              error.value.Code = "Erro ao validar o código";
-              methods.getValidate();
+              if (response?.response?.data?.message) {
+                document.getElementById("digit-1")?.focus();
+                error.value.Code = response.response.data.message;
+                //methods.getValidate();
+              }
             })
             .finally(() => {
               methods.clearDigit();
@@ -122,7 +126,6 @@ export default {
             acc.value.CodeV,
           urlMatch: new URLSearchParams(window.location.search).get('hf'),
         };
-        console.table(validateObj);
         return validateObj;
       },
       clearErrors() {
@@ -247,7 +250,6 @@ export default {
 
     onMounted(() => {
       document.getElementById("digit-1")?.focus();
-      methods.getValidate();
     });
     watch(acc.value, (newV, oldV) => {
       methods.canValidate();

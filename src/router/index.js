@@ -36,8 +36,8 @@ const router = createRouter({
       component: Forgot,
     },
     {
-      name: "redefine-pass",
-      path: "/redefine-pass",
+      name: "redefine",
+      path: "/redefine",
       component: Redefine,
     },
     {

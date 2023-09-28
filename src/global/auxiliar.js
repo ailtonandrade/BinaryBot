@@ -6,7 +6,6 @@ class Auxiliar {
         return val.replaceAll("  ", " ").replace(/[^a-zA-Z\s]/g, "");
     };
     formatOnlyCharsAndNumbers(val = "") {
-        val= " ";
         return val.replaceAll(" ", "").replace(/[^\w\s]/gi, "");
     };
     formatOnlyCharsNumbersAndWhiteSpace(val = "") {
@@ -56,6 +55,12 @@ class Auxiliar {
     async getHash(obj) {
         const newObj = JSON.parse(JSON.stringify(obj));
         newObj.Password = MD5(newObj.Password).toString(enc.Hex);
+        return newObj;
+    }
+    async getHashRedefine(obj) {
+        const newObj = JSON.parse(JSON.stringify(obj));
+        newObj.Password = MD5(newObj.Password).toString(enc.Hex);
+        newObj.ConfirmPassword = MD5(newObj.ConfirmPassword).toString(enc.Hex);
         return newObj;
     }
 }
