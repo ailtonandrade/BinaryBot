@@ -20,7 +20,7 @@
       </div>
       <div class="mb-3 d-flex justify-content-center">
         <button type="button" :disabled="objUser.input.length < 5
-          " class="btn btn-primary" @click="methods.send()">
+          " class="btn btn-primary" @click="send()">
           Enviar
         </button>
       </div>
@@ -31,6 +31,7 @@
 <script>
 import { ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
+import AccountService from "../../services/AccountService";
 import { useRouter } from "vue-router";
 
 export default {
@@ -48,9 +49,9 @@ export default {
         if (!objUser.value.input) {
           alert("Por favor, preencha o campo para prosseguir.");
         } else {
-          AuthService.rescuePass(objUser.value)
+          AccountService.rescuePass(objUser.value)
             .then((response) => {
-              methods.responseData(response.data);
+              methods.responseData(response);
             })
             .catch((error) => {
               console.log(error);
@@ -61,8 +62,8 @@ export default {
             });
         }
       },
-      responseData(data) {
-        if (data) {
+      responseData(response) {
+        if (response.status == 200) {
           alert("Um email foi enviado para que consiga recuperar a sua conta.");
           router.push("/");
         }

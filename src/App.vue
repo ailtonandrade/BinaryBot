@@ -90,7 +90,9 @@ export default {
           isLoggedIn.value = false;
         } else if (res.statusCode == 200) {
           isLoggedIn.value = true;
-          router.goTo("dashboard");
+          if(router.currentRoute.value.name.includes('home')){
+            router.goTo("dashboard");
+          }
         }
       },
     });

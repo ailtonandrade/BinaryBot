@@ -65,6 +65,15 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      AuthService.getPerfil()
+        .then((response) => {
+          if (response?.data) {
+            userData.value = response.data.perfils[0].name;
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
       if (localStorage.getItem("confirmedEmail") === "false") {
         _addMessageBox(
           "Atenção",
@@ -72,12 +81,6 @@ export default defineComponent({
           "Reenviar email de confirmação",
           "warning",
           "reconfirmEmail"
-        );
-        _showModalBox(
-          "Atenção",
-          "Confirmação de email não realizada.",
-          "resendConfirmEmail",
-          "Reenviar confirmação"
         );
       }
     });

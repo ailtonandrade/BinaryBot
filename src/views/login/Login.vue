@@ -85,7 +85,12 @@ export default {
     const methods = reactive({
       login() {
         if (!objUser.value.UserName || !objUser.value.Password) {
-          alert("Por favor, preencha todos os campos.");
+          _showModalBox(
+          "Atenção",
+          "Por favor, preencha todos os campos.",
+          "",
+          ""
+        );
         } else {
           logging.value = true;
           AuthService.login(objUser.value)
@@ -121,6 +126,7 @@ export default {
       },
       responseData(data) {
         if (data) {
+          console.log(data)
           localStorage.setItem("birthday", data.birthday);
           localStorage.setItem("document", data.document);
           localStorage.setItem("name", data.name);
