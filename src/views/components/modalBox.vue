@@ -4,7 +4,7 @@
     <div class="col-12">
       <div class="flex-row col-12">
         <div class="flex col-10 align-center flex-start">
-          <img v-if="icon != null" class="icon-modal" :src="getIcon()" :alt="title"/>
+          <font-awesome-icon v-if="icon != null" class="icon-modal" :icon="icon" size="2x" />
           <h1 v-if="title != null" class="title">{{ title }}</h1>
         </div>
         <div :class="icon != null ? 'col-2': 'col-12'" class="flex align-center flex-center">
@@ -13,7 +13,7 @@
       </div>
       <hr />
       <div class="flex-row">
-        <div class="flex col-12 justify-center">
+        <div class="flex align-center col-12 justify-center">
           <p class="message">
             {{ message }}
           </p>
@@ -49,10 +49,6 @@ export default defineComponent({
       toAction() {
         console.log("ação modal box = " + props.action);
       },
-      getIcon() {
-        console.log(props.icon);
-        return require("@/assets/svg/"+props.icon+".svg");
-    }
     });
     return {
       ...toRefs(methods),
@@ -80,10 +76,10 @@ export default defineComponent({
   opacity: 0.7;
 }
 .icon-modal {
-  margin: 5px;
-  height: 30px;
+  margin-right: 10px;
 }
 .title {
+  padding-top:15px;
   font-size: x-large;
 }
 .message {
@@ -98,6 +94,7 @@ export default defineComponent({
 }
 /* btn close */
 .btn-close {
+  cursor:pointer;
   height: 25px;
   width: 25px;
   background-color: rgb(46, 46, 46);

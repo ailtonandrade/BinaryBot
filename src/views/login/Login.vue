@@ -105,7 +105,7 @@ export default {
                   "Oops...",
                   "Usuário ou senha inválidos",
                   "Descricao",
-                  "error",
+                  "fa-solid fa-warning",
                   null
                 );
               }
