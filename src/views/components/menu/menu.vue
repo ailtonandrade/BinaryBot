@@ -1,16 +1,16 @@
 <template>
-  <div class="menu">
+  <div class="menu p-10">
     <div class="container-fluid">
       <div class="flex-row">
-        <div class="brand-nav col-6" @click="redirectToHome()">
-          <a class="" href="#">BinaryBot</a>
+        <div class="brand-nav justify-start col-6" @click="redirectToHome()">
+          <a class="p-1" href="#">BinaryBot</a>
         </div>
-        <div class="col-6">
+        <div class="col-6 flex-row justify-content-end">
           <div class="btn-nav">
-            <button class="" @click="logout()">
+            <button class="p-1" @click="toggleMenu()">
               <font-awesome-icon
-                icon="fa-solid fa-right-from-bracket"
-                size="2x"
+                icon="fa-solid fa-bars"
+                size="1x"
               />
             </button>
           </div>
@@ -18,29 +18,33 @@
       </div>
     </div>
   </div>
+  <mainBar v-if="showMenu"></mainBar>
 </template>
 <script>
-import { inject, toRefs, reactive } from "vue";
+import { inject, toRefs, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import MainBar from "./MainBar.vue";
+
+
 export default {
+  components:{
+    MainBar
+  },
   setup() {
     const router = useRouter();
-    const clearModalBox = inject("clearModalBox");
-    const clearMessageBox = inject("clearMessageBox");
+    const showMenu = ref(false);
     const methods = reactive({
       redirectToHome() {
         router.goTo("dashboard");
       },
-      logout() {
-        localStorage.clear();
-        clearModalBox();
-        clearMessageBox();
-        router.goTo("home");
+      toggleMenu(){
+        showMenu.value = !showMenu.value;
       },
     });
 
     return {
       router,
+      showMenu,
       ...toRefs(methods),
     };
   },
@@ -53,38 +57,28 @@ export default {
 .menu {
   background-color: #292929;
 }
-.menu a {
-  color: white;
-}
-.menu button {
-  border-radius: 10px;
-  padding: 5px;
-  border-style: none;
-  background-color: transparent;
-  transition: 0.2s;
-  color: white;
-}
-.menu button:hover {
-  cursor: pointer;
-  border-style: none;
-  background-color: rgb(78, 78, 78);
-  color: white;
-}
 .brand-nav {
   display: flex;
   align-items: center;
 }
-.brand-nav:hover {
-  display: flex;
-  border-style: none;
-  align-items: center;
-}
 .brand-nav a {
+  color: white;
   border-radius: 10px;
-  padding: 5px;
+  transition: 0.2s;
 }
 .brand-nav a:hover {
   background-color: rgb(78, 78, 78);
-  transition: 0.2s;
 }
+.btn-nav button{
+  border-radius: 10px;
+  border-style: none;
+  background-color: transparent;
+  transition: 0.2s;
+  color: white;
+  cursor: pointer;
+}
+.btn-nav button:hover {
+  background-color: rgb(78, 78, 78);
+}
+
 </style>

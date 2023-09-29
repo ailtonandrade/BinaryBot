@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Menu v-if="isLoggedIn" />
+    <Menu class="menu" v-if="isLoggedIn" />
       <MessageBox
       class="message-box"
       v-if="_listMessageBox.length > 0"
@@ -147,9 +147,6 @@ export default {
   will-change: filter;
   transition: filter 300ms;
 }
-.modal-box {
-
-}
 .message-box {
   position: fixed;
   z-index: 1;
@@ -157,7 +154,7 @@ export default {
 .router-view {
   position: absolute;
   width: 100%;
-  top: 0;
+  top: 60px;
   z-index: -1;
 }
 </style>

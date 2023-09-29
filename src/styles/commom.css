@@ -1,11 +1,15 @@
+.p-10 {
+  padding: 10px;
+}
 .p-3 {
   padding: 3;
 }
-
+.p-2 {
+  padding: 2;
+}
 .p-1 {
   padding: 1;
 }
-
 .flex {
   display: flex;
 }
@@ -33,11 +37,12 @@
 .justify-center {
   justify-content: center;
 }
-
 .justify-start {
   justify-content: flex-start;
 }
-
+.justify-end {
+  justify-content: flex-end;
+}
 .align-top {
   align-items: top;
 }
