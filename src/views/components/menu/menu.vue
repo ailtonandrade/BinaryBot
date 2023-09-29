@@ -1,20 +1,18 @@
 <template>
   <div class="menu">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="col-6" @click="redirectToHome()">
-            <a class="" href="#">BinaryBot</a>
-          </div>
-          <div class="col-6">
-            <div class="btn-nav">
-              <button class="" @click="logout()">
-                <font-awesome-icon
-                  icon="fa-solid fa-right-from-bracket"
-                  size="2x"
-                />
-              </button>
-            </div>
+      <div class="flex-row">
+        <div class="brand-nav col-6" @click="redirectToHome()">
+          <a class="" href="#">BinaryBot</a>
+        </div>
+        <div class="col-6">
+          <div class="btn-nav">
+            <button class="" @click="logout()">
+              <font-awesome-icon
+                icon="fa-solid fa-right-from-bracket"
+                size="2x"
+              />
+            </button>
           </div>
         </div>
       </div>
@@ -63,12 +61,30 @@ export default {
   padding: 5px;
   border-style: none;
   background-color: transparent;
-  color: white;
   transition: 0.2s;
+  color: white;
 }
 .menu button:hover {
+  cursor: pointer;
   border-style: none;
   background-color: rgb(78, 78, 78);
   color: white;
+}
+.brand-nav {
+  display: flex;
+  align-items: center;
+}
+.brand-nav:hover {
+  display: flex;
+  border-style: none;
+  align-items: center;
+}
+.brand-nav a {
+  border-radius: 10px;
+  padding: 5px;
+}
+.brand-nav a:hover {
+  background-color: rgb(78, 78, 78);
+  transition: 0.2s;
 }
 </style>
