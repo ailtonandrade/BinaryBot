@@ -4,12 +4,16 @@
       <div class="row">
         <div class="col-12">
           <div class="col-6" @click="redirectToHome()">
-            <a class="navbar-brand" href="#">BinaryBot</a>
+            <a class="" href="#">BinaryBot</a>
           </div>
-          <div class="col-6 nav-btn-row">
+          <div class="col-6">
             <div class="btn-nav">
               <button class="" @click="logout()">
-                <font-awesome-icon icon="fa-solid fa-right-from-bracket" size="2x" />            </button>
+                <font-awesome-icon
+                  icon="fa-solid fa-right-from-bracket"
+                  size="2x"
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -48,42 +52,23 @@ export default {
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "../../../styles/commom.css";
 
-.menu{
-  display: flex;
-  flex-direction: row;
+.menu {
   background-color: #292929;
 }
-.menu a{
-  color:white;
+.menu a {
+  color: white;
 }
-.menu button{
+.menu button {
   border-radius: 10px;
   padding: 5px;
   border-style: none;
   background-color: transparent;
-  color:white;
+  color: white;
   transition: 0.2s;
 }
-.menu button:hover{
+.menu button:hover {
   border-style: none;
   background-color: rgb(78, 78, 78);
-  color:white;
-}
-button:hover {
-  border-color: white;
-}
-
-.nav-btn-row {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-nav {
   color: white;
-  text-decoration: none;
-}
-
-.btn-nav:hover {
-  opacity: 0.8;
 }
 </style>
