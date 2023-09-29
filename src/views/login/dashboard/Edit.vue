@@ -22,65 +22,129 @@
             <form>
               <div class="mb-6">
                 <label for="name" class="form-label">Nome Completo:</label>
-                <input type="text" class="form-control" id="name" v-model="user.Name" @change="validateName()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  v-model="user.Name"
+                  @change="validateName()"
+                />
                 <div class="box-error">
                   <span class="textError">{{ error.Name }}</span>
                 </div>
               </div>
               <div class="mb-6">
-                <label for="birthday" class="form-label">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="birthday" v-model="user.Birthday"
-                  @change="validateBirthday()" />
+                <label for="birthday" class="form-label"
+                  >Data de Nascimento:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birthday"
+                  v-model="user.Birthday"
+                  @change="validateBirthday()"
+                />
                 <span class="textError">{{ error.Birthday }}</span>
               </div>
               <div class="mb-6">
                 <label for="document" class="form-label">CPF:</label>
-                <input type="text" class="form-control" id="document" v-model="user.Document" :maxlength="14"
-                  @change="validateDocument()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="document"
+                  v-model="user.Document"
+                  :maxlength="14"
+                  @change="validateDocument()"
+                />
                 <span class="textError">{{ error.Document }}</span>
               </div>
               <div class="mb-6">
                 <label for="phone" class="form-label">Telefone/Celular:</label>
-                <input type="text" class="form-control" id="phone" v-model="user.Phone" :maxlength="15"
-                  @change="validatePhone()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  v-model="user.Phone"
+                  :maxlength="15"
+                  @change="validatePhone()"
+                />
                 <span class="textError">{{ error.Phone }}</span>
               </div>
               <div class="mb-6">
                 <label for="zipcode" class="form-label">CEP:</label>
-                <input type="text" class="form-control" id="zipcode" v-model="user.ZipCode"
-                  @change="validateZipCode()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="zipcode"
+                  v-model="user.ZipCode"
+                  @change="validateZipCode()"
+                />
                 <span class="textError">{{ error.ZipCode }}</span>
               </div>
               <div class="mb-6">
                 <label for="country" class="form-label">País:</label>
-                <input type="text" class="form-control" id="country" v-model="user.Country"
-                  @change="validateCountry()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="country"
+                  v-model="user.Country"
+                  @change="validateCountry()"
+                />
                 <span class="textError">{{ error.Country }}</span>
               </div>
               <div class="mb-6">
                 <label for="address" class="form-label">Endereço:</label>
-                <input type="text" class="form-control" id="address" v-model="user.Address"
-                  @change="validateAddress()" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  v-model="user.Address"
+                  @change="validateAddress()"
+                />
                 <span class="textError">{{ error.Address }}</span>
               </div>
               <div class="mb-6">
-                <label for="complement-address" class="form-label">Complemento:</label>
-                <input type="text" class="form-control" id="complement-address" v-model="user.ComplementAddress" />
+                <label for="complement-address" class="form-label"
+                  >Complemento:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="complement-address"
+                  v-model="user.ComplementAddress"
+                />
               </div>
               <div class="mb-6">
                 <label for="password" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="password" v-model="user.Password"
-                  @change="validatePassword()" />
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  v-model="user.Password"
+                  @change="validatePassword()"
+                />
                 <span class="textError">{{ error.Password }}</span>
               </div>
               <div class="mb-6">
-                <label for="confirmPassword" class="form-label">Confirme sua senha:</label>
-                <input type="password" class="form-control" id="confirmPassword" v-model="user.ConfirmPassword"
-                  @change="validateConfirmPassword()" />
+                <label for="confirmPassword" class="form-label"
+                  >Confirme sua senha:</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  v-model="user.ConfirmPassword"
+                  @change="validateConfirmPassword()"
+                />
                 <span class="textError">{{ error.ConfirmPassword }}</span>
               </div>
               <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="edit()" :disabled="!canEdit()">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="edit()"
+                  :disabled="!canEdit()"
+                >
                   Cadastrar
                 </button>
               </div>
@@ -93,7 +157,7 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, reactive, toRefs } from "vue";
+import { ref, inject, watch, onMounted, reactive, toRefs } from "vue";
 import AuthService from "../../../services/AuthService";
 import auxiliar from "../../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -103,6 +167,7 @@ export default {
     const title = ref("Meus dados");
     const description = ref("Editando seu perfil");
     const router = useRouter();
+    const _addMessageBox = inject("addMessageBox");
     const canEdit = ref(false);
     const user = ref({
       Name: "",
@@ -134,23 +199,46 @@ export default {
         if (methods.canEdit()) {
           AuthService.edit(user.value)
             .then(() => {
-              alert("Registro efetuado com sucesso.");
+              _addMessageBox(
+                "Ok...",
+                "Registro efetuado com sucesso.",
+                null,
+                "success",
+                null
+              );
               router.push("/");
             })
             .catch((ex) => {
-              alert(ex.response.data);
+              _addMessageBox(
+                "Oops...",
+                ex.response.data,
+                null,
+                "warning",
+                null
+              );
             });
         }
       },
       formatInput() {
-        user.value.Name = user.value.Name ?? auxiliar.formatOnlyChars(user.value.Name);
-        user.value.Document = user.value.Document ?? auxiliar.formatToDoc(user.value.Document);
-        user.value.Phone = user.value.Phone ?? auxiliar.formatToPhone(user.value.Phone);
-        user.value.ZipCode = user.value.ZipCode ?? auxiliar.formatOnlyCharsAndNumbers(user.value.ZipCode);
-        user.value.Country = user.value.Country ?? auxiliar.formatOnlyChars(user.value.Country);
-        user.value.Address = user.value.Address ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.Address);
-        user.value.ComplementAddress = user.value.ComplementAddress ?? auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.ComplementAddress);
-
+        user.value.Name =
+          user.value.Name ?? auxiliar.formatOnlyChars(user.value.Name);
+        user.value.Document =
+          user.value.Document ?? auxiliar.formatToDoc(user.value.Document);
+        user.value.Phone =
+          user.value.Phone ?? auxiliar.formatToPhone(user.value.Phone);
+        user.value.ZipCode =
+          user.value.ZipCode ??
+          auxiliar.formatOnlyCharsAndNumbers(user.value.ZipCode);
+        user.value.Country =
+          user.value.Country ?? auxiliar.formatOnlyChars(user.value.Country);
+        user.value.Address =
+          user.value.Address ??
+          auxiliar.formatOnlyCharsNumbersAndWhiteSpace(user.value.Address);
+        user.value.ComplementAddress =
+          user.value.ComplementAddress ??
+          auxiliar.formatOnlyCharsNumbersAndWhiteSpace(
+            user.value.ComplementAddress
+          );
       },
       clearErrors() {
         error.value.Name = "";
@@ -176,7 +264,8 @@ export default {
       },
       validateBirthday() {
         const now =
-          new Date().getFullYear() - new Date(user.value.Birthday).getFullYear();
+          new Date().getFullYear() -
+          new Date(user.value.Birthday).getFullYear();
         if (user.value.Birthday == null) {
           error.value.Birthday = "Campo obrigatório.\n";
         } else if (now > 100) {
@@ -189,13 +278,11 @@ export default {
         }
       },
       validateDocument() {
-
         if (user.value.Document.length == 0) {
           error.value.Document = "Campo obrigatório.\n";
-        } else if (
-          auxiliar.validateDocCharMatches(user.value.Document) > 1
-        ) {
-          error.value.Document = "Preencha corretamente o campo com um CPF válido.\n";
+        } else if (auxiliar.validateDocCharMatches(user.value.Document) > 1) {
+          error.value.Document =
+            "Preencha corretamente o campo com um CPF válido.\n";
         } else if (
           user.value.Document.length > 0 &&
           user.value.Document.length < 13 &&
@@ -215,7 +302,10 @@ export default {
       validatePhone() {
         if (user.value.Phone.length == 0) {
           error.value.Phone = "Campo obrigatório.\n";
-        } else if (user.value.Phone.length > 0 && user.value.Phone.length < 14) {
+        } else if (
+          user.value.Phone.length > 0 &&
+          user.value.Phone.length < 14
+        ) {
           error.value.Phone =
             "Preencha corretamente o campo com seu Telefone/Celular.\n";
         } else {
@@ -304,7 +394,7 @@ export default {
         user.value.Address = data.address;
         user.value.Document = data.document;
         user.value.ComplementAddress = data.complementAddress;
-      }
+      },
     });
 
     onMounted(() => {
@@ -314,8 +404,8 @@ export default {
         })
         .catch((ex) => {
           console.table(ex.data);
-        })
-    })
+        });
+    });
     watch(user.value, (newV, oldV) => {
       methods.formatInput();
       methods.canEdit();

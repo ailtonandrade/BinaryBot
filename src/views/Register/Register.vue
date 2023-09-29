@@ -36,7 +36,7 @@
                   @change="validateBirthday()" />
                 <span class="textError">{{ error.Birthday }}</span>
               </div>
-              <div class="mb-6">
+              <div class="mb-6" style="display:none">
                 <label for="document" class="form-label">CPF:</label>
                 <input type="text" class="form-control" id="document" v-model="acc.Document" :maxlength="14"
                   @change="validateDocument()" />
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { ref, watch, reactive, toRefs } from "vue";
+import { ref, inject, watch, reactive, toRefs } from "vue";
 import AccountService from "../../services/AccountService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -115,6 +115,7 @@ export default {
   setup() {
     const title = ref("Cadastro");
     const description = ref("Registrando uma nova conta");
+    const _addMessageBox = inject("addMessageBox");
     const router = useRouter();
     const acc = ref({
       Name: "",
@@ -150,7 +151,13 @@ export default {
         if (methods.canRegister()) {
           AccountService.register(acc.value)
             .then(() => {
-              alert("Registro efetuado com sucesso.");
+              _addMessageBox(
+                "Ok...",
+                "Registro efetuado com sucesso.",
+                null,
+                "success",
+                null
+              );
               router.push("/");
             })
             .catch((err) => {
@@ -326,7 +333,7 @@ export default {
         if (
           error.value.Name?.trim() == "" &&
           error.value.UserName?.trim() == "" &&
-          error.value.Document?.trim() == "" &&
+          //error.value.Document?.trim() == "" &&
           error.value.Email?.trim() == "" &&
           error.value.Phone?.trim() == "" &&
           error.value.Birthday?.trim() == "" &&
@@ -334,7 +341,7 @@ export default {
           error.value.ConfirmPassword?.trim() == "" &&
           acc.value.Name?.trim() != "" &&
           acc.value.UserName?.trim() != "" &&
-          acc.value.Document?.trim() != "" &&
+          //acc.value.Document?.trim() != "" &&
           acc.value.Email?.trim() != "" &&
           acc.value.Phone?.trim() != "" &&
           acc.value.Birthday?.trim() != "" &&

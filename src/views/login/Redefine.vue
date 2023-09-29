@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, watch, reactive, toRefs } from "vue";
+import { ref, inject, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import AccountService from "../../services/AccountService";
 import { useRouter } from "vue-router";
@@ -47,12 +47,19 @@ export default {
       UrlMatch: "",
     });
     const router = useRouter();
+    const _addMessageBox = inject("addMessageBox");
     const methods = reactive({
       register() {
         if (methods.canRegister()) {
           AccountService.redefine(acc.value)
             .then(() => {
-              alert("Redefinição efetuada com sucesso.");
+              _addMessageBox(
+                "Ok...",
+                "Redefinição efetuada com sucesso.",
+                null,
+                "success",
+                null
+              );
               router.push("/");
             })
             .catch((err) => {

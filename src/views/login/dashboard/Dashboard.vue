@@ -45,7 +45,6 @@ export default defineComponent({
     //modal box
     const _showModalBox = inject("showModalBox");
     //message box
-    const _listMessageBox = inject("listMessageBox");
     const _addMessageBox = inject("addMessageBox");
     const _actionMessageBox = inject("actionMessageBox");
     const handleActionMessageBox = computed(() => {
@@ -68,11 +67,11 @@ export default defineComponent({
       AuthService.getPerfil()
         .then((response) => {
           if (response?.data) {
-            userData.value = response.data.perfils[0].name;
+            userData.value = response.data.perfils[0].perfilType.description;
           }
         })
         .catch((error) => {
-          alert(error);
+          console.error(error);
         });
       if (localStorage.getItem("confirmedEmail") === "false") {
         _addMessageBox(

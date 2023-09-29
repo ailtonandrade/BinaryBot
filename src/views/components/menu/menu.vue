@@ -1,18 +1,21 @@
 <template>
-  <nav class="navbar-dark bg-dark">
-    <div class="container">
+  <div class="menu">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-6" @click="redirectToHome()">
-          <a class="navbar-brand" href="#">BinaryBot</a>
-        </div>
-        <div class="col-6 nav-btn-row">
-          <div class="btn-nav">
-            <button class="" @click="logout()">Sair</button>
+        <div class="col-12">
+          <div class="col-6" @click="redirectToHome()">
+            <a class="navbar-brand" href="#">BinaryBot</a>
+          </div>
+          <div class="col-6 nav-btn-row">
+            <div class="btn-nav">
+              <button class="" @click="logout()">
+                <font-awesome-icon icon="fa-solid fa-right-from-bracket" size="2x" />            </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
 <script>
 import { inject, toRefs, reactive } from "vue";
@@ -42,10 +45,30 @@ export default {
 };
 </script>
 <style scoped>
-nav {
-  width: 100vw;
-}
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+@import "../../../styles/commom.css";
 
+.menu{
+  display: flex;
+  flex-direction: row;
+  background-color: #292929;
+}
+.menu a{
+  color:white;
+}
+.menu button{
+  border-radius: 10px;
+  padding: 5px;
+  border-style: none;
+  background-color: transparent;
+  color:white;
+  transition: 0.2s;
+}
+.menu button:hover{
+  border-style: none;
+  background-color: rgb(78, 78, 78);
+  color:white;
+}
 button:hover {
   border-color: white;
 }

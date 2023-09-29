@@ -1,9 +1,15 @@
 <template>
+  <div @click="closeModal()" class="modal-box-back"/>
   <div class="body justify-center modal-box-content">
     <div class="col-12">
-      <div class="flex col-12 align-top flex-space-between">
-        <h1 class="title">{{ title }}</h1>
-        <button @click="closeModal()" class="btn-close">X</button>
+      <div class="flex-row col-12">
+        <div class="flex col-10 align-center flex-start">
+          <img v-if="icon != null" class="icon-modal" :src="getIcon()" :alt="title"/>
+          <h1 v-if="title != null" class="title">{{ title }}</h1>
+        </div>
+        <div :class="icon != null ? 'col-2': 'col-12'" class="flex align-center flex-center">
+          <button @click="closeModal()" class="btn-close">X</button>
+        </div>
       </div>
       <hr />
       <div class="flex-row">
@@ -14,10 +20,10 @@
         </div>
       </div>
       <hr />
-      <div class="flex-row">
+      <div v-if="action" class="flex-row">
         <div class="col-12 flex flex-end">
           <button class="btn-action-confirm" @click="toAction()">
-            {{ description }}
+            {{ action }}
           </button>
         </div>
       </div>
@@ -25,12 +31,12 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, toRefs } from "vue";
-
+import { defineComponent, reactive, toRefs, ref} from "vue";
 export default defineComponent({
   emits: ["closeModal"],
   props: {
     title: String,
+    icon: String,
     message: String,
     action: String,
     description: String,
@@ -43,6 +49,10 @@ export default defineComponent({
       toAction() {
         console.log("ação modal box = " + props.action);
       },
+      getIcon() {
+        console.log(props.icon);
+        return require("@/assets/svg/"+props.icon+".svg");
+    }
     });
     return {
       ...toRefs(methods),
@@ -53,8 +63,25 @@ export default defineComponent({
 </script>
 <style scoped>
 .body {
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 365px;
   background-color: rgb(240, 240, 240);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-box-back {
+  height:100vh;
+  width:100vw;
+  background-color: black;
+  opacity: 0.7;
+}
+.icon-modal {
+  margin: 5px;
+  height: 30px;
 }
 .title {
   font-size: x-large;
@@ -63,11 +90,11 @@ export default defineComponent({
   font-size: large;
 }
 .modal-box-content {
-  min-height: 35vh;
+  animation: slideDown 0.3s ease;
   width: 80%;
   min-width: 150px;
   max-width: 450px;
-  padding-top: 20px;
+  padding-top: 5px;
 }
 /* btn close */
 .btn-close {
@@ -128,6 +155,15 @@ export default defineComponent({
 }
 .btn-action {
   padding-top: 20px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>
 

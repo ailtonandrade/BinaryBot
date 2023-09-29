@@ -1,12 +1,12 @@
 <template>
   <div v-for="(m, index) in listMessageBox" :key="index">
-    <div class="container modal-box-content p-3" :class="m.modalBoxClass">
+    <div class="container modal-box-content p-1" :class="m.modalBoxClass">
       <div class="flex-row justify-center col-12">
-        <div class="col-10">
+        <div class="col-9">
           <span class="modal-box-title">{{ m.title }} - </span>
           <span class="modal-box-message">{{ m.message }}</span>
         </div>
-        <div class="modal-box-close col-2">
+        <div class="align-center modal-box-close col-3">
           <button @click="closeMessageBox(index)" class="btn-close">X</button>
         </div>
       </div>
@@ -51,6 +51,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .modal-box-content {
+  width:80%;
   animation: slideDown 0.3s ease;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -77,6 +78,8 @@ onMounted(() => {
   justify-content: flex-end;
 }
 .btn-close {
+  height: 30px;
+  width: 30px;
   transition: 0.5s;
   outline: none;
 }
@@ -87,8 +90,6 @@ onMounted(() => {
   opacity: 0.2;
 }
 .modal-box-close button {
-  height: 30px;
-  width: 30px;
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

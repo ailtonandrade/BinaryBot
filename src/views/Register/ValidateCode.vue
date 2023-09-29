@@ -22,32 +22,74 @@
                   <h4 class="form-label">
                     Digite o código que acabou de receber por email
                   </h4>
-                  <span>O código de validação tem uma expiração de uma hora, a
+                  <span
+                    >O código de validação tem uma expiração de uma hora, a
                     partir do momento em que recebeu este email. caso necessite
-                    podemos <a href="#" @click="reSendCode()">enviar um novo código.</a>
+                    podemos
+                    <a href="#" @click="reSendCode()">enviar um novo código.</a>
                   </span>
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
-                  <input type="text" class="form-control card-digit" id="digit-1" v-model="acc.CodeI" @click="() => {
-                      acc.CodeI = '';
-                    }
-                    " @keyup="validateCode(1)" />
-                  <input type="text" class="form-control card-digit" id="digit-2" v-model="acc.CodeII" @click="() => {
-                      acc.CodeII = '';
-                    }
-                    " @keyup="validateCode(2)" />
-                  <input type="text" class="form-control card-digit" id="digit-3" v-model="acc.CodeIII" @click="() => {
-                      acc.CodeIII = '';
-                    }
-                    " @keyup="validateCode(3)" />
-                  <input type="text" class="form-control card-digit" id="digit-4" v-model="acc.CodeIV" @click="() => {
-                      acc.CodeIV = '';
-                    }
-                    " @keyup="validateCode(4)" />
-                  <input type="text" class="form-control card-digit" id="digit-5" v-model="acc.CodeV" @click="() => {
-                      acc.CodeV = '';
-                    }
-                    " @keyup="validateCode(5)" />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-1"
+                    v-model="acc.CodeI"
+                    @click="
+                      () => {
+                        acc.CodeI = '';
+                      }
+                    "
+                    @keyup="validateCode(1)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-2"
+                    v-model="acc.CodeII"
+                    @click="
+                      () => {
+                        acc.CodeII = '';
+                      }
+                    "
+                    @keyup="validateCode(2)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-3"
+                    v-model="acc.CodeIII"
+                    @click="
+                      () => {
+                        acc.CodeIII = '';
+                      }
+                    "
+                    @keyup="validateCode(3)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-4"
+                    v-model="acc.CodeIV"
+                    @click="
+                      () => {
+                        acc.CodeIV = '';
+                      }
+                    "
+                    @keyup="validateCode(4)"
+                  />
+                  <input
+                    type="text"
+                    class="form-control card-digit"
+                    id="digit-5"
+                    v-model="acc.CodeV"
+                    @click="
+                      () => {
+                        acc.CodeV = '';
+                      }
+                    "
+                    @keyup="validateCode(5)"
+                  />
                 </div>
                 <div class="mb-6 d-flex flex-row justify-content-center">
                   <div class="box-error">
@@ -55,8 +97,13 @@
                   </div>
                 </div>
                 <div class="mb-6 mt-4 d-flex justify-content-center">
-                  <button id="send-validation" type="button" class="btn btn-primary" @click="validate()"
-                    :disabled="!canValidate">
+                  <button
+                    id="send-validation"
+                    type="button"
+                    class="btn btn-primary"
+                    @click="validate()"
+                    :disabled="!canValidate"
+                  >
                     Validar
                   </button>
                 </div>
@@ -70,7 +117,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch, reactive, toRefs } from "vue";
+import { onMounted, inject, ref, watch, reactive, toRefs } from "vue";
 import AuthService from "../../services/AuthService";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
@@ -81,6 +128,7 @@ export default {
     const description = ref("Digite o código para continuar.");
     const router = useRouter();
     const canValidate = ref(false);
+    const _addMessageBox = inject("addMessageBox");
     const acc = ref({
       CodeI: "",
       CodeII: "",
@@ -101,7 +149,13 @@ export default {
           let obj = methods.buildValidateObj();
           AuthService.setValidate(obj)
             .then(() => {
-              alert("Validação realizada com sucesso.");
+              _addMessageBox(
+                "Ok...",
+                "Validação realizada com sucesso.",
+                null,
+                "success",
+                null
+              );
               router.push("/");
             })
             .catch((response) => {
@@ -124,7 +178,7 @@ export default {
             acc.value.CodeIII +
             acc.value.CodeIV +
             acc.value.CodeV,
-          urlMatch: new URLSearchParams(window.location.search).get('hf'),
+          urlMatch: new URLSearchParams(window.location.search).get("hf"),
         };
         return validateObj;
       },
@@ -238,14 +292,14 @@ export default {
       reSendCode() {
         AuthService.reSendCode()
           .then((response) => {
-            alert(response.data);
+            _addMessageBox("Ok...", response.data, null, "success", null);
             router.push("/");
           })
           .catch((ex) => {
-            console.table(ex);
+            _addMessageBox("Ok...", ex.response, null, "warning", null);
             error.value.Code = ex.response;
           });
-      }
+      },
     });
 
     onMounted(() => {

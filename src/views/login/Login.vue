@@ -75,11 +75,13 @@ export default {
     const description = ref(
       "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
+    const _showModalBox = inject("showModalBox");
     const showPassword = ref(false);
     const objUser = ref({
       UserName: "admin",
       Password: "Tomeisa1204@",
     });
+    const _addMessageBox = inject("addMessageBox");
     const logging = ref(false);
     const router = useRouter();
     const methods = reactive({
@@ -99,7 +101,13 @@ export default {
             })
             .catch((error) => {
               if (error?.response?.data?.message) {
-                alert(error.response.data.message);
+                _showModalBox(
+                  "Oops...",
+                  "Usuário ou senha inválidos",
+                  "Descricao",
+                  "error",
+                  null
+                );
               }
             })
             .finally(() => {
@@ -120,7 +128,13 @@ export default {
               }
             })
             .catch((error) => {
-              alert(error);
+              _showModalBox(
+                  "Oops...",
+                  "Usuário ou senha inválidos",
+                  "Descricao",
+                  "error",
+                  null
+                );
             });
         }
       },

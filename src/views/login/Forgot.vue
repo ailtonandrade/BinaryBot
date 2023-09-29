@@ -19,8 +19,9 @@
           placeholder="usuari011011 ou seu@email.com" />
       </div>
       <div class="mb-3 d-flex justify-content-center">
-        <button type="button" :disabled="objUser.input.length < 5
-          " class="btn btn-primary" @click="send()">
+        <button 
+        type="button" 
+        class="btn btn-primary" @click="send()">
           Enviar
         </button>
       </div>
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import { ref, watch, reactive, toRefs } from "vue";
+import { ref, watch, reactive, toRefs, inject } from "vue";
 import AuthService from "../../services/AuthService";
 import AccountService from "../../services/AccountService";
 import { useRouter } from "vue-router";
@@ -44,18 +45,31 @@ export default {
       input: "",
     });
     const router = useRouter();
+    const _showModalBox = inject("showModalBox");
+    const _addMessageBox = inject("addMessageBox");
     const methods = reactive({
       async send() {
         if (!objUser.value.input) {
-          alert("Por favor, preencha o campo para prosseguir.");
+          _addMessageBox(
+          "Eii...",
+          "Por favor, preencha o campo para prosseguir.",
+          null,
+          "warning",
+          null
+        );
         } else {
           AccountService.rescuePass(objUser.value)
             .then((response) => {
               methods.responseData(response);
             })
             .catch((error) => {
-              console.log(error);
-              alert(error.response.data);
+              _addMessageBox(
+                "Oops...",
+                error.response.data,
+                null,
+                "warning",
+                null
+              );
             })
             .finally(() => {
               objUser.value.input = "";
@@ -64,7 +78,13 @@ export default {
       },
       responseData(response) {
         if (response.status == 200) {
-          alert("Um email foi enviado para que consiga recuperar a sua conta.");
+          _addMessageBox(
+                "Oops...",
+                "Um email foi enviado para que consiga recuperar a sua conta.",
+                null,
+                "success",
+                null
+              );
           router.push("/");
         }
       },

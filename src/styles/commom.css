@@ -68,6 +68,21 @@
   background-color: rgb(190, 142, 18);
   color: rgb(39, 28, 2);
 }
+
+.success {
+  background-color: rgb(45, 207, 159);
+  color: rgb(75, 54, 0);
+}
+
+.success button {
+  background-color: rgb(39, 28, 2);
+  color: rgb(27, 151, 130);
+}
+
+.success button:active {
+  background-color: rgb(27, 151, 130);
+  color: rgb(39, 28, 2);
+}
 .message-box {
   position: relative;
   color:red;

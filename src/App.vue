@@ -1,13 +1,13 @@
 <template>
   <main>
     <Menu v-if="isLoggedIn" />
-    <MessageBox
+      <MessageBox
       class="message-box"
       v-if="_listMessageBox.length > 0"
       :listMessageBox="_listMessageBox"
       @action="actionMessageBox($event)"
       @closeMessageBox="closeMessageBox()"
-    />
+      />
     <div class="router-view">
       <router-view> </router-view>
     </div>
@@ -15,6 +15,7 @@
       v-if="_showModalBox"
       @closeModal="closeModalBox()"
       :title="_dataModalBox.title"
+      :icon="_dataModalBox.icon"
       :message="_dataModalBox.message"
       :description="_dataModalBox.description"
       :action="_dataModalBox.action"
@@ -30,6 +31,7 @@ import {
   reactive,
   ref,
   toRefs,
+  inject, 
   onMounted,
 } from "vue";
 import ModalBox from "./views/components/modalBox.vue";
@@ -59,11 +61,12 @@ export default {
       closeModalBox() {
         _showModalBox.value = false;
       },
-      showModalBox(title, message, action, description) {
+      showModalBox(title, message, description, icon , action ) {
         _dataModalBox.value.title = title;
         _dataModalBox.value.message = message;
-        _dataModalBox.value.action = action;
         _dataModalBox.value.description = description;
+        _dataModalBox.value.action = action;
+        _dataModalBox.value.icon = icon;
         _showModalBox.value = true;
       },
       addMessageBox(title, message, btnText, modalBoxClass, funcEmit) {
@@ -74,6 +77,9 @@ export default {
           modalBoxClass: modalBoxClass,
           funcEmit: funcEmit,
         });
+        setTimeout(() => {
+          _listMessageBox.value.pop();
+      }, 3000);
       },
       clearMessageBox() {
         _listMessageBox.value = [];
@@ -84,6 +90,7 @@ export default {
       actionMessageBox(event) {
         _actionMessageBox.value = event;
       },
+      
       async requestAccess() {
         const res = await AuthService.getValidateCurrent();
         if (res.statusCode == 100 || res.statusCode == 401) {
@@ -95,6 +102,7 @@ export default {
           }
         }
       },
+      
     });
 
     onMounted(async () => {
@@ -129,6 +137,7 @@ export default {
 };
 </script>
 <style scoped>
+@import url("https://kit.fontawesome.com/6ae4d69823.js");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
 
@@ -139,11 +148,7 @@ export default {
   transition: filter 300ms;
 }
 .modal-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 365px;
+
 }
 .message-box {
   position: fixed;
