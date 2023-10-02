@@ -1,26 +1,16 @@
 <template>
   <main>
     <Menu class="menu" v-if="isLoggedIn" />
-      <MessageBox
-      class="message-box"
-      v-if="_listMessageBox.length > 0"
-      :listMessageBox="_listMessageBox"
-      @action="actionMessageBox($event)"
-      @closeMessageBox="closeMessageBox()"
-      />
-    <div class="router-view">
-      <router-view> </router-view>
+    <div class="relative-container">
+      <div class="router-view">
+        <router-view></router-view>
+      </div>
+      <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
+        @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
     </div>
-    <ModalBox
-      v-if="_showModalBox"
-      @closeModal="closeModalBox()"
-      :title="_dataModalBox.title"
-      :icon="_dataModalBox.icon"
-      :message="_dataModalBox.message"
-      :description="_dataModalBox.description"
-      :action="_dataModalBox.action"
-      class="modal-box"
-    />
+    <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
+      :message="_dataModalBox.message" :description="_dataModalBox.description" :action="_dataModalBox.action"
+      class="modal-box" />
   </main>
 </template>
 <script>
@@ -31,7 +21,7 @@ import {
   reactive,
   ref,
   toRefs,
-  inject, 
+  inject,
   onMounted,
 } from "vue";
 import ModalBox from "./views/components/modalBox.vue";
@@ -46,6 +36,7 @@ export default {
   setup() {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
+    const isDarkMode = ref(false);
     const router = useRouter();
     const _dataModalBox = ref({
       title: "",
@@ -61,7 +52,7 @@ export default {
       closeModalBox() {
         _showModalBox.value = false;
       },
-      showModalBox(title, message, description, icon , action ) {
+      showModalBox(title, message, description, icon, action) {
         _dataModalBox.value.title = title;
         _dataModalBox.value.message = message;
         _dataModalBox.value.description = description;
@@ -79,7 +70,7 @@ export default {
         });
         setTimeout(() => {
           _listMessageBox.value.pop();
-      }, 3000);
+        }, 3000);
       },
       clearMessageBox() {
         _listMessageBox.value = [];
@@ -90,23 +81,31 @@ export default {
       actionMessageBox(event) {
         _actionMessageBox.value = event;
       },
-      
+      handleDarkMode() {
+        if (isDarkMode.value) {
+          document.documentElement.classList.add('dark-mode');
+        } else {
+          document.documentElement.classList.add('white-mode');
+        }
+      },
+
       async requestAccess() {
         const res = await AuthService.getValidateCurrent();
         if (res.statusCode == 100 || res.statusCode == 401) {
           isLoggedIn.value = false;
         } else if (res.statusCode == 200) {
           isLoggedIn.value = true;
-          if(router.currentRoute.value.name.includes('home')){
+          if (router.currentRoute.value.name.includes('home')) {
             router.goTo("dashboard");
           }
         }
       },
-      
+
     });
 
     onMounted(async () => {
       await methods.requestAccess();
+      methods.handleDarkMode();
     });
 
     watch(router.currentRoute, async (oldValue, newValue) => {
@@ -125,8 +124,11 @@ export default {
     provide("actionMessageBox", _actionMessageBox.value);
     provide("listMessageBox", _listMessageBox.value);
     provide("showModalBox", methods.showModalBox);
+
+    provide("isDarkMode", isDarkMode.value);
     return {
       router,
+      isDarkMode,
       isLoggedIn,
       _dataModalBox,
       _showModalBox,
@@ -141,20 +143,22 @@ export default {
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+
+.relative-container {
+  position: relative;
 }
-.message-box {
-  position: fixed;
-  z-index: 1;
-}
+
 .router-view {
   position: absolute;
+  padding-top: 50px;
+  transform: translateY(-100px);
   width: 100%;
-  top: 60px;
-  z-index: -1;
+  z-index: -3;
+  background-color: var(--white-mode-primary);
+}
+
+.message-box {
+  position: absolute;
+  z-index: 2;
 }
 </style>

@@ -1,66 +1,81 @@
 <template>
-  <div class="container">
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
-    <form>
-      <div class="mb-3">
-        <label for="usuario" class="form-label">Usuário:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          v-model="objUser.UserName"
-          placeholder="usuari011011"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Senha:</label>
-        <div style="display: flex" class="form-control">
-          <input
-            style="border-style: none; width: 100%"
-            :type="showPassword ? 'text' : 'password'"
-            id="password"
-            v-model="objUser.Password"
-            placeholder="p@ssw0rd"
-          />
-          <button
-            @click.prevent="showPassword = !showPassword"
-            class="showPassword card"
-          >
-            {{ showPassword ? "#" : "@" }}
-          </button>
+  <div class="container-fluid">
+    <div class="row vh-100">
+      <div class="col-lg-6 col-md-6 col-12 p-0">
+        <div class="d-flex justify-center align-center b-shadow-2 decoration-primary h-100">
+          <div class="col-12">
+            <div class="d-flex justify-center mb-5 mt-3">
+              <h1>Binary<span class="secondary b-radius-10 p-1 b-shadow-1">Bot</span></h1>
+            </div>
+            <div class="col-12 text-center">
+              <h1>{{ title }}</h1>
+              <p>{{ description }}</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="mb-3 d-flex justify-content-center">
-        <button
-          type="button"
-          :disabled="
-            objUser.UserName.length < 5 ||
-            objUser.Password.length <= 8 ||
-            logging
-          "
-          class="btn btn-primary"
-          @click="login()"
-        >
-          Entrar
-        </button>
-      </div>
-      <div class="d-flex flex-column align-items-center justify-content-center">
-        <div class="mb-3">
-          <router-link to="/forgot-pass">
-            <u><a class="text-secondary">Esqueci a senha</a></u>
-          </router-link>
+      <div class="col-lg-6 col-md-6 col-12 d-flex justify-center align-center">
+      <div class="">
+
+          <form>
+            <div class="d-flex direction-column align-center mb-5">
+              <div class="col-12 mb-3 mt-3">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">Usuário:</label>
+                      <input type="text" id="name" class="input-text" v-model="objUser.UserName"
+                        placeholder="usuari011011" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-control">
+                  <div class="d-flex align-center justify-center">
+                    <div class="col-10">
+                      <label for="password" class="form-label-text">Senha:</label>
+                      <input :type="showPassword ? 'text' : 'password'" id="password" class="input-text"
+                        v-model="objUser.Password" placeholder="p@ssw0rd" />
+                    </div>
+                    <div class="col-2 d-flex justify-center">
+                      <button @click.prevent="showPassword = !showPassword" class="showHide">
+                        {{ showPassword ? "#" : "@" }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="col-12">
+            <div class="d-flex direction-column justify-center align-center">
+              <button type="button" :disabled="objUser.UserName.length < 5 ||
+                objUser.Password.length <= 8 ||
+                logging
+                " class="col-lg-8 col-md-8 col-sm-12 mb-3 btn decoration-primary b-radius-10 p-1 b-shadow-1"
+                @click="login()">
+                Entrar
+              </button>
+              <button type="button"
+                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn decoration-secondary b-radius-10 p-1 b-shadow-1">
+                <router-link to="/forgot-pass">
+                  Esqueci a senha
+                </router-link>
+              </button>
+
+              <label class="p-1" for="">Ainda não tem uma conta ? Realize um</label>
+              <router-link to="/register">
+                <u><a><b>novo cadastro</b></a></u>
+              </router-link>
+            </div>
+          </div>
+
         </div>
-        <div class="mb-3">
-          <label class="pr-1" for=""
-            >Ainda não tem uma conta ? Realize um</label
-          >
-          <router-link to="/register">
-            <a>Novo cadastro</a>
-          </router-link>
-        </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -108,6 +123,14 @@ export default {
                   "fa-solid fa-warning",
                   null
                 );
+              } else {
+                _showModalBox(
+                  "Oops...",
+                  "Não foi possível realizar o login, tente novamente mais tarde.",
+                  "Descricao",
+                  "fa-solid fa-warning",
+                  null
+                );
               }
             })
             .finally(() => {
@@ -129,12 +152,12 @@ export default {
             })
             .catch((error) => {
               _showModalBox(
-                  "Oops...",
-                  "Usuário ou senha inválidos",
-                  "Descricao",
-                  "error",
-                  null
-                );
+                "Oops...",
+                "Usuário ou senha inválidos",
+                "Descricao",
+                "error",
+                null
+              );
             });
         }
       },
@@ -169,3 +192,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.logo-head {
+  /* border-bottom-right-radius: 30px; */
+  /* border-bottom-left-radius: 30px; */
+}
+</style>

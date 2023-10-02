@@ -50,9 +50,14 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+html body {
+  background-color: transparent !important;
+}
 .modal-box-content {
+  position: relative;
   width:80%;
-  animation: slideDown 0.3s ease;
+  top:-80px;
+  animation: opacityShow 0.6s ease;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   flex-direction: row;
@@ -95,13 +100,11 @@ onMounted(() => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes slideDown {
+@keyframes opacityShow {
   from {
-    transform: translateY(-10px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
     opacity: 1;
   }
 }

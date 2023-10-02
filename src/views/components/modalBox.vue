@@ -67,6 +67,7 @@ export default defineComponent({
   min-width: 365px;
   background-color: rgb(240, 240, 240);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.6s ease;
 }
 
 .modal-box-back {
@@ -98,7 +99,7 @@ export default defineComponent({
   height: 25px;
   width: 25px;
   background-color: rgb(46, 46, 46);
-  color: wheat;
+  color: rgb(240, 240, 240);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -110,7 +111,7 @@ export default defineComponent({
 }
 .btn-close:active {
   opacity: 0.2;
-  background-color: wheat;
+  background-color: rgb(240, 240, 240);
   color: rgb(46, 46, 46);
 }
 /* btn action */

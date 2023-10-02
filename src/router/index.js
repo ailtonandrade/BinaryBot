@@ -41,8 +41,8 @@ const router = createRouter({
       component: Redefine,
     },
     {
-      name: "edit",
-      path: "/edit",
+      name: "edit-perfil",
+      path: "/edit-perfil",
       component: EditVue,
       meta: { requiresAuth: true },
     },

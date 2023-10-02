@@ -9,7 +9,7 @@
           <div class="btn-nav">
             <button class="p-1" @click="toggleMenu()">
               <font-awesome-icon
-                icon="fa-solid fa-bars"
+                :icon="!showMenu ? 'fa-solid fa-bars' : 'fa-solid fa-times'"
                 size="1x"
               />
             </button>
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <mainBar v-if="showMenu"></mainBar>
+  <mainBar :showHide="showMenu"></mainBar>
 </template>
 <script>
 import { inject, toRefs, reactive, ref } from "vue";
@@ -56,6 +56,7 @@ export default {
 
 .menu {
   background-color: #292929;
+  z-index: 1;
 }
 .brand-nav {
   display: flex;
@@ -70,6 +71,7 @@ export default {
   background-color: rgb(78, 78, 78);
 }
 .btn-nav button{
+  outline: none;
   border-radius: 10px;
   border-style: none;
   background-color: transparent;
@@ -79,6 +81,9 @@ export default {
 }
 .btn-nav button:hover {
   background-color: rgb(78, 78, 78);
+}
+.btn-nav:active {
+outline: none;
 }
 
 </style>

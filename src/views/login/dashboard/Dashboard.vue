@@ -81,6 +81,13 @@ export default defineComponent({
           "warning",
           "reconfirmEmail"
         );
+        _addMessageBox(
+          "Atenção",
+          "Confirmação de email não realizada",
+          "Reenviar email de confirmação",
+          "warning",
+          "reconfirmEmail"
+        );
       }
     });
 
@@ -97,3 +104,10 @@ export default defineComponent({
 });
 </script>
   
+<style scoped>
+@import "../../../styles/commom.css";
+
+html body{
+  background-color: var(--white-mode-primary);
+}
+</style>
