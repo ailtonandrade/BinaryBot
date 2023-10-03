@@ -2,12 +2,13 @@
   <main>
     <Menu class="menu" v-if="isLoggedIn" />
     <div class="relative-container">
-      <div class="router-view">
-        <router-view></router-view>
+      <div class="router-view" :class="isLoggedIn ? 'p-t-100' : 'p-0'">
+        <router-view>
+        </router-view>
       </div>
-      <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
-        @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
     </div>
+    <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
+      @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
     <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
       :message="_dataModalBox.message" :description="_dataModalBox.description" :action="_dataModalBox.action"
       class="modal-box" />
@@ -37,6 +38,7 @@ export default {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
     const isDarkMode = ref(false);
+    const showMainBar = ref(false);
     const router = useRouter();
     const _dataModalBox = ref({
       title: "",
@@ -68,9 +70,9 @@ export default {
           modalBoxClass: modalBoxClass,
           funcEmit: funcEmit,
         });
-        setTimeout(() => {
-          _listMessageBox.value.pop();
-        }, 3000);
+        // setTimeout(() => {
+        //   _listMessageBox.value.pop();
+        // }, 3000);
       },
       clearMessageBox() {
         _listMessageBox.value = [];
@@ -111,6 +113,8 @@ export default {
     watch(router.currentRoute, async (oldValue, newValue) => {
       if (oldValue != newValue) {
         try {
+          console.log(showMainBar.value)
+          showMainBar.value = false;
           await methods.requestAccess();
         } catch (err) {
           throw err;
@@ -125,11 +129,13 @@ export default {
     provide("listMessageBox", _listMessageBox.value);
     provide("showModalBox", methods.showModalBox);
 
+    provide("showMainBar", showMainBar);
     provide("isDarkMode", isDarkMode.value);
     return {
       router,
       isDarkMode,
       isLoggedIn,
+      showMainBar,
       _dataModalBox,
       _showModalBox,
       _listMessageBox,
@@ -138,27 +144,31 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 @import url("https://kit.fontawesome.com/6ae4d69823.js");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
 
 
-.relative-container {
-  position: relative;
+
+.message-box {
+}
+
+.menu {
+  position: fixed;
+  z-index: 10;
+}
+
+.main-bar {
+  position: fixed;
+  z-index: 9;
 }
 
 .router-view {
   position: absolute;
-  padding-top: 50px;
-  transform: translateY(-100px);
   width: 100%;
-  z-index: -3;
+  overflow-x: hidden;
   background-color: var(--white-mode-primary);
 }
 
-.message-box {
-  position: absolute;
-  z-index: 2;
-}
 </style>

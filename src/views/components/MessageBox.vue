@@ -55,13 +55,18 @@ html body {
 }
 .modal-box-content {
   position: relative;
+  top: 50px;
   width:80%;
-  top:-80px;
   animation: opacityShow 0.6s ease;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   flex-direction: row;
   align-items: center;
+  z-index: 20;
+}
+.modal-box-content:hover {
+  transform: translateX(2px);
+  transition: 0.3s ease;
 }
 .modal-box-title {
   font-weight: 600;
@@ -107,9 +112,5 @@ html body {
   to {
     opacity: 1;
   }
-}
-.modal-box-content:hover {
-  transform: translateX(2px);
-  transition: 0.3s ease;
 }
 </style>

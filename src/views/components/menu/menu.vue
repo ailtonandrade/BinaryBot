@@ -2,49 +2,57 @@
   <div class="menu p-10">
     <div class="container-fluid">
       <div class="flex-row">
-        <div class="brand-nav justify-start col-6" @click="redirectToHome()">
+        <div class="brand-nav justify-start col-4 btn-nav" @click="redirectToHome()">
+          <button v-if="router.currentRoute.value.name != 'dashboard'" class="p-1" @click="back()">
+            <font-awesome-icon icon="fa-solid fa-arrow-left" size="1x" />
+          </button>
+        </div>
+        <div class="brand-nav justify-center col-4" @click="redirectToHome()">
           <a class="p-1" href="#">BinaryBot</a>
         </div>
-        <div class="col-6 flex-row justify-content-end">
-          <div class="btn-nav">
-            <button class="p-1" @click="toggleMenu()">
-              <font-awesome-icon
-                :icon="!showMenu ? 'fa-solid fa-bars' : 'fa-solid fa-times'"
-                size="1x"
-              />
+        <div class="col-4 flex-row justify-content-end">
+          <div class="btn-nav" @click="toggleMenu()">
+            <button class="p-1">
+              <font-awesome-icon :icon="!showMenu ? 'fa-solid fa-bars' : 'fa-solid fa-times'" size="1x" />
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <mainBar :showHide="showMenu"></mainBar>
+  <mainBar :showHide="showMainBar"></mainBar>
 </template>
 <script>
-import { inject, toRefs, reactive, ref } from "vue";
+import { inject, toRefs, reactive, ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import MainBar from "./MainBar.vue";
 
 
 export default {
-  components:{
+  components: {
     MainBar
   },
   setup() {
     const router = useRouter();
-    const showMenu = ref(false);
+    console.log(router.currentRoute.value)
+    const showMainBar = inject("showMainBar", false);
     const methods = reactive({
       redirectToHome() {
+        showMainBar.value = false;
         router.goTo("dashboard");
       },
-      toggleMenu(){
-        showMenu.value = !showMenu.value;
+      toggleMenu() {
+        showMainBar.value = !showMainBar.value;
       },
+      back(){
+        router.back();
+      }
     });
+
 
     return {
       router,
-      showMenu,
+      showMainBar,
       ...toRefs(methods),
     };
   },
@@ -55,22 +63,27 @@ export default {
 @import "../../../styles/commom.css";
 
 .menu {
+  width: 100%;
   background-color: #292929;
-  z-index: 1;
+  box-shadow: 1px 1px 5px 2px rgb(78, 78, 78, 0.5);
 }
+
 .brand-nav {
   display: flex;
   align-items: center;
 }
+
 .brand-nav a {
   color: white;
   border-radius: 10px;
   transition: 0.2s;
 }
+
 .brand-nav a:hover {
   background-color: rgb(78, 78, 78);
 }
-.btn-nav button{
+
+.btn-nav button {
   outline: none;
   border-radius: 10px;
   border-style: none;
@@ -79,11 +92,12 @@ export default {
   color: white;
   cursor: pointer;
 }
+
 .btn-nav button:hover {
   background-color: rgb(78, 78, 78);
 }
-.btn-nav:active {
-outline: none;
-}
 
+.btn-nav:active {
+  outline: none;
+}
 </style>

@@ -55,12 +55,12 @@
               <button type="button" :disabled="objUser.UserName.length < 5 ||
                 objUser.Password.length <= 8 ||
                 logging
-                " class="col-lg-8 col-md-8 col-sm-12 mb-3 btn decoration-primary b-radius-10 p-1 b-shadow-1"
+                " class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-primary b-radius-10 p-1 b-shadow-1"
                 @click="login()">
                 Entrar
               </button>
               <button type="button"
-                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn decoration-secondary b-radius-10 p-1 b-shadow-1">
+                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-secondary b-radius-10 p-1 b-shadow-1">
                 <router-link to="/forgot-pass">
                   Esqueci a senha
                 </router-link>
@@ -196,5 +196,12 @@ export default {
 .logo-head {
   /* border-bottom-right-radius: 30px; */
   /* border-bottom-left-radius: 30px; */
+}
+.btn-login {
+  text-decoration: none;
+  color: var(--white-mode-secondary);
+}
+.btn-login:hover {
+  opacity: 0.9;
 }
 </style>

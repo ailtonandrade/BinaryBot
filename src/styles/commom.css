@@ -92,6 +92,9 @@ input {
 }
 
 /* PADDINGS */
+.p-t-100 {
+  padding-top: 100px;
+}
 .p-10 {
   padding: 10px;
 }
@@ -127,6 +130,12 @@ input {
 }
 
 /* DISPLAY POSITIONS */
+.p-fixed{
+  position: fixed;
+}
+.p-relative{
+  position: relative;
+}
 .x-hidden {
   overflow-x: hidden;
 }
@@ -183,7 +192,9 @@ input {
 .align-center {
   align-items: center;
 }
-
+.align-stretch{
+  align-items: stretch;
+}
 .text-center {
   text-align: center;
 }
@@ -260,7 +271,20 @@ body {
   background-color: var(--warning);
   color: var(--warning-active);
 }
+.danger {
+  background-color: var(--danger);
+  color: var(--white-mode-primary);
+}
 
+.danger button {
+  background-color: var(--danger-active);
+  color: var(--danger);
+}
+
+.danger button:active {
+  background-color: var(--danger);
+  color: var(--danger-active);
+}
 .success {
   background-color: var(--success);
   color: var(--success-active);

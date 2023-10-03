@@ -5,9 +5,9 @@
         <div class="row">
           <div class="col-md-3 p-0 m-0 col-lg-3 col-6 order-md-2 order-2">
             <div class="d-flex direction-column align-start main-bar-content">
-              <div class="main-bar-btn">
+              <div class="main-bar-btn" @click="logout()">
                 <span class="main-bar-text">Sair</span>
-                <button class=" main-bar-btn-icon" @click="logout()">
+                <button class=" main-bar-btn-icon" >
                   <font-awesome-icon class="" icon="fa-solid fa-sign-out" size="1x" />
                 </button>
               </div>
@@ -60,7 +60,6 @@ export default {
 @import "../../../styles/commom.css";
 
 .main-bar {
-  position: relative;
   opacity: 0;
   width: 100%;
   transform: translateY(-500%);
@@ -69,7 +68,7 @@ export default {
 
 .main-bar.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(50px);
   transition: transform 0.7s ease, opacity 0.2s ease;
 }
 
