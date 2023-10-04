@@ -3,7 +3,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12">
       <form>
 
-        <!-- Nome COmpleto -->
+        <!-- Nome Completo -->
         <div class="col-sm-12 mb-1">
           <div class="form-control">
             <div class="d-flex">
@@ -25,7 +25,7 @@
               <div class="d-flex">
                 <div class="col-12">
                   <label for="usuario" class="form-label-text">Data de Nascimento:</label>
-                  <input type="date" id="name" class="input-text" v-model="user.Birthday" @change="validateBirthday()"
+                  <input type="date" id="birthday" class="input-text" v-model="user.Birthday" @change="validateBirthday()"
                     placeholder="01/01/1970" />
                 </div>
                 <div class="box-error">
@@ -40,7 +40,7 @@
               <div class="d-flex">
                 <div class="col-12">
                   <label for="usuario" class="form-label-text">Documento:</label>
-                  <input type="text" id="name" class="input-text" v-model="user.Document" @change="validateDocument()"
+                  <input type="text" id="Document" class="input-text" v-model="user.Document" @change="validateDocument()"
                     placeholder="01/01/1970" />
                 </div>
                 <div class="box-error">
@@ -57,7 +57,7 @@
               <div class="d-flex">
                 <div class="col-12">
                   <label for="usuario" class="form-label-text">Telefone/Celular:</label>
-                  <input type="text" id="name" class="input-text" v-model="user.Phone" @change="validatePhone()"
+                  <input type="text" id="Phone" class="input-text" v-model="user.Phone" @change="validatePhone()"
                     placeholder="01/01/1970" />
                 </div>
                 <div class="box-error">
@@ -94,8 +94,8 @@
               <div class="d-flex">
                 <div class="col-12">
                   <label for="usuario" class="form-label-text">CEP:</label>
-                  <input type="text" id="name" class="input-text" v-model="user.ZipCode" @change="validateZipCode()"
-                    placeholder="01/01/1970" />
+                  <input type="text" id="ZipCode" class="input-text" v-model="user.ZipCode" @change="validateZipCode()"
+                    placeholder="23230231" />
                 </div>
                 <div class="box-error">
                   <span class="textError">{{ error.ZipCode }}</span>
@@ -109,8 +109,8 @@
               <div class="d-flex">
                 <div class="col-12">
                   <label for="usuario" class="form-label-text">Complemento:</label>
-                  <input type="text" id="name" class="input-text" v-model="user.ComplementAddress"
-                    placeholder="01/01/1970" />
+                  <input type="text" id="Complemento" class="input-text" v-model="user.ComplementAddress"
+                    placeholder="" />
                 </div>
                 <div class="box-error">
                   <span class="textError"></span>
@@ -125,7 +125,7 @@
             <div class="d-flex">
               <div class="col-12">
                 <label for="usuario" class="form-label-text">Endereço:</label>
-                <input type="text" id="name" class="input-text" v-model="user.Address" @change="validateAddress()"
+                <input type="text" id="Endereço" class="input-text" v-model="user.Address" @change="validateAddress()"
                   placeholder="01/01/1970" />
               </div>
               <div class="box-error">

@@ -34,7 +34,6 @@ export default {
   },
   setup() {
     const router = useRouter();
-    console.log(router.currentRoute.value)
     const showMainBar = inject("showMainBar", false);
     const methods = reactive({
       redirectToHome() {
@@ -64,7 +63,7 @@ export default {
 
 .menu {
   width: 100%;
-  background-color: #292929;
+  background-color: var(--white-mode-tertiary);
   box-shadow: 1px 1px 5px 2px rgb(78, 78, 78, 0.5);
 }
 
@@ -80,24 +79,8 @@ export default {
 }
 
 .brand-nav a:hover {
-  background-color: rgb(78, 78, 78);
+  background-color: var(--white-mode-secondary);
 }
 
-.btn-nav button {
-  outline: none;
-  border-radius: 10px;
-  border-style: none;
-  background-color: transparent;
-  transition: 0.2s;
-  color: white;
-  cursor: pointer;
-}
 
-.btn-nav button:hover {
-  background-color: rgb(78, 78, 78);
-}
-
-.btn-nav:active {
-  outline: none;
-}
 </style>

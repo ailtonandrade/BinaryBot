@@ -34,6 +34,7 @@ export default {
   props: ['showHide'],
   setup(props) {
     const router = useRouter();
+    const isLoggedIn = inject("isLoggedIn");
     const clearModalBox = inject("clearModalBox");
     const clearMessageBox = inject("clearMessageBox");
     const methods = reactive({
@@ -41,6 +42,7 @@ export default {
         localStorage.clear();
         clearModalBox();
         clearMessageBox();
+        isLoggedIn.value = false;
         router.goTo("home");
       },
       editPerfil() {

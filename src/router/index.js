@@ -3,6 +3,7 @@ import Login from "../views/login/Login.vue";
 import Forgot from "../views/login/Forgot.vue";
 import Redefine from "../views/login/Redefine.vue";
 import Dashboard from "../views/login/dashboard/Dashboard.vue";
+import NotFound from "../views/NotFound/NotFound.vue";
 import Register from "../views/Register/Register.vue";
 import ValidateCodeVue from "../views/Register/ValidateCode.vue";
 import EditVue from "../views/login/dashboard/Edit.vue";
@@ -46,6 +47,11 @@ const router = createRouter({
       component: EditVue,
       meta: { requiresAuth: true },
     },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "not-found",
+      component: NotFound,
+    }
   ],
 
 
@@ -66,6 +72,7 @@ router.goTo = (routeName, objectData) => {
 
 
 router.beforeEach((to, from, next) => {
+  console.log(to)
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Se a rota requer autenticação
     const token = localStorage.getItem('token'); // Recupere o token do localStorage

@@ -1,6 +1,10 @@
 <template>
   <main>
-    <Menu class="menu" v-if="isLoggedIn" />
+    <Menu v-if="isLoggedIn" class="menu"></Menu>
+    <div v-if="isLoggedIn" class="toggle-side-menu" :class="showSideMenu ? 'open' : ''">
+      <ToggleSideMenu v-if="isLoggedIn" />
+      <SideMenu v-if="isLoggedIn" :listMenu="_listSideMenu" class="side-menu" />
+    </div>
     <div class="relative-container">
       <div class="router-view" :class="isLoggedIn ? 'p-t-100' : 'p-0'">
         <router-view>
@@ -28,12 +32,14 @@ import {
 import ModalBox from "./views/components/modalBox.vue";
 import MessageBox from "./views/components/MessageBox.vue";
 import Menu from "./views/components/menu/menu.vue";
+import ToggleSideMenu from "./views/components/SideMenu/components/ToggleSideMenu.vue";
+import SideMenu from "./views/components/SideMenu/SideMenu.vue";
 import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 
 export default {
   name: "App",
-  components: { Menu, ModalBox, MessageBox },
+  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu },
   setup() {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
@@ -49,6 +55,9 @@ export default {
 
     const _listMessageBox = ref([]);
     const _actionMessageBox = ref();
+
+    const _listSideMenu = ref([]);
+    const showSideMenu = ref(false);
 
     const methods = reactive({
       closeModalBox() {
@@ -70,9 +79,9 @@ export default {
           modalBoxClass: modalBoxClass,
           funcEmit: funcEmit,
         });
-        // setTimeout(() => {
-        //   _listMessageBox.value.pop();
-        // }, 3000);
+        setTimeout(() => {
+          _listMessageBox.value.pop();
+        }, 3000);
       },
       clearMessageBox() {
         _listMessageBox.value = [];
@@ -92,15 +101,20 @@ export default {
       },
 
       async requestAccess() {
-        const res = await AuthService.getValidateCurrent();
-        if (res.statusCode == 100 || res.statusCode == 401) {
-          isLoggedIn.value = false;
-        } else if (res.statusCode == 200) {
-          isLoggedIn.value = true;
-          if (router.currentRoute.value.name.includes('home')) {
-            router.goTo("dashboard");
+        try {
+          const res = await AuthService.getValidateCurrent();
+          if (res.statusCode == 100 || res.statusCode == 401) {
+            isLoggedIn.value = false;
+          } else if (res.statusCode == 200 || res.isCompletedSuccessfully) {
+            _listSideMenu.value = res.result;
+            isLoggedIn.value = true;
+            if (router.currentRoute.value.name.includes('home')) {
+              router.goTo("dashboard");
+            }
           }
+        } catch (ex) {
         }
+
       },
 
     });
@@ -113,29 +127,32 @@ export default {
     watch(router.currentRoute, async (oldValue, newValue) => {
       if (oldValue != newValue) {
         try {
-          console.log(showMainBar.value)
           showMainBar.value = false;
+          showSideMenu.value = false;
           await methods.requestAccess();
         } catch (err) {
           throw err;
         }
       }
     });
-
+    
     provide("clearModalBox", methods.clearModalBox);
     provide("clearMessageBox", methods.clearMessageBox);
     provide("addMessageBox", methods.addMessageBox);
     provide("actionMessageBox", _actionMessageBox.value);
     provide("listMessageBox", _listMessageBox.value);
     provide("showModalBox", methods.showModalBox);
-
+    provide("showSideMenu", showSideMenu);
     provide("showMainBar", showMainBar);
+    provide("isLoggedIn", isLoggedIn);
     provide("isDarkMode", isDarkMode.value);
     return {
       router,
       isDarkMode,
       isLoggedIn,
       showMainBar,
+      showSideMenu,
+      _listSideMenu,
       _dataModalBox,
       _showModalBox,
       _listMessageBox,
@@ -149,12 +166,17 @@ export default {
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
 
-
-
-.message-box {
+.menu {
+  position: fixed;
+  z-index: 10;
 }
 
-.menu {
+.side-menu {
+  position: absolute;
+  z-index: 9;
+}
+
+.toggle-side-menu {
   position: fixed;
   z-index: 10;
 }
@@ -170,5 +192,4 @@ export default {
   overflow-x: hidden;
   background-color: var(--white-mode-primary);
 }
-
 </style>

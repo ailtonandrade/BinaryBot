@@ -192,7 +192,6 @@ export default {
         acc.value.CodeIV = "";
         acc.value.CodeV = "";
         canValidate.value = false;
-        console.log("não validado");
       },
       validateCode(index) {
         switch (index) {
