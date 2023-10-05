@@ -3,7 +3,6 @@ import Auxiliar from '../global/auxiliar';
 import http from './http';
 
 const baseUrl = 'auth';
-
 class AuthService {
   async login(data) {
     return http.post(baseUrl + "/login", await Auxiliar.getHash(data));
@@ -15,9 +14,9 @@ class AuthService {
     const searchParams = new URLSearchParams(window.location.search);
     return http.post(baseUrl + "/validate", { urlMatch: searchParams.get('hf') });
   }
-  async getValidateCurrent() {
+  async getValidateCurrent(route) {
     try {
-      const resp = await http.post(baseUrl + "/validate-current", { current: localStorage.getItem("token") })
+      const resp = await http.post(baseUrl + "/validate-current", { current: localStorage.getItem("token"), route: route })
       return resp.data;
     } catch (err) {
       throw err;

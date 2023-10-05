@@ -27,6 +27,10 @@ const router = createRouter({
       component: Register,
     },
     {
+      path: "/management/users",
+      component: Register,
+    },
+    {
       name: "validate",
       path: "/validate",
       component: ValidateCodeVue,

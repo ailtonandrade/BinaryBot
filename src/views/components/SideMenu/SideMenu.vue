@@ -56,10 +56,11 @@
         <div v-for="(subMenu, indexSub) in menu.subMenu" :key="indexSub">
           <div class="btn-side-submenu p-l-10 p-r-10 m-3 collapse-animation expand-animation"
             :class="{ 'drop': subMenu.isDropped }">
-            <li class="d-flex justify-center" :id="menu.name + subMenu.name" @click="action(subMenu, menu.name + '/' + subMenu.name)">
+            <li class="d-flex justify-center" :id="menu.name + subMenu.name"
+              @click="action(subMenu, menu.name + '/' + subMenu.name)">
               <button class="d-flex medium">
                 <font-awesome-icon class="d-flex justify-start toggle-side-icon"
-                  :icon="subMenu.icon ? 'fa-solid fa-' + subMenu.icon : ''"  />
+                  :icon="subMenu.icon ? 'fa-solid fa-' + subMenu.icon : ''" />
               </button>
             </li>
             <div>
@@ -96,13 +97,15 @@ export default {
     const _listMenu = ref();
     const methods = reactive({
       action(element, route) {
-        element.isDropped = !element.isDropped;
-        console.log(route);
+        if (route) {
+          methods.goToRoute(route)
+        } else {
+          element.isDropped = !element.isDropped;
+        }
       },
-      goToRoute(menu = '', subMenu = '', page = '') {
-
-        //console.log(route);
-        //router.push(route);
+      goToRoute(route) {
+        router.push("management/users");
+        //management/users/create-user
       }
     });
 

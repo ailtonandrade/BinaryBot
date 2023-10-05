@@ -102,15 +102,33 @@ export default {
 
       async requestAccess() {
         try {
-          const res = await AuthService.getValidateCurrent();
+          const res = await AuthService.getValidateCurrent(router.currentRoute.value.path);
+          console.log("res")
+          console.log(res)
           if (res.statusCode == 200 || res.isCompletedSuccessfully) {
             _listSideMenu.value = res.result;
             isLoggedIn.value = true;
-            if (router.currentRoute.value.name.includes('home')) {
+            console.log("req")
+            if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
               router.goTo("dashboard");
             }
           }
+          if (res.statusCode == 401 || (res.statusCode == 100 && !router.currentRoute.value.name?.includes('home'))) {
+            methods.clearMessageBox();
+            methods.clearModalBox();
+            isLoggedIn.value = false;
+            methods.showModalBox(
+              "Oops...",
+              "Usuário não autenticado. Realize novamente o login",
+              "Descricao",
+              "fa-solid fa-warning",
+              null
+            );
+            router.goTo("home");
+          }
         } catch (ex) {
+          console.log("ex")
+          console.log(ex)
           if (ex.response.status == 100 || ex.response.status == 401) {
             methods.clearMessageBox();
             methods.clearModalBox();
@@ -121,8 +139,8 @@ export default {
               "Descricao",
               "fa-solid fa-warning",
               null
-              );
-              router.goTo("home");
+            );
+            router.goTo("home");
           }
 
         }
@@ -147,7 +165,7 @@ export default {
         }
       }
     });
-    
+
     provide("clearModalBox", methods.clearModalBox);
     provide("clearMessageBox", methods.clearMessageBox);
     provide("addMessageBox", methods.addMessageBox);
