@@ -4,7 +4,7 @@
       <div class="col-lg-6 col-md-6 col-12 p-0">
         <div class="d-flex justify-center align-center b-shadow-2 decoration-primary h-100">
           <div class="col-12">
-            <div class="d-flex justify-center mb-5 mt-3">
+            <div class="d-flex justify-center mb-1 mt-3">
               <h1>Binary<span class="secondary b-radius-10 p-1 b-shadow-1">Bot</span></h1>
             </div>
             <div class="col-12 text-center">

@@ -15,7 +15,7 @@
           <a
             href="#"
             @click.prevent="funcEmit(m.funcEmit)"
-            class="modal-box-btn btn-close"
+            class="modal-box-btn"
             >{{ m.btnText }}</a
           >
         </div>
@@ -75,6 +75,9 @@ html body {
   font-weight: 200;
 }
 .modal-box-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   min-height: 15px;
   min-width: 55px;
   border-radius: 5px;
@@ -87,9 +90,10 @@ html body {
   display: flex;
   justify-content: flex-end;
 }
-.btn-close {
-  height: 30px;
-  width: 30px;
+.btn-close{
+  font-size: 7pt;
+  height: 20px;
+  width: 20px;
   transition: 0.5s;
   outline: none;
 }

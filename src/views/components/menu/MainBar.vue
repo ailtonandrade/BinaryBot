@@ -95,7 +95,6 @@ export default {
 .main-bar-btn {
   display: flex;
   width: 100%;
-  padding-right: 20px;
   background-color: transparent;
   justify-content: flex-end;
   align-items: center;
@@ -111,7 +110,8 @@ export default {
 }
 
 .main-bar-text {
-  padding-right: 20px;
+  font-size: medium;
+  padding-right: 10px;
   color: var(--white-mode-primary);
 }
 </style>

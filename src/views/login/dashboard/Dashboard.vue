@@ -81,13 +81,6 @@ export default defineComponent({
           "warning",
           "reconfirmEmail"
         );
-        _addMessageBox(
-          "Atenção",
-          "Confirmação de email não realizada",
-          "Reenviar email de confirmação",
-          "warning",
-          "reconfirmEmail"
-        );
       }
     });
 

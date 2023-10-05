@@ -103,9 +103,7 @@ export default {
       async requestAccess() {
         try {
           const res = await AuthService.getValidateCurrent();
-          if (res.statusCode == 100 || res.statusCode == 401) {
-            isLoggedIn.value = false;
-          } else if (res.statusCode == 200 || res.isCompletedSuccessfully) {
+          if (res.statusCode == 200 || res.isCompletedSuccessfully) {
             _listSideMenu.value = res.result;
             isLoggedIn.value = true;
             if (router.currentRoute.value.name.includes('home')) {
@@ -113,6 +111,20 @@ export default {
             }
           }
         } catch (ex) {
+          if (ex.response.status == 100 || ex.response.status == 401) {
+            methods.clearMessageBox();
+            methods.clearModalBox();
+            isLoggedIn.value = false;
+            methods.showModalBox(
+              "Oops...",
+              "Usuário não autenticado. Realize novamente o login",
+              "Descricao",
+              "fa-solid fa-warning",
+              null
+              );
+              router.goTo("home");
+          }
+
         }
 
       },
@@ -165,6 +177,7 @@ export default {
 @import url("https://kit.fontawesome.com/6ae4d69823.js");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import "./styles/commom.css";
+@import "./styles/sidebar.css";
 
 .menu {
   position: fixed;
