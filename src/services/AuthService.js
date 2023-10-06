@@ -24,7 +24,7 @@ class AuthService {
   }
   async getValidateCurrent(route) {
     try {
-      return await http.post(baseUrl + "/validate-current", { current: localStorage.getItem("token"), route: route })
+      return await http.post(baseUrl + "/validate-current", { current: localStorage.getItem("token"), route: route.path, requiresAuth: route.meta.requiresAuth })
     } catch (err) {
       throw err;
     };

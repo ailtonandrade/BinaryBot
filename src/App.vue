@@ -39,6 +39,7 @@ import SideMenu from "./views/components/SideMenu/SideMenu.vue";
 import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
+import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "App",
@@ -98,7 +99,7 @@ export default {
 
       async requestAccess() {
         try {
-          const res = await AuthService.getValidateCurrent(router.currentRoute.value.path);
+          const res = await AuthService.getValidateCurrent(router.currentRoute.value);
           if (res.statusCode == 200) {
             _listSideMenu.value = res.value.data;
             isLoggedIn.value = true;
@@ -120,7 +121,6 @@ export default {
             router.goTo("dashboard");
           }
           else if (res.statusCode == 401) {
-            console.log("caiu aqui")
             methods.clearMessageBox();
             methods.clearModalBox();
             isLoggedIn.value = false;
@@ -135,7 +135,6 @@ export default {
             router.goTo("home");
           }
         } catch (ex) {
-          console.log(ex)
           if (ex?.response?.status == 100 || ex?.response?.status == 401) {
             methods.clearMessageBox();
             methods.clearModalBox();
