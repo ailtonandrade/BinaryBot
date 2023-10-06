@@ -5,9 +5,14 @@
         <div class="row">
           <div class="col-md-3 p-0 m-0 col-lg-3 col-6 order-md-2 order-2">
             <div class="d-flex direction-column align-start main-bar-content">
+              <div class="main-bar-btn" @click="toggleDarkMode()">
+                <button class=" main-bar-btn-icon">
+                  <font-awesome-icon class="" icon="fa-solid fa-moon" size="1x" />
+                </button>
+              </div>
               <div class="main-bar-btn" @click="logout()">
                 <span class="main-bar-text">Sair</span>
-                <button class=" main-bar-btn-icon" >
+                <button class=" main-bar-btn-icon">
                   <font-awesome-icon class="" icon="fa-solid fa-sign-out" size="1x" />
                 </button>
               </div>
@@ -35,6 +40,7 @@ export default {
   setup(props) {
     const router = useRouter();
     const isLoggedIn = inject("isLoggedIn");
+    const isDarkMode = inject("isDarkMode");
     const clearModalBox = inject("clearModalBox");
     const clearMessageBox = inject("clearMessageBox");
     const methods = reactive({
@@ -47,11 +53,15 @@ export default {
       },
       editPerfil() {
         router.goTo("edit-perfil")
+      },
+      toggleDarkMode(){
+        isDarkMode.value = !isDarkMode.value
       }
     });
 
     return {
       router,
+      isDarkMode,
       ...toRefs(methods),
     };
   },

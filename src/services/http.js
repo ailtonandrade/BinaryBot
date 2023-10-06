@@ -5,7 +5,9 @@ const baseUrl = 'https://localhost:7079/';
 
 class Http {
 
-  async post(endpoint, data) {
+   async post(endpoint, data) {
+    var resp = null;
+  
     try {
       var response = await axios.post(baseUrl + endpoint, data, {
         headers: {
@@ -14,7 +16,8 @@ class Http {
         }
       })
 
-      return response;
+      resp = response.data;
+      return resp
     } catch (err) {
       throw err;
     }

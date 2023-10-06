@@ -27,7 +27,7 @@ const router = createRouter({
       component: Register,
     },
     {
-      path: "/management/users",
+      path: "/management/users/list-users",
       component: Register,
     },
     {

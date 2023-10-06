@@ -93,8 +93,8 @@ export default {
     const _showModalBox = inject("showModalBox");
     const showPassword = ref(false);
     const objUser = ref({
-      UserName: "admin",
-      Password: "Tomeisa1204@",
+      UserName: "",
+      Password: "",
     });
     const _addMessageBox = inject("addMessageBox");
     const logging = ref(false);
@@ -112,7 +112,7 @@ export default {
           logging.value = true;
           AuthService.login(objUser.value)
             .then((response) => {
-              methods.verificaLogin(response.data);
+              methods.verificaLogin(response);
             })
             .catch((error) => {
               if (error?.response?.data?.message) {
@@ -145,8 +145,8 @@ export default {
           localStorage.setItem("token", data.hash);
           AuthService.getPerfil()
             .then((response) => {
-              if (response?.data) {
-                methods.responseData(response.data);
+              if (response) {
+                methods.responseData(response);
                 router.goTo("dashboard");
               }
             })

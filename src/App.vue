@@ -102,21 +102,38 @@ export default {
 
       async requestAccess() {
         try {
+
           const res = await AuthService.getValidateCurrent(router.currentRoute.value.path);
+          console.clear()
           console.log("res")
           console.log(res)
-          if (res.statusCode == 200 || res.isCompletedSuccessfully) {
-            _listSideMenu.value = res.result;
+          if (res.statusCode == 200) {
+            _listSideMenu.value = res.value.data;
             isLoggedIn.value = true;
-            console.log("req")
+
             if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
               router.goTo("dashboard");
             }
+          }
+          if (res.statusCode == 302) {
+            console.log("res")
+            console.log(res)
+            methods.clearMessageBox();
+            methods.clearModalBox();
+            methods.showModalBox(
+              "Oops...",
+              res.value?.message ? res.value?.message : "Usuário não autenticado. Realize novamente o login",
+              "Descricao",
+              "fa-solid fa-warning",
+              null
+            );
+            router.goTo("dashboard");
           }
           if (res.statusCode == 401 || (res.statusCode == 100 && !router.currentRoute.value.name?.includes('home'))) {
             methods.clearMessageBox();
             methods.clearModalBox();
             isLoggedIn.value = false;
+            localStorage.clear();
             methods.showModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
@@ -133,6 +150,7 @@ export default {
             methods.clearMessageBox();
             methods.clearModalBox();
             isLoggedIn.value = false;
+            localStorage.clear();
             methods.showModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
@@ -154,12 +172,13 @@ export default {
       methods.handleDarkMode();
     });
 
-    watch(router.currentRoute, async (oldValue, newValue) => {
+    watch(router.currentRoute, (oldValue, newValue) => {
       if (oldValue != newValue) {
         try {
           showMainBar.value = false;
           showSideMenu.value = false;
-          await methods.requestAccess();
+
+          methods.requestAccess();
         } catch (err) {
           throw err;
         }

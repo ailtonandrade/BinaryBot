@@ -3,7 +3,7 @@
     <!-- menu expanded -->
     <div v-for="(menu, index) in _listMenu" :key="index">
       <div class="btn-side-menu collapse-animation expand-animation" :class="{ 'drop': menu.isDropped }">
-        <ul class="d-flex p-2 m-3" :id="menu.name" @click="action(menu, menu.name)">
+        <ul class="d-flex p-2 m-3" :id="menu.name" @click="action(menu, menu.subMenu, menu.name)">
           <button class="d-flex justify-center align-center">
             <font-awesome-icon class="toggle-side-icon" :icon="menu.icon ? 'fa-solid fa-' + menu.icon : ''" size="1x" />
             <span class="p-l-10">{{ menu.displayName }}</span>
@@ -15,7 +15,8 @@
         <div v-for="(subMenu, indexSub) in menu.subMenu" :key="indexSub">
           <div class="btn-side-submenu p-l-10 p-r-10 m-3 collapse-animation expand-animation"
             :class="{ 'drop': subMenu.isDropped }">
-            <li class="d-flex" :id="menu.name + subMenu.name" @click="action(subMenu, menu.name + '/' + subMenu.name)">
+            <li class="d-flex" :id="menu.name + subMenu.name"
+              @click="action(subMenu, subMenu.pages, menu.name + '/' + subMenu.name)">
               <button class="d-flex align-center col-10">
                 <font-awesome-icon class="d-flex justify-start toggle-side-icon col-1"
                   :icon="subMenu.icon ? 'fa-solid fa-' + subMenu.icon : ''" size="1x" />
@@ -30,7 +31,7 @@
                 <span class="btn-side-page collapse-animation expand-animation">
                   <div class="" :id="menu.name + subMenu.name + page.name">
                     <button class="d-flex justify-start align-center p-l-10 col-12"
-                      @click="action(page, menu.name + '/' + subMenu.name + '/' + page.name)">
+                      @click="action(page, null, menu.name + '/' + subMenu.name + '/' + page.name)">
                       <font-awesome-icon style="overflow-x: hidden;" class="toggle-side-page-icon col-1"
                         :icon="page.icon ? 'fa-solid fa-' + page.icon : ''" />
                       <span>{{ page.displayName }}</span>
@@ -48,7 +49,7 @@
     <!-- menu collapsed -->
     <div v-for="(menu, index) in _listMenu" :key="index">
       <div class="btn-side-menu collapse-animation expand-animation" :class="{ 'drop': menu.isDropped }">
-        <ul class="d-flex p-2 m-3 justify-center" :id="menu.name" @click="action(menu, menu.name)">
+        <ul class="d-flex p-2 m-3 justify-center" :id="menu.name" @click="action(menu, menu.subMenu, menu.name)">
           <button class="d-flex large">
             <font-awesome-icon class="toggle-side-icon" :icon="menu.icon ? 'fa-solid fa-' + menu.icon : ''" size="1x" />
           </button>
@@ -57,7 +58,7 @@
           <div class="btn-side-submenu p-l-10 p-r-10 m-3 collapse-animation expand-animation"
             :class="{ 'drop': subMenu.isDropped }">
             <li class="d-flex justify-center" :id="menu.name + subMenu.name"
-              @click="action(subMenu, menu.name + '/' + subMenu.name)">
+              @click="action(subMenu, subMenu.pages, menu.name + '/' + subMenu.name)">
               <button class="d-flex medium">
                 <font-awesome-icon class="d-flex justify-start toggle-side-icon"
                   :icon="subMenu.icon ? 'fa-solid fa-' + subMenu.icon : ''" />
@@ -68,7 +69,7 @@
                 <span class="btn-side-page p-t-10 collapse-animation expand-animation">
                   <div class="" :id="menu.name + subMenu.name + page.name">
                     <button class="d-flex justify-center align-center"
-                      @click="action(page, menu.name + '/' + subMenu.name + '/' + page.name)">
+                      @click="action(page, page, menu.name + '/' + subMenu.name + '/' + page.name)">
                       <font-awesome-icon class="small toggle-side-page-icon"
                         :icon="page.icon ? 'fa-solid fa-' + page.icon : ''" />
                     </button>
@@ -96,20 +97,22 @@ export default {
     const showSideMenu = inject("showSideMenu");
     const _listMenu = ref();
     const methods = reactive({
-      action(element, route) {
-        if (route) {
+      action(element, child, route) {
+        if (!Array.isArray(child)) {
+          console.log(child)
           methods.goToRoute(route)
         } else {
           element.isDropped = !element.isDropped;
         }
       },
       goToRoute(route) {
-        router.push("management/users");
+        router.push(route);
         //management/users/create-user
       }
     });
 
     onMounted(() => {
+      console.log("_listMenu")
       _listMenu.value = props.listMenu;
     })
     return {
