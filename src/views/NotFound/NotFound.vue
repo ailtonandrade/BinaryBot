@@ -61,6 +61,6 @@ export default defineComponent({
 @import "../../styles/commom.css";
 
 html body {
-  background-color: var(--white-mode-primary);
+  background-color: var(--switch-mode-primary);
 }
 </style>

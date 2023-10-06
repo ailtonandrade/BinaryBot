@@ -15,8 +15,7 @@ class Http {
           'Content-Type': 'application/json',
         }
       })
-
-      resp = response;
+      resp = response.data;
       return resp
     } catch (err) {
       throw err;

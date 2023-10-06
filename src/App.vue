@@ -1,5 +1,6 @@
 <template>
   <main>
+    <SwitchMode></SwitchMode>
     <Menu v-if="isLoggedIn" class="menu"></Menu>
     <div v-if="isLoggedIn" class="toggle-side-menu" :class="showSideMenu ? 'open' : ''">
       <ToggleSideMenu v-if="isLoggedIn" />
@@ -29,21 +30,23 @@ import {
   inject,
   onMounted,
 } from "vue";
-import ModalBox from "./views/components/modalBox.vue";
+import ModalBox from "./views/components/ModalBox.vue";
 import MessageBox from "./views/components/MessageBox.vue";
-import Menu from "./views/components/menu/menu.vue";
+import SwitchMode from "./views/components/SwitchMode.vue";
+import Menu from "./views/components/menu/Menu.vue";
 import ToggleSideMenu from "./views/components/SideMenu/components/ToggleSideMenu.vue";
 import SideMenu from "./views/components/SideMenu/SideMenu.vue";
 import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
+import auxiliar from "./global/auxiliar";
 
 export default {
   name: "App",
-  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu },
+  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu, SwitchMode },
   setup() {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
-    const isDarkMode = ref(false);
+    const isDarkMode = ref(true);
     const showMainBar = ref(false);
     const router = useRouter();
     const _dataModalBox = ref({
@@ -92,21 +95,12 @@ export default {
       actionMessageBox(event) {
         _actionMessageBox.value = event;
       },
-      handleDarkMode() {
-        if (isDarkMode.value) {
-          document.documentElement.classList.add('dark-mode');
-        } else {
-          document.documentElement.classList.add('white-mode');
-        }
-      },
 
       async requestAccess() {
         try {
-
           const res = await AuthService.getValidateCurrent(router.currentRoute.value.path);
-          console.clear()
-          if (res.status == 200) {
-            _listSideMenu.value = res.data;
+          if (res.statusCode == 200) {
+            _listSideMenu.value = res.value.data;
             isLoggedIn.value = true;
 
             if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
@@ -114,8 +108,6 @@ export default {
             }
           }
           if (res.statusCode == 302) {
-            console.log("res")
-            console.log(res)
             methods.clearMessageBox();
             methods.clearModalBox();
             methods.showModalBox(
@@ -127,7 +119,8 @@ export default {
             );
             router.goTo("dashboard");
           }
-          if (res.statusCode == 401 || (res.statusCode == 100 && !router.currentRoute.value.name?.includes('home'))) {
+          else if (res.statusCode == 401) {
+            console.log("caiu aqui")
             methods.clearMessageBox();
             methods.clearModalBox();
             isLoggedIn.value = false;
@@ -142,9 +135,8 @@ export default {
             router.goTo("home");
           }
         } catch (ex) {
-          console.log("ex")
           console.log(ex)
-          if (ex.response.status == 100 || ex.response.status == 401) {
+          if (ex?.response?.status == 100 || ex?.response?.status == 401) {
             methods.clearMessageBox();
             methods.clearModalBox();
             isLoggedIn.value = false;
@@ -158,16 +150,13 @@ export default {
             );
             router.goTo("home");
           }
-
         }
-
       },
 
     });
 
     onMounted(async () => {
       await methods.requestAccess();
-      methods.handleDarkMode();
     });
 
     watch(router.currentRoute, (oldValue, newValue) => {
@@ -192,7 +181,7 @@ export default {
     provide("showSideMenu", showSideMenu);
     provide("showMainBar", showMainBar);
     provide("isLoggedIn", isLoggedIn);
-    provide("isDarkMode", isDarkMode.value);
+    provide("isDarkMode", isDarkMode);
     return {
       router,
       isDarkMode,
@@ -238,6 +227,7 @@ export default {
   position: absolute;
   width: 100%;
   overflow-x: hidden;
-  background-color: var(--white-mode-primary);
+  background-color: var(--switch-elements-mode-primary);
+  background-color: var(--switch-mode-primary);
 }
 </style>

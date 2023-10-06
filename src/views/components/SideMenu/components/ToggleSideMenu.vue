@@ -42,8 +42,8 @@ export default {
   cursor: pointer;
   outline: none;
   border-style: none;
-  color: var(--white-mode-primary);
-  background-color: var(--white-mode-secondary);
+  color: var(--switch-elements-mode-primary);
+  background-color: var(--switch-mode-secondary);
   height: 40px;
   width: 40px;
   top: 5px;
@@ -51,7 +51,7 @@ export default {
 }
 
 .toggle-side-menu-btn:hover {
-  background-color: var(--white-mode-secondary);
+  background-color: var(--switch-mode-secondary);
   transition: 0.2;
 }
 </style>

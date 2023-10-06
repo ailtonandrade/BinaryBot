@@ -27,7 +27,7 @@ li {
 
 .btn-side-menu ul:hover {
   border-radius: 5px;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
   cursor: pointer;
   transition: 0.3s;
 }
@@ -37,7 +37,7 @@ li {
   border-style: none;
   background-color: transparent;
   transition: 0.3s;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
@@ -56,7 +56,7 @@ li {
   border-style: none;
   background-color: transparent;
   transition: 0.3s;
-  color: var(--white-mode-tertiary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
@@ -91,7 +91,7 @@ li {
 
 .btn-side-submenu li:hover {
   border-radius: 5px;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
   cursor: pointer;
   transition: 0.5s ease-in-out
 }
@@ -101,12 +101,12 @@ li {
   border-style: none;
   background-color: transparent;
   transition: 0.3s;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
 .btn-side-submenu li:hover {
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
 }
 
 .btn-side-submenu.drop li {
@@ -114,7 +114,7 @@ li {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-color: rgb(255, 255, 255, 0.1);
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
 }
 
 .btn-side-submenu.drop li button {
@@ -123,7 +123,7 @@ li {
   border-style: none;
   background-color: transparent;
   transition: 0.3s;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
@@ -150,14 +150,14 @@ li {
 .btn-side-submenu,
 .btn-side-page {
   border-radius: 10px;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
   transition: 0.3s;
 }
 
 .btn-side-submenu.drop,
 .btn-side-page {
   border-radius: 10px;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
   transition: 1;
 }
 
@@ -167,7 +167,7 @@ li {
   margin-top: 5px;
   border-style: none;
   background-color: transparent;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
   overflow-x: hidden;
   transition: 0.3s;
@@ -179,13 +179,13 @@ li {
   border-style: none;
   border-radius: 5px;
   transition: 0.3s;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
 }
 
 .btn-side-page button:focus {
   outline: none;
   border-style: none;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
 }
 
 .btn-side-page button {
@@ -193,7 +193,7 @@ li {
   margin-top: 5px;
   border-style: none;
   background-color: transparent;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
@@ -202,13 +202,13 @@ li {
   border-style: none;
   border-radius: 5px;
   transition: 0.3s;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
 }
 
 .btn-side-page button:focus {
   outline: none;
   border-style: none;
-  background-color: var(--white-mode-tertiary);
+  background-color: var(--switch-mode-tertiary);
 }
 
 /* end - button PAGE of side bar */
@@ -223,7 +223,7 @@ li {
 }
 
 .toggle-side-menu.open {
-  width: 300px;
+  width: 230px;
   transform: translateX(0%);
   transition: transform 0.5s ease-in-out, opacity 0.4s, width 0.3s ease-in-out;
 }
@@ -259,7 +259,7 @@ li {
 .side-menu {
   height: 100%;
   width: 100%;
-  background-color: var(--white-mode-secondary);
+  background-color: var(--switch-mode-secondary);
 }
 
 

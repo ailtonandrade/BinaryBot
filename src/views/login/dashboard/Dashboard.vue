@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard-content">
     <div class="container">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
@@ -100,7 +100,9 @@ export default defineComponent({
 <style scoped>
 @import "../../../styles/commom.css";
 
-html body{
-  background-color: var(--white-mode-primary);
+.dashboard-content{
+  height: 100%;
+  color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-primary);
 }
 </style>

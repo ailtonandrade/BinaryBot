@@ -13,7 +13,8 @@
         <div class="col-4 flex-row justify-content-end">
           <div class="btn-nav" @click="toggleMenu()">
             <button class="p-1">
-              <font-awesome-icon :icon="!showMenu ? 'fa-solid fa-bars' : 'fa-solid fa-times'" size="1x" />
+              <font-awesome-icon class="btn-nav-icon" :class="{ 'active': showMainBar }"
+                :icon="!showMainBar ? 'fa-solid fa-bars' : 'fa-solid fa-times'" size="1x" />
             </button>
           </div>
         </div>
@@ -43,7 +44,7 @@ export default {
       toggleMenu() {
         showMainBar.value = !showMainBar.value;
       },
-      back(){
+      back() {
         router.back();
       }
     });
@@ -63,8 +64,8 @@ export default {
 
 .menu {
   width: 100%;
-  background-color: var(--white-mode-tertiary);
-  box-shadow: 1px 1px 5px 2px rgb(78, 78, 78, 0.5);
+  background-color: var(--switch-mode-secondary);
+  box-shadow: 1px 1px 0.5px 0.2px rgb(0, 0, 0, 0.3);
 }
 
 .brand-nav {
@@ -73,14 +74,15 @@ export default {
 }
 
 .brand-nav a {
-  color: white;
+  color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-secondary);
   border-radius: 10px;
   transition: 0.2s;
 }
 
 .brand-nav a:hover {
-  background-color: var(--white-mode-secondary);
+  text-decoration: none;
+  color: var(--switch-elements-mode-primary);
+  background-color: var(--switch-mode-primary);
 }
-
-
 </style>

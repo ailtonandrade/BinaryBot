@@ -5,7 +5,7 @@
         <div class="d-flex justify-center align-center b-shadow-2 decoration-primary h-100">
           <div class="col-12">
             <div class="d-flex justify-center mb-1 mt-3">
-              <h1>Binary<span class="secondary b-radius-10 p-1 b-shadow-1">Bot</span></h1>
+              <h1>Binary<span class="bot b-radius-10 p-1 b-shadow-1">Bot</span></h1>
             </div>
             <div class="col-12 text-center">
               <h1>{{ title }}</h1>
@@ -14,8 +14,8 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-12 d-flex justify-center align-center">
-      <div class="">
+      <div class="login-form col-lg-6 col-md-6 col-12 d-flex justify-center align-center">
+        <div class="">
 
           <form>
             <div class="d-flex direction-column align-center mb-5">
@@ -52,7 +52,7 @@
 
           <div class="col-12">
             <div class="d-flex direction-column justify-center align-center">
-              <button type="button" :disabled="objUser.UserName.length < 5 ||
+              <button type="button" :disabled="objUser?.UserName?.length < 5 ||
                 objUser.Password.length <= 8 ||
                 logging
                 " class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-primary b-radius-10 p-1 b-shadow-1"
@@ -66,7 +66,7 @@
                 </router-link>
               </button>
 
-              <label class="p-1" for="">Ainda não tem uma conta ? Realize um</label>
+              <span class="p-1" for="">Ainda não tem uma conta ? Realize um</span>
               <router-link to="/register">
                 <u><a><b>novo cadastro</b></a></u>
               </router-link>
@@ -197,11 +197,45 @@ export default {
   /* border-bottom-right-radius: 30px; */
   /* border-bottom-left-radius: 30px; */
 }
+
+.login-form {
+  background-color: var(--default-mode-primary);
+}
+
 .btn-login {
   text-decoration: none;
-  color: var(--white-mode-secondary);
+  opacity: 1;
+  color: var(--default-mode-primary);
 }
 .btn-login:hover {
+  cursor: pointer;
+}
+.btn-login:active {
   opacity: 0.9;
 }
-</style>
+
+.bot {
+  background-color: var(--default-mode-secondary);
+}
+
+.form-control,
+.input-text,
+label {
+  border: none;
+  background-color: var(--default-mode-secondary) !important;
+  color: var(--default-elements-mode-primary) !important;
+}
+
+input {
+  background-color: var(--default-mode-secondary) !important;
+
+}
+
+a,
+button,
+span {
+  text-decoration: none;
+  color: var(--default-elements-mode-primary);
+}
+
+span {}</style>

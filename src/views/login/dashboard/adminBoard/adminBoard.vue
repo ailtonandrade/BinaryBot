@@ -1,8 +1,10 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <span>admin board</span>
+  <div class="board-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <span>admin board</span>
+        </div>
       </div>
     </div>
   </div>
@@ -23,24 +25,10 @@ export default {
 };
 </script>
 <style scoped>
-nav {
-  width: 100vw;
-}
 
-button:hover {
-  border-color: white;
+.board-content{
+  height: 100%;
+  color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-primary);
 }
-
-.nav-btn-row {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-nav {
-  color: white;
-  text-decoration: none;
-}
-
-.btn-nav:hover {
-  opacity: 0.8;
-}</style>
+</style>

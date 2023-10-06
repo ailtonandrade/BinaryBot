@@ -1,30 +1,30 @@
 <template>
-  <div class="x-hidden">
-    <div :class="{ 'main-bar': true, 'show': showHide }">
-      <div class="container-fluid x-hidden">
-        <div class="row">
-          <div class="col-md-3 p-0 m-0 col-lg-3 col-6 order-md-2 order-2">
-            <div class="d-flex direction-column align-start main-bar-content">
-              <div class="main-bar-btn" @click="toggleDarkMode()">
-                <button class=" main-bar-btn-icon">
-                  <font-awesome-icon class="" icon="fa-solid fa-moon" size="1x" />
-                </button>
-              </div>
-              <div class="main-bar-btn" @click="logout()">
-                <span class="main-bar-text">Sair</span>
-                <button class=" main-bar-btn-icon">
-                  <font-awesome-icon class="" icon="fa-solid fa-sign-out" size="1x" />
-                </button>
-              </div>
-              <div class="main-bar-btn" @click="editPerfil()">
-                <span class=" main-bar-text">Editar perfil</span>
-                <button class=" main-bar-btn-icon">
-                  <font-awesome-icon class="" icon="fa-solid fa-edit" size="1x" />
-                </button>
-              </div>
-            </div>
+  <div :class="{ 'main-bar': true, 'show': showHide }">
+    <div class="d-flex justify-end">
+      <div class="col-md-3 p-0 m-0 col-lg-3 col-6 order-md-2 order-2">
+        <div class="d-flex direction-column align-end main-bar-content">
+          <!-- Switch Mode -->
+          <div class="main-bar-btn dark-mode col-4" @click="toggleDarkMode()">
+            <button class="main-bar-btn-icon col-12 d-flex justify-center p-1">
+              <font-awesome-icon class="dark-mode-sun p-r-10" :class="{ 'light-mode-active': !isDarkMode }"
+                icon="fa-solid fa-sun" size="1x" />
+              <font-awesome-icon class="dark-mode-moon" :class="{ 'dark-mode-active': isDarkMode }"
+                icon="fa-solid fa-moon" size="1x" />
+            </button>
           </div>
-          <div class="col-lg-9 col-md-9 col-6 order-md-1 order-1">
+          <!-- Edut -->
+          <div class="main-bar-btn" @click="editPerfil()">
+            <span class=" main-bar-text">Editar perfil</span>
+            <button class=" main-bar-btn-icon">
+              <font-awesome-icon class="" icon="fa-solid fa-edit" size="1x" />
+            </button>
+          </div>
+          <!-- Logout -->
+          <div class="main-bar-btn" @click="logout()">
+            <span class="main-bar-text">Sair</span>
+            <button class=" main-bar-btn-icon">
+              <font-awesome-icon class="" icon="fa-solid fa-sign-out" size="1x" />
+            </button>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@ export default {
       editPerfil() {
         router.goTo("edit-perfil")
       },
-      toggleDarkMode(){
+      toggleDarkMode() {
         isDarkMode.value = !isDarkMode.value
       }
     });
@@ -74,7 +74,7 @@ export default {
 .main-bar {
   opacity: 0;
   width: 100%;
-  transform: translateY(-500%);
+  transform: translateY(-500px);
   transition: transform 0.7s ease, opacity 0.2s ease;
 }
 
@@ -85,21 +85,15 @@ export default {
 }
 
 .main-bar-content {
-  background-color: var(--white-mode-secondary);
+  position: fixed;
+  right: 0%;
+  width: 200px;
+  background-color: var(--switch-mode-secondary);
   padding: 10px;
-  border-bottom-left-radius: 20px;
-  z-index: 1;
-  box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  border-bottom-left-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: -1px 1px 0.1px 0.1px rgba(0, 0, 0, 0.2);
 
-}
-
-.main-bar-btn-icon {
-  border-radius: 5px;
-  outline: none;
-  border: none;
-  background-color: transparent;
-  color: var(--white-mode-primary);
-  cursor: pointer;
 }
 
 .main-bar-btn {
@@ -108,20 +102,80 @@ export default {
   background-color: transparent;
   justify-content: flex-end;
   align-items: center;
-  background-color: var(--white-mode-secondary);
-  transition: 0.6s ease;
-  opacity: 0.7;
+  transition: 0.3s;
+  background-color: var(--switch-mode-secondary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
 .main-bar-btn:hover {
-  opacity: 1;
-  transition: 0.4s ease;
+  transition: 0.3s ease;
+  border-radius: 5px;
+  background-color: var(--switch-mode-tertiary);
+  color: var(--decoration-primary)
 }
 
 .main-bar-text {
   font-size: medium;
   padding-right: 10px;
-  color: var(--white-mode-primary);
+}
+
+.main-bar-btn-icon {
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  transition: 0.3s;
+  color: var(--switch-elements-mode-primary);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.main-bar-btn:hover .main-bar-btn-icon {
+  color: var(--decoration-primary)
+}
+
+.dark-mode {
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: var(--switch-mode-primary);
+  margin-bottom: 50px;
+}
+
+.dark-mode-sun {
+  color: var(--switch-elements-mode-secondary);
+  transform: translateY(-10px);
+  transition: 1s ease-in-out;
+  opacity: 0.5;
+}
+
+.dark-mode-sun.light-mode-active {
+  color: var(--decoration-primary);
+  transform: translateY(0);
+  transition: 1s ease-in-out;
+  opacity: 1;
+}
+
+.dark-mode-moon {
+  color: var(--switch-elements-mode-secondary);
+  transform: translateY(-10px);
+  transition: 1s ease-in-out;
+  opacity: 0.5;
+}
+
+.dark-mode-moon.dark-mode-active {
+  color: var(--decoration-primary);
+  transform: translateY(0);
+  transition: 1s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(180deg);
+  }
 }
 </style>

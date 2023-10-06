@@ -99,7 +99,6 @@ export default {
     const methods = reactive({
       action(element, child, route) {
         if (!Array.isArray(child)) {
-          console.log(child)
           methods.goToRoute(route)
         } else {
           element.isDropped = !element.isDropped;
@@ -107,12 +106,10 @@ export default {
       },
       goToRoute(route) {
         router.push(route);
-        //management/users/create-user
       }
     });
 
     onMounted(() => {
-      console.log("_listMenu")
       _listMenu.value = props.listMenu;
     })
     return {

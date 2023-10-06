@@ -2,82 +2,22 @@
 :root {
   --success: rgb(45, 207, 159);
   --success-active: rgb(39, 28, 2);
-  --decoration-primary: rgb(241, 185, 14);
+  --decoration-primary: rgb(184, 143, 22);
   --warning: rgb(190, 142, 18);
   --warning-active: rgb(39, 28, 2);
   --danger: #ff5733;
   --danger-active: rgb(39, 28, 2);
-  --white-mode-primary: rgb(240, 240, 240);
-  --white-mode-secondary: rgb(46, 46, 46);
-  --white-mode-tertiary: rgb(22, 22, 22);
-  --white-mode-elements-primary: rgb(240, 240, 240);
-  --white-mode-elements-secondary: rgb(110, 110, 110);
-  --white-mode-elements-tertiary: rgb(46, 46, 46);
-  --dark-mode-primary: rgb(46, 46, 46);
-  --dark-mode-secondary: rgb(110, 110, 110);
-  --dark-mode-tertiary: rgb(240, 240, 240);
-  --dark-mode-elements-primary: rgb(240, 240, 240);
-  --dark-mode-elements-secondary: rgb(110, 110, 110);
-  --dark-mode-elements-tertiary: rgb(46, 46, 46);
+  --default-mode-primary: rgb(240, 240, 240);
+  --default-mode-secondary: rgb(210, 210, 210);
+  --default-mode-tertiary: rgb(200, 200, 200);
+  --default-elements-mode-primary: rgb(44, 44, 44);
+  --switch-mode-primary: rgb(240, 240, 240);
+  --switch-mode-secondary: rgb(210, 210, 210);
+  --switch-mode-tertiary: rgb(200, 200, 200);
+  --switch-mode-elements-primary: rgb(44, 44, 44);
+  --switch-mode-elements-secondary: rgb(33, 33, 33);
+  --switch-mode-elements-tertiary: rgb(22, 22, 22);
   --element-backdrop: rgb(0, 0, 0);
-}
-
-
-
-/* WHITE MODE */
-.white-mode {
-  background-color: var(--white-mode-primary);
-  color: var(--white-mode-tertiary);
-}
-
-.white-mode .form-control,
-input {
-  background-color: var(--white-mode-primary);
-  color: var(--white-mode-tertiary);
-}
-
-.white-mode .card {
-  outline: none;
-  background-color: var(--white-mode-primary);
-  color: var(--white-mode-tertiary);
-}
-
-.white-mode p {
-  color: var(--white-mode-tertiary);
-}
-
-.white-mode label {
-  color: var(--white-mode-tertiary);
-}
-
-.white-mode a {
-  color: var(--white-mode-tertiary);
-}
-
-
-
-
-/* DARK MODE */
-.dark-mode {
-  background-color: var(--dark-mode-primary);
-  color: var(--dark-mode-tertiary);
-}
-
-.dark-mode p {
-  color: var(--dark-mode-tertiary);
-}
-
-.dark-mode label {
-  color: var(--dark-mode-tertiary);
-}
-
-.dark-mode a {
-  color: var(--dark-mode-tertiary);
-}
-
-.dark-mode .row {
-  background-color: var(--dark-mode-secondary);
-  color: var(--dark-mode-tertiary);
 }
 
 /* MARGINS */
@@ -103,8 +43,16 @@ input {
   padding-top: 100px;
 }
 
+.p-l-5 {
+  padding-left: 5px;
+}
+
 .p-l-10 {
   padding-left: 10px;
+}
+
+.p-r-5 {
+  padding-right: 5px;
 }
 
 .p-r-10 {
@@ -215,6 +163,10 @@ input {
   align-items: top;
 }
 
+.align-end {
+  align-items: end;
+}
+
 .align-start {
   align-items: flex-start;
 }
@@ -250,6 +202,17 @@ input {
 
 
 /* INPUTS */
+.form-control,
+input {
+  color: var(--switch-elements-mode-secondary) !important;
+  background-color: var(--switch-mode-tertiary) !important;
+  border-color: var(--switch-mode-tertiary) !important;
+}
+
+label{
+  color: var(--switch-elements-mode-primary) !important;
+}
+
 .input-text {
   border-style: none;
   width: 100%;
@@ -272,7 +235,6 @@ input {
 }
 
 .form-label-text {
-  color: var(--white-mode-elements-secondary) !important;
   font-size: 9pt;
   margin-bottom: -60px;
 }
@@ -329,7 +291,7 @@ body {
 
 .danger {
   background-color: var(--danger);
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
 }
 
 .danger button {
@@ -363,27 +325,34 @@ body {
 }
 
 .secondary {
-  background-color: var(--white-mode-elements-primary);
+  background-color: var(--switch-mode-elements-primary);
 }
 
 /* BASICS */
 
 /* BTN */
+
 .btn-nav button {
   outline: none;
   border-radius: 10px;
   border-style: none;
   background-color: transparent;
   transition: 0.2s;
-  color: var(--white-mode-primary);
+  color: var(--switch-elements-mode-primary);
   cursor: pointer;
 }
 
 .btn-nav button:hover {
-  background-color: var(--white-mode-secondary);
+  background-color: var(--switch-mode-secondary);
 }
 
-.btn-nav:active {
+.btn-nav button:focus {
+  border-style: none;
+  outline: none;
+}
+
+.btn-nav button:active {
+  border-style: none;
   outline: none;
 }
 
@@ -412,6 +381,17 @@ body {
 }
 
 @keyframes collapse {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+
+}
+
+@keyframes fade {
   0% {
     opacity: 1;
   }
