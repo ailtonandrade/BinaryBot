@@ -16,7 +16,7 @@ class Http {
         }
       })
 
-      resp = response.data;
+      resp = response;
       return resp
     } catch (err) {
       throw err;

@@ -105,10 +105,8 @@ export default {
 
           const res = await AuthService.getValidateCurrent(router.currentRoute.value.path);
           console.clear()
-          console.log("res")
-          console.log(res)
-          if (res.statusCode == 200) {
-            _listSideMenu.value = res.value.data;
+          if (res.status == 200) {
+            _listSideMenu.value = res.data;
             isLoggedIn.value = true;
 
             if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
