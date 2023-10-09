@@ -1,8 +1,8 @@
 <template>
-  <div class="row">
+  <CardBox  :title="title" :description="description" :breadcrumb="[{ name: 'Dashboard', link: '' },{ name: 'Editar Perfil', link: 'edit-perfil' }]">
+  <div class="container row">
     <div class="col-lg-6 col-md-6 col-sm-12">
       <form>
-
         <!-- Nome Completo -->
         <div class="col-sm-12 mb-1">
           <div class="form-control">
@@ -178,15 +178,18 @@
     </div>
     <div class="col-6"></div>
   </div>
+</CardBox>
 </template>
 
 <script>
 import { ref, inject, watch, onMounted, reactive, toRefs } from "vue";
 import AccountService from "../../../services/AccountService";
+import CardBox from "../../components/Layout/CardBox.vue";
 import auxiliar from "../../../global/auxiliar";
 import { useRouter } from "vue-router";
 
 export default {
+  components:{CardBox},
   setup() {
     const title = ref("Meus dados");
     const description = ref("Editando seu perfil");

@@ -2,15 +2,18 @@
   <div class="menu p-10">
     <div class="container-fluid">
       <div class="flex-row">
-        <div class="brand-nav justify-start col-4 btn-nav" @click="redirectToHome()">
+        <div class="col-lg-3 col-md-3 brand-nav justify-start btn-nav" @click="redirectToHome()">
           <button v-if="router.currentRoute.value.name != 'dashboard'" class="p-1" @click="back()">
             <font-awesome-icon icon="fa-solid fa-arrow-left" size="1x" />
           </button>
         </div>
-        <div class="brand-nav justify-center col-4" @click="redirectToHome()">
+        <div class="col-lg-6 col-md-6 brand-nav justify-center" @click="redirectToHome()">
           <a class="p-1" href="#">BinaryBot</a>
         </div>
-        <div class="col-4 flex-row justify-content-end">
+        <div class="col-lg-2 col-md-2 d-flex align-center justify-end info-user">
+          <span>@{{ userData?.userName }}</span>
+        </div>
+        <div class="col-lg-1 col-md-1 flex-row justify-content-end">
           <div class="btn-nav" @click="toggleMenu()">
             <button class="p-1">
               <font-awesome-icon class="btn-nav-icon" :class="{ 'active': showMainBar }"
@@ -35,6 +38,9 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const userData = ref({
+      userName: ""
+    });
     const showMainBar = inject("showMainBar", false);
     const methods = reactive({
       redirectToHome() {
@@ -49,13 +55,17 @@ export default {
       }
     });
 
-
+    onMounted(() => {
+      userData.value.userName = localStorage.getItem("userName");
+    });
     return {
+      userData,
       router,
       showMainBar,
       ...toRefs(methods),
     };
   },
+
 };
 </script>
 <style scoped>
@@ -84,5 +94,12 @@ export default {
   text-decoration: none;
   color: var(--switch-elements-mode-primary);
   background-color: var(--switch-mode-primary);
+}
+
+.info-user {
+  padding: 0 30px 0 30px;
+  font-weight: 600;
+  font-size: medium;
+  color: var(--switch-elements-mode-primary);
 }
 </style>

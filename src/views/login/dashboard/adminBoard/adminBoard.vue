@@ -1,11 +1,7 @@
 <template>
-  <div class="board-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <span>admin board</span>
-        </div>
-      </div>
+  <div class="col-12">
+    <div class="board-content">
+      <span>admin board</span>
     </div>
   </div>
 </template>
@@ -25,9 +21,7 @@ export default {
 };
 </script>
 <style scoped>
-
-.board-content{
-  height: 100%;
+.board-content {
   color: var(--switch-elements-mode-secondary);
   background-color: var(--switch-mode-primary);
 }

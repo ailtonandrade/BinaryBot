@@ -1,10 +1,6 @@
 <template>
-  <div class="dashboard-content">
-    <div class="container">
-      <h1>{{ title }}</h1>
-      <p>{{ description }}</p>
-    </div>
-    <div class="card">
+  <card-box :title="title" :description="description" :breadcrumb="[{ name: 'Dashboard', link: '' }]">
+    <div class="dashboard-content">
       <div v-if="userData == Perfils.ADMIN">
         <admin-board></admin-board>
       </div>
@@ -15,7 +11,7 @@
         <span>assinante</span>
       </div>
     </div>
-  </div>
+  </card-box>
 </template>
   
 <script>
@@ -32,10 +28,12 @@ import { useRouter } from "vue-router";
 import { Perfils } from "../../../enums/perfils";
 import AdminBoard from "./adminBoard/adminBoard.vue";
 import AuthService from "../../../services/AuthService";
+import CardBox from "../../components/Layout/CardBox.vue";
 
 export default defineComponent({
   components: {
     AdminBoard,
+    CardBox
   },
   setup(props) {
     const title = ref("Painel");
@@ -52,7 +50,7 @@ export default defineComponent({
     });
 
     const methods = reactive({
-      resendEmailConfirm() {},
+      resendEmailConfirm() { },
       runActionMessageBox(action) {
         switch (action) {
           case "reconfirmEmail": {
@@ -66,8 +64,8 @@ export default defineComponent({
     onMounted(() => {
       AuthService.getPerfil()
         .then((response) => {
-          if (response?.data) {
-            userData.value = response.data.perfils[0].perfilType.description;
+          if (response) {
+            userData.value = response.perfils[0].perfilType.description;
           }
         })
         .catch((error) => {
@@ -100,9 +98,8 @@ export default defineComponent({
 <style scoped>
 @import "../../../styles/commom.css";
 
-.dashboard-content{
-  height: 100%;
+.dashboard-content {
+  height: 100vh;
   color: var(--switch-elements-mode-secondary);
-  background-color: var(--switch-mode-primary);
 }
 </style>

@@ -28,6 +28,7 @@ const router = createRouter({
     },
     {
       path: "/management/users/list-users",
+      name: "listUsers",
       component: Register,
       meta: { requiresAuth: true },
     },

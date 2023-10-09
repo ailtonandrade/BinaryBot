@@ -280,10 +280,14 @@ li {
   display: block;
 }
 
-@media screen and (max-width:320px) {
+@media screen and (max-width:480px) {
   .toggle-side-menu {
     transform: translateX(-50px);
+  }
 
+  .card-box {
+    padding: 5% 0 5% 5% !important;
+    margin: 5% 5% 5% 5% !important;
   }
 
   .toggle-side-menu.open {

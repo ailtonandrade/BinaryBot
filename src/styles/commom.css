@@ -35,6 +35,10 @@
 
 
 /* PADDINGS */
+.p-t-custom{
+ padding-top: 50px;
+}
+
 .p-t-10 {
   padding-top: 10px;
 }
@@ -266,10 +270,6 @@ body {
   background-color: transparent !important;
 }
 
-.message-box {
-  z-index: 999999 !important;
-}
-
 .decoration-primary {
   background-color: var(--decoration-primary);
 }
@@ -334,6 +334,8 @@ body {
 
 .btn-nav button {
   outline: none;
+  width: 30px;
+  height: 30px;
   border-radius: 10px;
   border-style: none;
   background-color: transparent;
@@ -343,7 +345,7 @@ body {
 }
 
 .btn-nav button:hover {
-  background-color: var(--switch-mode-secondary);
+  background-color: var(--switch-mode-primary);
 }
 
 .btn-nav button:focus {

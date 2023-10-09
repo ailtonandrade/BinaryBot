@@ -1,117 +1,196 @@
 <template>
-  <div class="row">
-    <div class="container-fluid">
-      <div class="d-flex card-header">
-        <div class="col-6">
-          <span>{{ title }}</span>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-          <router-link to="/">
-            <a>Voltar</a>
-          </router-link>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <form>
-              <div class="mb-6">
-                <label for="name" class="form-label">Nome Completo:</label>
-                <input type="text" class="form-control" id="name" v-model="acc.Name" @change="validateName()" />
-                <div class="box-error">
-                  <span class="textError">{{ error.Name }}</span>
+  <CardBox :title="title" :description="description"
+    :breadcrumb="[{ name: 'Dashboard', link: '' }, { name: 'Registrar Perfil', link: 'listUsers' }]">
+    <div class="row">
+      <div class="container-fluid">
+        <div class="col-12">
+          <form>
+            <!-- Nome Completo -->
+            <div class="col-sm-12 mb-1">
+              <div class="form-control">
+                <div class="d-flex">
+                  <div class="col-12">
+                    <label for="usuario" class="form-label-text">Nome Completo:</label>
+                    <input type="text" id="name" class="input-text" v-model="acc.Name" @change="validateName()"
+                      placeholder="usuari011011" />
+                  </div>
+                  <div class="box-error">
+                    <span class="textError">{{ error.Name }}</span>
+                  </div>
                 </div>
               </div>
-              <div class="mb-6">
-                <label for="usuario" class="form-label">Usuário:</label>
-                <input type="text" class="form-control" id="username" v-model="acc.UserName"
-                  @change="validateUserName()" />
-                <span class="textError">{{ error.UserName }}</span>
+            </div>
+            <div class="d-flex flex-wrap">
+              <!-- Data Nascimento -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">Data de Nascimento:</label>
+                      <input type="date" id="birthday" class="input-text" v-model="acc.Birthday"
+                        @change="validateBirthday()" placeholder="01/01/1970" />
+                    </div>
+                    <div class="box-error">
+                      <span class="textError">{{ error.Birthday }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="birthday" class="form-label">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="birthday" v-model="acc.Birthday"
-                  @change="validateBirthday()" />
-                <span class="textError">{{ error.Birthday }}</span>
+              <!-- Document -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">Documento:</label>
+                      <input type="text" id="Document" class="input-text" v-model="acc.Document"
+                        @change="validateDocument()" placeholder="01/01/1970" />
+                    </div>
+                    <div class="box-error">
+                      <span class="textError">{{ error.Document }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6" style="display:none">
-                <label for="document" class="form-label">CPF:</label>
-                <input type="text" class="form-control" id="document" v-model="acc.Document" :maxlength="14"
-                  @change="validateDocument()" />
-                <span class="textError">{{ error.Document }}</span>
+            </div>
+            <div class="d-flex flex-wrap align-center">
+              <!-- Telefone -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">Telefone/Celular:</label>
+                      <input type="text" id="Phone" class="input-text" v-model="acc.Phone" @change="validatePhone()"
+                        placeholder="01/01/1970" />
+                    </div>
+                    <div class="box-error">
+                      <span class="textError">{{ error.Phone }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="phone" class="form-label">Telefone/Celular:</label>
-                <input type="text" class="form-control" id="phone" v-model="acc.Phone" :maxlength="15"
-                  @change="validatePhone()" />
-                <span class="textError">{{ error.Phone }}</span>
+              <!-- País -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-3">
+                      <label for="usuario" class="form-label-text">País:</label>
+                    </div>
+                    <div class="box-error">
+                      <span class="textError">{{ error.Country }}</span>
+                    </div>
+                    <div class="col-9">
+                      <select type="text" class="form-control" id="country" v-model="acc.Country"
+                        @change="validateCountry()">
+                        <option selected :value="acc.Country">{{ acc.Country }}</option>
+                        <option value="USA">USA</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" class="form-control" id="email" v-model="acc.Email"
-                  @change="validateEmail()" />
-                <span class="textError">{{ error.Email }}</span>
+            </div>
+            <div class="d-flex flex-wrap align-center">
+              <!-- CEP -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">CEP:</label>
+                      <input type="text" id="ZipCode" class="input-text" v-model="acc.ZipCode" @change="validateZipCode()"
+                        placeholder="23230231" />
+                    </div>
+                    <div class="box-error">
+                      <span class="textError">{{ error.ZipCode }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="zipcode" class="form-label">CEP:</label>
-                <input type="text" class="form-control" id="zipcode" v-model="acc.ZipCode"
-                  @change="validateZipCode()" />
-                <span class="textError">{{ error.ZipCode }}</span>
+              <!-- Complemento -->
+              <div class="col-lg-6 col-md-6 col-12 mb-1">
+                <div class="form-control">
+                  <div class="d-flex">
+                    <div class="col-12">
+                      <label for="usuario" class="form-label-text">Complemento:</label>
+                      <input type="text" id="Complemento" class="input-text" v-model="acc.ComplementAddress"
+                        placeholder="" />
+                    </div>
+                    <div class="box-error">
+                      <span class="textError"></span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="country" class="form-label">País:</label>
-                <select type="text" class="form-control" id="country" v-model="acc.Country"
-                  @change="validateCountry()" >
-                <option selected value="BR">BR</option>  
-                <option value="USA">USA</option>  
-                </select>
-                <span class="textError">{{ error.Country }}</span>
+            </div>
+            <!-- Endereço -->
+            <div class="col-12 mb-1">
+              <div class="form-control">
+                <div class="d-flex">
+                  <div class="col-12">
+                    <label for="usuario" class="form-label-text">Endereço:</label>
+                    <input type="text" id="Endereço" class="input-text" v-model="acc.Address" @change="validateAddress()"
+                      placeholder="01/01/1970" />
+                  </div>
+                  <div class="box-error">
+                    <span class="textError">{{ error.Address }}</span>
+                  </div>
+                </div>
               </div>
-              <div class="mb-6">
-                <label for="address" class="form-label">Endereço:</label>
-                <input type="text" class="form-control" id="address" v-model="acc.Address"
-                  @change="validateAddress()" />
-                <span class="textError">{{ error.Address }}</span>
-              </div>
-              <div class="mb-6">
-                <label for="complement-address" class="form-label">Complemento:</label>
-                <input type="text" class="form-control" id="complement-address" v-model="acc.ComplementAddress" />
-              </div>
-              <div class="mb-6">
-                <label for="password" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="password" v-model="acc.Password"
-                  @change="validatePassword()" />
+            </div>
+            <!-- Pass -->
+            <div class="mb-1">
+              <div class="col-12">
+                <div class="form-control">
+                  <div class="d-flex align-center justify-center">
+                    <div class="col-10">
+                      <label for="password" class="form-label-text">Senha:</label>
+                      <input :type="showPassword ? 'text' : 'password'" id="password" class="input-text"
+                        v-model="acc.Password" placeholder="p@ssw0rd" @change="validatePassword()" />
+                    </div>
+                    <div class="col-2 d-flex justify-center">
+                      <button @click.prevent="showPassword = !showPassword" class="showHide">
+                        {{ showPassword ? "#" : "@" }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <span class="textError">{{ error.Password }}</span>
               </div>
-              <div class="mb-6">
-                <label for="confirmPassword" class="form-label">Confirme sua senha:</label>
-                <input type="password" class="form-control" id="confirmPassword" v-model="acc.ConfirmPassword"
-                  @change="validateConfirmPassword()" />
-                <span class="textError">{{ error.ConfirmPassword }}</span>
+            </div>
+            <div class="col-12">
+              <div class="form-control">
+                <div class="d-flex align-center justify-center">
+                  <div class="col-10">
+                    <label for="password" class="form-label-text">Confirmar Senha:</label>
+                    <input :type="showPassword ? 'text' : 'password'" id="password" class="input-text"
+                      v-model="acc.ConfirmPassword" placeholder="c0nfirm p@ssw0rd" @change="validateConfirmPassword()" />
+                  </div>
+                  <div class="col-2 d-flex justify-center">
+                  </div>
+                </div>
               </div>
-              <div class="mb-6 mt-4 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" @click="register()"
-                  :disabled="!canRegister()">
-                  Cadastrar
-                </button>
-              </div>
-            </form>
-          </div>
+              <span class="textError">{{ error.ConfirmPassword }}</span>
+            </div>
+            <div class="mb-6 mt-4 d-flex justify-content-center">
+              <button type="button" class="btn btn-primary" @click="register()" :disabled="!canRegister()">
+                Cadastrar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </div>
+  </CardBox>
 </template>
 
 <script>
 import { ref, inject, watch, reactive, toRefs } from "vue";
 import AccountService from "../../services/AccountService";
+import CardBox from "./../components/Layout/CardBox.vue";
 import auxiliar from "../../global/auxiliar";
 import { useRouter } from "vue-router";
 
 export default {
+  components: { CardBox },
   setup() {
     const title = ref("Cadastro");
     const description = ref("Registrando uma nova conta");

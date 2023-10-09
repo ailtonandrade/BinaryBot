@@ -21,7 +21,7 @@ export default ({
           style.value.setProperty('--switch-elements-mode-secondary', 'rgb(210, 210, 210)');
           style.value.setProperty('--switch-elements-mode-tertiary' , 'rgb(200, 200, 200)');
         } else {
-          style.value.setProperty('--switch-mode-primary'           , 'rgb(240, 240, 240)');
+          style.value.setProperty('--switch-mode-primary'           , 'rgb(220, 220, 220)');
           style.value.setProperty('--switch-mode-secondary'         , 'rgb(210, 210, 210)');
           style.value.setProperty('--switch-mode-tertiary'          , 'rgb(200, 200, 200)');
           style.value.setProperty('--switch-elements-mode-primary'  , 'rgb(22, 22, 22)');

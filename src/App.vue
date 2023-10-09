@@ -6,11 +6,9 @@
       <ToggleSideMenu v-if="isLoggedIn" />
       <SideMenu v-if="isLoggedIn" :listMenu="_listSideMenu" class="side-menu" />
     </div>
-    <div class="relative-container">
-      <div class="router-view" :class="isLoggedIn ? 'p-t-100' : 'p-0'">
-        <router-view>
-        </router-view>
-      </div>
+    <div class="router-view" :class="isLoggedIn ? 'p-t-custom' : 'p-0'">
+      <router-view>
+      </router-view>
     </div>
     <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
       @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
@@ -202,6 +200,9 @@ export default {
 @import "./styles/commom.css";
 @import "./styles/sidebar.css";
 
+html, body{
+  overflow-x: hidden;
+}
 .menu {
   position: fixed;
   z-index: 10;
@@ -214,9 +215,8 @@ export default {
 
 .toggle-side-menu {
   position: fixed;
-  z-index: 10;
+  z-index: 1
 }
-
 .main-bar {
   position: fixed;
   z-index: 9;
@@ -224,9 +224,9 @@ export default {
 
 .router-view {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   overflow-x: hidden;
-  background-color: var(--switch-elements-mode-primary);
+  overflow-y: scroll;
   background-color: var(--switch-mode-primary);
 }
 </style>
