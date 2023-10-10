@@ -10,6 +10,7 @@
       <router-view>
       </router-view>
     </div>
+    <Loading></Loading>
     <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
       @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
     <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
@@ -34,6 +35,7 @@ import SwitchMode from "./views/components/SwitchMode.vue";
 import Menu from "./views/components/menu/Menu.vue";
 import ToggleSideMenu from "./views/components/SideMenu/components/ToggleSideMenu.vue";
 import SideMenu from "./views/components/SideMenu/SideMenu.vue";
+import Loading from "./views/components/Loading.vue";
 import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
@@ -41,7 +43,7 @@ import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "App",
-  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu, SwitchMode },
+  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu, SwitchMode, Loading },
   setup() {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
