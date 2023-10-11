@@ -102,6 +102,9 @@
 }
 
 /* DISPLAY POSITIONS */
+.overflow-hidden{
+  overflow: hidden;
+}
 .p-top-10 {
   padding-top: 70px;
 }
@@ -164,7 +167,7 @@
 }
 
 .align-top {
-  align-items: top;
+  align-items: flex-start !important;
 }
 
 .align-end {

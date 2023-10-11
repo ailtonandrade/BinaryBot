@@ -9,7 +9,7 @@ class Auxiliar {
         return val.replaceAll(" ", "").replace(/[^\w\s]/gi, "");
     };
     formatOnlyCharsNumbersAndWhiteSpace(val = "") {
-        
+
         return val != null ? val.replace(/[^\w\s]/gi, "").replaceAll("  ", " ") : "";
     };
     formatToPhone(val = "") {
@@ -32,26 +32,26 @@ class Auxiliar {
     };
     formatToDoc(val = "") {
         if (val.toLowerCase().endsWith("x")) {
-            val = val.slice(0,13);
+            val = val.slice(0, 13);
             val = val.replace(/^(\d{3})(\d{3})(\d{3})([xX\d])$/, "$1.$2.$3-$4");
             return val;
         }
         else {
-            val = val.replace(/\D/g, ""); 
-            val = val.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4"); 
+            val = val.replace(/\D/g, "");
+            val = val.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
             return val;
         }
 
     };
-    validate(p = ""){
+    validate(p = "") {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return regex.test(p);
     }
-    validateDocCharMatches(val  = ""){
+    validateDocCharMatches(val = "") {
         const DocXmatches = val.match(/x/g);
         return DocXmatches?.length ? DocXmatches?.length : 0;
     }
-   
+
     async getHash(obj) {
         const newObj = JSON.parse(JSON.stringify(obj));
         newObj.Password = MD5(newObj.Password).toString(enc.Hex);
@@ -63,5 +63,27 @@ class Auxiliar {
         newObj.ConfirmPassword = MD5(newObj.ConfirmPassword).toString(enc.Hex);
         return newObj;
     }
+
+    startMarqueeAnimation(elementId) {
+        const marqueeList = document.getElementById(elementId);
+        if (marqueeList) {
+            marqueeList.style.animationPlayState = "running";
+        }
+    }
+
+    pauseMarqueeAnimation(elementId) {
+        const marqueeList = document.getElementById(elementId);
+        if (marqueeList) {
+            marqueeList.style.animationPlayState = "paused";
+        }
+    }
+
+    resumeMarqueeAnimation(elementId) {
+        const marqueeList = document.getElementById(elementId);
+        if (marqueeList) {
+            marqueeList.style.animationPlayState = "running";
+        }
+    }
+
 }
 export default new Auxiliar();

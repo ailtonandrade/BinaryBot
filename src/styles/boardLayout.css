@@ -1,0 +1,208 @@
+/* LAYOUT */
+.b-content {
+  max-width: 500px;
+  margin-top: 30px;
+
+}
+
+.b-card {
+  display: flex;
+  padding: 10px;
+  color: var(--switch-elements-mode-secondary);
+  border-color: var(--switch-mode-tertiary);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+}
+
+.b-row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.b-row-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.b-row-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.b-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.b-column-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.b-column-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* BTN PLATFORM EMPTY */
+.b-column-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.b-btn-platform-empty {
+  outline: none;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border-style: solid;
+  transition: 0.2s;
+  border-color: var(--switch-elemets-mode-secondary);
+  background-color: transparent;
+  color: var(--switch-elemets-mode-secondary);
+  opacity: 0.1;
+}
+
+.b-description-empty {
+  outline: none;
+  width: 100px;
+  height: 20px;
+  border-radius: 5px;
+  transition: 0.2s;
+  background-color: var(--switch-elements-mode-secondary);
+  opacity: 0.1;
+}
+
+.b-description-empty-info {
+  outline: none;
+  width: 100px;
+  height: 20px;
+  border-radius: 5px;
+  transition: 0.2s;
+  background-color: var(--switch-elements-mode-secondary);
+  opacity: 0.1;
+}
+
+.b-btn-action-empty {
+  outline: none;
+  height: 50px;
+  width: 50vw;
+  border-radius: 5px;
+  border-style: solid;
+  transition: 0.2s;
+  background-color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-primary);
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.b-btn-action-empty:hover {
+  opacity: 0.4;
+}
+
+/* BTN PLATFORM */
+
+.b-btn-platform {
+  outline: none;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border-style: none;
+  transition: 0.2s;
+  background-color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-secondary);
+  cursor: pointer;
+}
+
+.b-btn-platform:hover {
+  background-color: var(--switch-mode-primary);
+  color: var(--switch-elements-mode-secondary);
+}
+
+.b-btn-platform:focus {
+  border-style: none;
+  outline: none;
+}
+
+.b-btn-platform:active {
+  border-style: none;
+  outline: none;
+}
+
+/* BTN ACTION */
+.b-btn-action {
+  outline: none;
+  height: 50px;
+  width: 50vw;
+  border-radius: 5px;
+  border-style: none;
+  transition: 0.2s;
+  background-color: var(--decoration-primary);
+  color: var(--switch-mode-secondary);
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.b-btn-action:hover {
+  opacity: 1;
+}
+
+.b-btn-action:focus {
+  border-style: none;
+  outline: none;
+}
+
+.b-btn-action:active {
+  border-style: none;
+  outline: none;
+}
+
+
+.b-marquee {
+  overflow-x: hidden;
+  max-width: 2000px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.b-marquee-list {
+  display: inline-block;
+  width: 100vw;
+  max-width: 2000px;
+  padding: 0;
+  margin: 0;
+  animation: marquee 35s linear infinite;
+}
+
+.b-marquee-list li {
+  display: inline;
+  width: 100vw;
+  margin-right: 20px;
+  list-style-type: none;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

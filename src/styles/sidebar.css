@@ -280,7 +280,7 @@ li {
   display: block;
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width:600px) {
   .toggle-side-menu {
     transform: translateX(-50px);
   }
