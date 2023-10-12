@@ -4,7 +4,10 @@ import ws from './ws';
 class SocketService {
   async getDashInfo(data) {
     try {
-      return await ws.startConnection();
+        setTimeout(() => {
+          console.clear()
+          ws.sendMessage("test222");
+        },2000)
     } catch (err) {
       throw err;
     }
