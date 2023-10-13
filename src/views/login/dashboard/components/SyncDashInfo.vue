@@ -29,7 +29,7 @@ export default {
     }
 
     onMounted(() => {
-      intervalIdsyncDashInfo.value = setInterval(syncDashInfo, 1000);
+      intervalIdsyncDashInfo.value = setInterval(syncDashInfo, 2000);
     });
 
     onUnmounted(() => {
