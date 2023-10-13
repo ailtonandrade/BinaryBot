@@ -4,10 +4,8 @@ import ws from './ws';
 class SocketService {
   async getDashInfo(data) {
     try {
-        setTimeout(() => {
-          console.clear()
-          ws.sendMessage("test222");
-        },2000)
+      const response = await ws.sendMessage("test222");
+      console.log("Server response: " + response);
     } catch (err) {
       throw err;
     }

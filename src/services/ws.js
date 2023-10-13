@@ -1,24 +1,25 @@
 class Ws {
   constructor() {
-    // URL do servidor WebSocket
+    const msgErrorNotSendMessage = "WebSocket connection is not open. Cannot send message.";
+    const msgErrorNotConnected = "WebSocket connection established.";
+    const msgErrorConnectionError = "WebSocket connection error: ";
+    
     this.serverUrl = "wss://localhost:7079/ws";
-
-    // Crie uma instância da conexão WebSocket
     this.socket = new WebSocket(this.serverUrl);
 
-    // Defina tratadores de eventos para WebSocket
     this.socket.addEventListener('open', () => {
-      console.log("WebSocket connection established.");
+      console.log(msgErrorNotConnected);
     });
 
     this.socket.addEventListener('message', (event) => {
-      console.clear();
-      console.log("Received message: " + event.data);
-
+      if (this.messageResolver) {
+        this.messageResolver(event.data);
+        this.messageResolver = null;
+      }
     });
 
     this.socket.addEventListener('error', (error) => {
-      console.error("WebSocket connection error: " + error);
+      console.error(msgErrorConnectionError + error);
     });
 
     this.socket.addEventListener('close', (event) => {
@@ -31,13 +32,14 @@ class Ws {
   }
 
   sendMessage(message) {
-    if (this.socket.readyState === WebSocket.OPEN) {
-      // Certifique-se de que a conexão WebSocket está aberta antes de enviar uma mensagem
-      this.socket.send(message);
-      console.log("Message sent: " + message);
-    } else {
-      console.error("WebSocket connection is not open. Cannot send message.");
-    }
+    return new Promise((resolve) => {
+      if (this.socket.readyState === WebSocket.OPEN) {
+        this.messageResolver = resolve;
+        this.socket.send(message);
+      } else {
+        console.error(msgErrorNotSendMessage);
+      }
+    });
   }
 }
 
