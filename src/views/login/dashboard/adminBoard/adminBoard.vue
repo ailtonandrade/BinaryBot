@@ -111,24 +111,29 @@
       </button>
     </div>
   </div>
+  <SyncDashInfo></SyncDashInfo>
 </template>
 <script>
-import { reactive, toRefs, onMounted } from "vue";
+import { reactive, toRefs, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import SocketService from "../../../../services/SocketService";
-
+import SyncDashInfo from "../components/SyncDashInfo.vue";
 export default {
-
+  components: {
+    SyncDashInfo
+  },
   setup() {
     const router = useRouter();
+    const response = ref();
     const methods = reactive({
     });
 
     onMounted(() => {
-      SocketService.getDashInfo({ obj: 'ok' });
     });
 
+
     return {
+      response,
       ...toRefs(methods),
     };
   },

@@ -1,14 +1,14 @@
+const MSG_ERROR_NOT_SEND_MESSAGE = "Connection is not open. Cannot send message.";
+const MSG_CONNECTED = "Connection established.";
+const MSG_ERROR_CONNECTION_ERROR = "Connection error: ";
+
 class Ws {
   constructor() {
-    const msgErrorNotSendMessage = "WebSocket connection is not open. Cannot send message.";
-    const msgErrorNotConnected = "WebSocket connection established.";
-    const msgErrorConnectionError = "WebSocket connection error: ";
-    
     this.serverUrl = "wss://localhost:7079/ws";
     this.socket = new WebSocket(this.serverUrl);
 
     this.socket.addEventListener('open', () => {
-      console.log(msgErrorNotConnected);
+      console.log(MSG_CONNECTED);
     });
 
     this.socket.addEventListener('message', (event) => {
@@ -19,25 +19,34 @@ class Ws {
     });
 
     this.socket.addEventListener('error', (error) => {
-      console.error(msgErrorConnectionError + error);
+    this.socket = new WebSocket(this.serverUrl);
+      // console.error(MSG_ERROR_CONNECTION_ERROR + error);
     });
 
     this.socket.addEventListener('close', (event) => {
-      if (event.wasClean) {
-        console.log("WebSocket connection closed cleanly, code=" + event.code + ", reason=" + event.reason);
-      } else {
-        console.error("WebSocket connection abruptly closed");
-      }
+      // if (event.wasClean) {
+      //   console.log("Closed cleanly, code=" + event.code + ", reason=" + event.reason);
+      // } else {
+      //   console.error("Closed");
+      // }
     });
   }
 
-  sendMessage(message) {
-    return new Promise((resolve) => {
+  sendMessage(text, jsonData) {
+    return new Promise((resolve, reject) => {
       if (this.socket.readyState === WebSocket.OPEN) {
+        const messageObj = {
+          text,
+          data: jsonData,
+        };
+
+        // Converte o objeto em uma string JSON
+        const messageString = JSON.stringify(messageObj);
+
         this.messageResolver = resolve;
-        this.socket.send(message);
+        this.socket.send(messageString);
       } else {
-        console.error(msgErrorNotSendMessage);
+        reject(new Error(MSG_ERROR_NOT_SEND_MESSAGE));
       }
     });
   }
