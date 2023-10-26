@@ -1,10 +1,10 @@
 <template>
-  <div :id="'modal-custom-' + reference" @click="closeModal()" class="modal-box-back" />
+  <div v-if="show" :id="'modal-custom-' + reference" @click="closeModal()" class="modal-box-back" />
   <div class="body justify-center modal-box-content">
     <div class="col-12">
-      <div class="flex-row col-12">
-        <div class="flex col-10 align-center flex-start">
-          <font-awesome-icon v-if="icon != null" class="icon-modal" :icon="icon" size="2x" />
+      <div class="flex-row">
+        <div class="d-flex align-center justify-start col-10">
+          <font-awesome-icon v-if="icon != null" class="icon-modal" :icon="icon" size="1x" />
           <h1 v-if="title != null" class="title">{{ title }}</h1>
         </div>
         <div :class="icon != null ? 'col-2' : 'col-12'" class="flex align-center flex-center">
@@ -15,8 +15,32 @@
       <div class="flex-row">
         <div class="flex align-center col-12 justify-center">
           <form>
-            <label for="">Nome</label>
-            <input type="text" />
+            <div class="form-group form-control">
+              <label for="" class="label-form-control">Nome</label>
+              <select type="text" class="form-control" id="IqOption" @change="">
+                <option selected value="IqOption">IQ Option</option>
+                <option value="Metatrader">Metatrader 5</option>
+              </select>
+            </div>
+            <div class="form-group form-control">
+              <div class="col-12">
+                <label for="userName" class="form-label-text">Usuário da Plataforma:</label>
+                <input type="text" id="userName" class="input-text" @change="" placeholder="usuari011011" />
+              </div>
+            </div>
+            <div class="form-group form-control">
+              <div class="col-12">
+                <label for="password" class="form-label-text">Senha da Plataforma:</label>
+                <input type="password" id="password" class="input-text" @change="" placeholder="p@ss011011" />
+              </div>
+            </div>
+            <div class="d-flex justify-center">
+              <button type="button"
+                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-primary b-radius-10 p-1 b-shadow-1"
+                @click="">
+                Registrar
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -32,10 +56,11 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, toRefs, ref } from "vue";
+import { defineComponent, reactive, toRefs, inject } from "vue";
 export default defineComponent({
   emits: ["closeModal"],
   props: {
+    show: Boolean = false,
     reference: String,
     title: String,
     icon: String,
@@ -44,15 +69,18 @@ export default defineComponent({
     description: String,
   },
   setup(props, { emit }) {
+    const closeModalCustom = inject("closeModalCustom");
+
     const methods = reactive({
       closeModal() {
-        emit("closeModal");
+        closeModalCustom();
       },
       toAction() {
-        console.log("ação modal box = " + props.action);
+        console.log("ação modal custom = " + props.action);
       },
     });
     return {
+      closeModalCustom,
       ...toRefs(methods),
     };
   },
@@ -79,7 +107,7 @@ export default defineComponent({
   height: 100vh;
   width: 100vw;
   background-color: black;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .icon-modal {
@@ -88,7 +116,7 @@ export default defineComponent({
 
 .title {
   padding-top: 15px;
-  font-size: x-large;
+  font-size: large;
 }
 
 .message {
@@ -101,6 +129,7 @@ export default defineComponent({
   min-width: 150px;
   max-width: 450px;
   padding-top: 5px;
+  opacity: 1;
 }
 
 /* btn close */
@@ -182,6 +211,7 @@ export default defineComponent({
   to {
     opacity: 1;
   }
-}</style>
+}
+</style>
 
 

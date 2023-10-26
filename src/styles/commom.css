@@ -209,6 +209,9 @@
 
 
 /* INPUTS */
+.label-form-control{
+  font-size: 8pt;
+}
 .form-control,
 input {
   color: var(--switch-elements-mode-secondary) !important;

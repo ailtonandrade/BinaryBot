@@ -16,6 +16,9 @@
     <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
       :message="_dataModalBox.message" :description="_dataModalBox.description" :action="_dataModalBox.action"
       class="modal-box" />
+    <ModalCustom :show="configModalCustom.show" :reference="configModalCustom.reference" :title="configModalCustom.title"
+      :icon="configModalCustom.icon" :message="configModalCustom.message" :action="configModalCustom.action"
+      :description="configModalCustom.description"></ModalCustom>
   </main>
 </template>
 <script>
@@ -40,16 +43,27 @@ import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
 import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
+import ModalCustom from './views/components/ModalCustom.vue';
 
 export default {
   name: "App",
-  components: { Menu, ModalBox, MessageBox, SideMenu, ToggleSideMenu, SwitchMode, Loading },
+  components: { Menu, ModalBox, ModalCustom, MessageBox, SideMenu, ToggleSideMenu, SwitchMode, Loading },
   setup() {
     const isLoggedIn = ref(false);
     const _showModalBox = ref(false);
     const isDarkMode = ref(true);
     const showMainBar = ref(false);
     const router = useRouter();
+
+    const configModalCustom = ref({
+      show: false,
+      reference: "",
+      title: "",
+      icon: "",
+      message: "",
+      action: "",
+      description: "",
+    });
     const _dataModalBox = ref({
       title: "",
       message: "",
@@ -96,7 +110,18 @@ export default {
       actionMessageBox(event) {
         _actionMessageBox.value = event;
       },
-
+      openModalCustom(config) {
+        configModalCustom.value.show = true;
+        configModalCustom.value.reference = config.reference;
+        configModalCustom.value.title = config.title;
+        configModalCustom.value.icon = config.icon;
+        configModalCustom.value.message = config.message;
+        configModalCustom.value.action = config.action;
+        configModalCustom.value.description = config.description;
+      },
+      closeModalCustom() {
+        configModalCustom.value.show = false;
+      },
       async requestAccess() {
         try {
           const res = await AuthService.getValidateCurrent(router.currentRoute.value);
@@ -170,10 +195,11 @@ export default {
         }
       }
     });
-
     provide("clearModalBox", methods.clearModalBox);
     provide("clearMessageBox", methods.clearMessageBox);
     provide("addMessageBox", methods.addMessageBox);
+    provide("openModalCustom", methods.openModalCustom);
+    provide("closeModalCustom", methods.closeModalCustom);
     provide("actionMessageBox", _actionMessageBox.value);
     provide("listMessageBox", _listMessageBox.value);
     provide("showModalBox", methods.showModalBox);
@@ -191,6 +217,7 @@ export default {
       _dataModalBox,
       _showModalBox,
       _listMessageBox,
+      configModalCustom,
       ...toRefs(methods),
     };
   },
@@ -202,9 +229,11 @@ export default {
 @import "./styles/commom.css";
 @import "./styles/sidebar.css";
 
-html, body{
+html,
+body {
   overflow-x: hidden;
 }
+
 .menu {
   position: fixed;
   z-index: 10;
@@ -219,6 +248,7 @@ html, body{
   position: fixed;
   z-index: 1
 }
+
 .main-bar {
   position: fixed;
   z-index: 9;

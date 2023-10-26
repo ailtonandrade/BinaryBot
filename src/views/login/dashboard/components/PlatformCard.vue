@@ -70,14 +70,10 @@
             </button>
         </div>
     </div>
-    <ModalCustom :reference="configModalAddPlatform.reference" :title="configModalAddPlatform.title"
-        :icon="configModalAddPlatform.icon" :message="configModalAddPlatform.message"
-        :action="configModalAddPlatform.action" :description="configModalAddPlatform.description"></ModalCustom>
 </template>
 <script>
-import { reactive, toRefs, onMounted, ref } from "vue";
+import { reactive, toRefs, onMounted, ref, inject } from "vue";
 import { useRouter } from "vue-router";
-import ModalCustom from './ModalCustom.vue';
 import { faLongArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -87,24 +83,23 @@ export default {
         platforms: Array
     },
     components: {
-        ModalCustom
     },
     setup(props) {
         const router = useRouter();
         const response = ref();
+        const openModalCustom = inject("openModalCustom");
         const configModalAddPlatform = ref({
             reference: "addPlatform",
-            title: "Adicioanr Plataforma",
+            title: "Adicionar Plataforma",
             icon: "plus",
             message: "",
             action: "",
             description: "",
         })
         const methods = reactive({
-            openAddPlatform() {
-                const modal = document.getElementById(configModalAddPlatform.value.reference);
-                console.log(modal);
-            }
+            openModalCustom() {
+                openModalCustom(configModalAddPlatform.value)
+            },
         });
 
         onMounted(() => {
@@ -113,6 +108,7 @@ export default {
 
         return {
             response,
+            openModalCustom,
             configModalAddPlatform,
             ...toRefs(methods),
         };
