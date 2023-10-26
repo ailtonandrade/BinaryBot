@@ -1,5 +1,5 @@
 <template>
-  <div @click="closeModal()" class="modal-box-back"/>
+  <div :id="'modal-custom-' + reference" @click="closeModal()" class="modal-box-back" />
   <div class="body justify-center modal-box-content">
     <div class="col-12">
       <div class="flex-row col-12">
@@ -7,16 +7,17 @@
           <font-awesome-icon v-if="icon != null" class="icon-modal" :icon="icon" size="2x" />
           <h1 v-if="title != null" class="title">{{ title }}</h1>
         </div>
-        <div :class="icon != null ? 'col-2': 'col-12'" class="flex align-center flex-center">
+        <div :class="icon != null ? 'col-2' : 'col-12'" class="flex align-center flex-center">
           <button @click="closeModal()" class="btn-close">X</button>
         </div>
       </div>
       <hr />
       <div class="flex-row">
         <div class="flex align-center col-12 justify-center">
-          <p class="message">
-            {{ message }}
-          </p>
+          <form>
+            <label for="">Nome</label>
+            <input type="text" />
+          </form>
         </div>
       </div>
       <hr />
@@ -31,10 +32,11 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, toRefs, ref} from "vue";
+import { defineComponent, reactive, toRefs, ref } from "vue";
 export default defineComponent({
   emits: ["closeModal"],
   props: {
+    reference: String,
     title: String,
     icon: String,
     message: String,
@@ -54,13 +56,13 @@ export default defineComponent({
       ...toRefs(methods),
     };
   },
-  name: "ModalBox",
+  name: "ModalCustom",
 });
 </script>
 <style scoped>
 .body {
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -71,25 +73,28 @@ export default defineComponent({
 }
 
 .modal-box-back {
-  height:100vh;
-  width:100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
   background-color: black;
   opacity: 0.7;
 }
+
 .icon-modal {
   margin-right: 10px;
-  color: var(--switch-elements-mode-secondary);
 }
+
 .title {
-  padding-top:15px;
+  padding-top: 15px;
   font-size: x-large;
-  color: var(--switch-elements-mode-secondary);
 }
+
 .message {
   font-size: large;
-  color: var(--switch-elements-mode-secondary);
-
 }
+
 .modal-box-content {
   animation: slideDown 0.3s ease;
   width: 80%;
@@ -97,28 +102,31 @@ export default defineComponent({
   max-width: 450px;
   padding-top: 5px;
 }
+
 /* btn close */
 .btn-close {
-  cursor:pointer;
+  cursor: pointer;
   height: 25px;
   width: 25px;
-  background-color: var(--switch-elements-mode-secondary);
-  color: var(--switch-mode-secondary);
+  background-color: var(--switch-mode-secondary);
+  color: var(--switch-elements-mode-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: 0.5s;
   outline: none;
-  font-size: small;
 }
+
 .btn-close:hover {
   opacity: 0.9;
 }
+
 .btn-close:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
   color: var(--switch-elements-mode-secondary);
 }
+
 /* btn action */
 .btn-action-cancel {
   height: 25px;
@@ -130,14 +138,17 @@ export default defineComponent({
   transition: 0.5s;
   outline: none;
 }
+
 .btn-action-cancel:hover {
   opacity: 0.9;
 }
+
 .btn-action-cancel:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
   color: var(--switch-elements-mode-secondary);
 }
+
 .btn-action-confirm {
   height: 25px;
   background-color: var(--switch-mode-secondary);
@@ -148,14 +159,17 @@ export default defineComponent({
   transition: 0.5s;
   outline: none;
 }
+
 .btn-action-confirm:hover {
   opacity: 0.9;
 }
+
 .btn-action-confirm:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
   color: var(--switch-elements-mode-secondary);
 }
+
 .btn-action {
   padding-top: 20px;
 }
@@ -164,10 +178,10 @@ export default defineComponent({
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
-}
-</style>
+}</style>
 
 
