@@ -16,7 +16,7 @@
     <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
       :message="_dataModalBox.message" :description="_dataModalBox.description" :action="_dataModalBox.action"
       class="modal-box" />
-    <ModalCustom :show="configModalCustom.show" :reference="configModalCustom.reference" :title="configModalCustom.title"
+    <ModalCustom v-if="configModalCustom.show" :show="configModalCustom.show" :reference="configModalCustom.reference" :title="configModalCustom.title"
       :icon="configModalCustom.icon" :message="configModalCustom.message" :action="configModalCustom.action"
       :description="configModalCustom.description"></ModalCustom>
   </main>

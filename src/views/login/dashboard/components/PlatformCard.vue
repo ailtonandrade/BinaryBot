@@ -97,7 +97,7 @@ export default {
             description: "",
         })
         const methods = reactive({
-            openModalCustom() {
+            openAddPlatform() {
                 openModalCustom(configModalAddPlatform.value)
             },
         });

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" :id="'modal-custom-' + reference" @click="closeModal()" class="modal-box-back" />
+  <div v-if="show === true" :id="'modal-custom-' + reference" @click="closeModal()" class="modal-box-back" />
   <div class="body justify-center modal-box-content">
     <div class="col-12">
       <div class="flex-row">
@@ -59,18 +59,10 @@
 import { defineComponent, reactive, toRefs, inject } from "vue";
 export default defineComponent({
   emits: ["closeModal"],
-  props: {
-    show: Boolean = false,
-    reference: String,
-    title: String,
-    icon: String,
-    message: String,
-    action: String,
-    description: String,
-  },
+  props: ["show",'reference',"title",'icon',"message","action","description"],
   setup(props, { emit }) {
     const closeModalCustom = inject("closeModalCustom");
-
+console.log(props.show)
     const methods = reactive({
       closeModal() {
         closeModalCustom();
