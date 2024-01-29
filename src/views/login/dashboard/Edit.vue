@@ -1,5 +1,5 @@
 <template>
-  <CardBox  :title="title" :description="description" :breadcrumb="[{ name: 'Dashboard', link: '' },{ name: 'Editar Perfil', link: 'edit-perfil' }]">
+  <CardBox  :title="title" :description="description" :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' },{ name: 'Editar Perfil', link: 'edit-perfil' }]">
   <div class="container row">
     <div class="col-lg-6 col-md-6 col-sm-12">
       <form>

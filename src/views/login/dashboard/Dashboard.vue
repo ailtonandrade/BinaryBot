@@ -37,6 +37,7 @@ import { useRouter } from "vue-router";
 import { Perfils } from "../../../enums/perfils";
 import AdminBoard from "./adminBoard/adminBoard.vue";
 import AuthService from "../../../services/AuthService";
+import DashboardService from "../../../services/DashboardService";
 import CardBox from "../../components/Layout/CardBox.vue";
 import MarqueeList from "./components/MarqueeList.vue";
 
@@ -70,19 +71,17 @@ export default defineComponent({
           }
         }
       },
-    });
-
-    onMounted(() => {
-      AuthService.getPerfil()
-        .then((response) => {
-          if (response) {
-            userData.value = response.perfils[0].perfilType.description;
-          }
+      getStockMarket(){
+        DashboardService.getStockMarket()
+        .then((resp) => {
+          console.log(resp);
         })
-        .catch((error) => {
-          console.error(error);
-        });
-      if (localStorage.getItem("confirmedEmail") === "false") {
+        .catch((ex) => {
+          console.error(ex);
+        })
+      },
+      checkMessageBox(){
+        if (localStorage.getItem("confirmedEmail") === "false") {
         _addMessageBox(
           "Atenção",
           "Confirmação de email não realizada",
@@ -91,6 +90,24 @@ export default defineComponent({
           "reconfirmEmail"
         );
       }
+      },
+      getAllPerfil(){
+        AuthService.getPerfil()
+        .then((response) => {
+          if (response) {
+            userData.value = response.perfils[0].perfilType.description;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
+    });
+
+    onMounted(() => {
+      methods.getAllPerfil();
+      methods.checkMessageBox();
+      methods.getStockMarket();
     });
 
     return {

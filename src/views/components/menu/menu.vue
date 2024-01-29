@@ -2,16 +2,24 @@
   <div class="menu p-10">
     <div class="container-fluid">
       <div class="flex-row">
-        <div class="col-lg-3 col-md-3 brand-nav justify-start btn-nav" @click="redirectToHome()">
+        <div class="col-lg-5 col-md-5 brand-nav justify-start btn-nav" @click="redirectToHome()">
           <button v-if="router.currentRoute.value.name != 'dashboard'" class="p-1" @click="back()">
             <font-awesome-icon icon="fa-solid fa-arrow-left" size="1x" />
           </button>
         </div>
-        <div class="col-lg-6 col-md-6 brand-nav justify-center" @click="redirectToHome()">
+        <div class="col-lg-2 col-md-2 brand-nav justify-center" @click="redirectToHome()">
           <a class="p-1" href="#">BinaryBot</a>
         </div>
         <div class="col-lg-2 col-md-2 d-flex align-center justify-end info-user">
           <span>@{{ userData?.userName }}</span>
+        </div>
+        <div class="col-lg-2 col-md-2 flex-row justify-content-end">
+          <div class="btn-nav" @click="toggleNotify()">
+            <button class="p-1">
+              <font-awesome-icon class="btn-nav-icon" :class="{ 'active': showNotifyBar }"
+                :icon="!showNotifyBar ? 'fa-solid fa-bell' : 'fa-regular fa-bell'" size="1x" />
+            </button>
+          </div>
         </div>
         <div class="col-lg-1 col-md-1 flex-row justify-content-end">
           <div class="btn-nav" @click="toggleMenu()">
@@ -30,11 +38,14 @@
 import { inject, toRefs, reactive, ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import MainBar from "./MainBar.vue";
+import SyncNotify from "../SyncNotify.vue";
 
 
 export default {
   components: {
-    MainBar
+    MainBar,
+    SyncNotify,
+
   },
   setup() {
     const router = useRouter();
@@ -42,10 +53,15 @@ export default {
       userName: ""
     });
     const showMainBar = inject("showMainBar", false);
+    const showNotifyBar = ref(false);
     const methods = reactive({
       redirectToHome() {
         showMainBar.value = false;
+        showNotifyBar.value = false;
         router.goTo("dashboard");
+      },
+      toggleNotify() {
+        showNotifyBar.value = !showNotifyBar.value;
       },
       toggleMenu() {
         showMainBar.value = !showMainBar.value;
@@ -62,6 +78,7 @@ export default {
       userData,
       router,
       showMainBar,
+      showNotifyBar,
       ...toRefs(methods),
     };
   },

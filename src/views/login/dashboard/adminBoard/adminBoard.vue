@@ -27,17 +27,14 @@
       </button>
     </div>
   </div>
-  <SyncDashInfo></SyncDashInfo>
 </template>
 <script>
 import { reactive, toRefs, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import SocketService from "../../../../services/SocketService";
-import SyncDashInfo from "../components/SyncDashInfo.vue";
 import PlatformCard from "../components/PlatformCard.vue";
 export default {
   components: {
-    SyncDashInfo,
     PlatformCard
   },
   setup() {
