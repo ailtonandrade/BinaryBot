@@ -31,7 +31,6 @@
 <script>
 import { reactive, toRefs, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import SocketService from "../../../../services/SocketService";
 import PlatformCard from "../components/PlatformCard.vue";
 export default {
   components: {

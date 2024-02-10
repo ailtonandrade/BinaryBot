@@ -2,7 +2,7 @@
   <div :class="{ 'main-bar': true, 'show': showHide }">
     <div class="d-flex justify-end">
       <div class="col-md-3 p-0 m-0 col-lg-3 col-6 order-md-2 order-2">
-        <div class="d-flex direction-column align-end main-bar-content">
+        <div class="d-flex direction-column align-end main-bar-content b-shadow-3">
           <!-- Switch Mode -->
           <div class="main-bar-btn dark-mode col-4" @click="toggleDarkMode()">
             <button class="main-bar-btn-icon col-12 d-flex justify-center p-1">

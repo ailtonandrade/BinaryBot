@@ -45,12 +45,12 @@ export default {
       input: "",
     });
     const router = useRouter();
-    const _showModalBox = inject("showModalBox");
-    const _addMessageBox = inject("addMessageBox");
+    const showModalBox = inject("showModalBox");
+    const addMessageBox = inject("addMessageBox");
     const methods = reactive({
       async send() {
         if (!objUser.value.input) {
-          _addMessageBox(
+          addMessageBox(
           "Eii...",
           "Por favor, preencha o campo para prosseguir.",
           null,
@@ -63,7 +63,7 @@ export default {
               methods.responseData(response);
             })
             .catch((error) => {
-              _addMessageBox(
+              addMessageBox(
                 "Oops...",
                 error.response.data,
                 null,
@@ -78,7 +78,7 @@ export default {
       },
       responseData(response) {
         if (response.status == 200) {
-          _addMessageBox(
+          addMessageBox(
                 "Oops...",
                 "Um email foi enviado para que consiga recuperar a sua conta.",
                 null,

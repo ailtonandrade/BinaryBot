@@ -26,11 +26,7 @@ import LineDecoration from "./LineDecoration.vue";
 import { useRouter } from "vue-router";
 
 export default ({
-  props: {
-    title: String,
-    description: String,
-    breadcrumb: Array
-  },
+  props: ['title','description','breadcrumb'],
   components: {
     LineDecoration
   },

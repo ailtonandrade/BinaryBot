@@ -37,7 +37,7 @@
                     <div class="col-10">
                       <label for="password" class="form-label-text">Senha:</label>
                       <input :type="showPassword ? 'text' : 'password'" id="password" class="input-text"
-                        v-model="objUser.Password" placeholder="p@ssw0rd" />
+                        @keydown.enter="login()" v-model="objUser.Password" placeholder="p@ssw0rd" />
                     </div>
                     <div class="col-2 d-flex justify-center">
                       <button @click.prevent="showPassword = !showPassword" class="showHide">
@@ -90,19 +90,19 @@ export default {
     const description = ref(
       "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
-    const _showModalBox = inject("showModalBox");
+    const handleModalBox = inject("handleModalBox");
     const showPassword = ref(false);
     const objUser = ref({
       UserName: "",
       Password: "",
     });
-    const _addMessageBox = inject("addMessageBox");
+    const addMessageBox = inject("addMessageBox");
     const logging = ref(false);
     const router = useRouter();
     const methods = reactive({
       login() {
         if (!objUser.value.UserName || !objUser.value.Password) {
-          _showModalBox(
+          handleModalBox(
             "Atenção",
             "Por favor, preencha todos os campos.",
             "",
@@ -116,7 +116,7 @@ export default {
             })
             .catch((error) => {
               if (error?.response?.data?.message) {
-                _showModalBox(
+                handleModalBox(
                   "Oops...",
                   "Usuário ou senha inválidos",
                   "Descricao",
@@ -124,7 +124,7 @@ export default {
                   null
                 );
               } else {
-                _showModalBox(
+                handleModalBox(
                   "Oops...",
                   "Não foi possível realizar o login, tente novamente mais tarde.",
                   "Descricao",
@@ -151,7 +151,7 @@ export default {
               }
             })
             .catch((error) => {
-              _showModalBox(
+              handleModalBox(
                 "Oops...",
                 "Usuário ou senha inválidos",
                 "Descricao",
@@ -168,6 +168,7 @@ export default {
           localStorage.setItem("name", data.name);
           localStorage.setItem("userName", data.userName);
           localStorage.setItem("confirmedEmail", data.confirmedEmail);
+          localStorage.setItem("imgUser", data.imgUser);
         }
       },
       formatInput() {
@@ -207,9 +208,11 @@ export default {
   opacity: 1;
   color: var(--default-mode-primary);
 }
+
 .btn-login:hover {
   cursor: pointer;
 }
+
 .btn-login:active {
   opacity: 0.9;
 }
@@ -238,4 +241,5 @@ span {
   color: var(--default-elements-mode-primary);
 }
 
-span {}</style>
+span {}
+</style>

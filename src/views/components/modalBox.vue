@@ -34,13 +34,7 @@
 import { defineComponent, reactive, toRefs, ref} from "vue";
 export default defineComponent({
   emits: ["closeModal"],
-  props: {
-    title: String,
-    icon: String,
-    message: String,
-    action: String,
-    description: String,
-  },
+  props: ['title' ,'icon' ,'message' ,'action' ,'description'],
   setup(props, { emit }) {
     const methods = reactive({
       closeModal() {

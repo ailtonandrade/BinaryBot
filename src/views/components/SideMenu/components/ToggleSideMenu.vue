@@ -27,6 +27,7 @@ export default {
     })
     return {
       router,
+      showSideMenu,
       ...toRefs(methods),
     };
   },

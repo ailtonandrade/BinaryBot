@@ -128,7 +128,7 @@ export default {
     const description = ref("Digite o código para continuar.");
     const router = useRouter();
     const canValidate = ref(false);
-    const _addMessageBox = inject("addMessageBox");
+    const addMessageBox = inject("addMessageBox");
     const acc = ref({
       CodeI: "",
       CodeII: "",
@@ -149,7 +149,7 @@ export default {
           let obj = methods.buildValidateObj();
           AuthService.setValidate(obj)
             .then(() => {
-              _addMessageBox(
+              addMessageBox(
                 "Ok...",
                 "Validação realizada com sucesso.",
                 null,
@@ -291,11 +291,11 @@ export default {
       reSendCode() {
         AuthService.reSendCode()
           .then((response) => {
-            _addMessageBox("Ok...", response.data, null, "success", null);
+            addMessageBox("Ok...", response.data, null, "success", null);
             router.push("/");
           })
           .catch((ex) => {
-            _addMessageBox("Ok...", ex.response, null, "warning", null);
+            ("Ok...", ex.response, null, "warning", null);
             error.value.Code = ex.response;
           });
       },

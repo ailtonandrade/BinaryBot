@@ -1,24 +1,29 @@
 <template>
   <main>
     <SwitchMode></SwitchMode>
-    <Menu v-if="isLoggedIn" class="menu"></Menu>
+    <div class="menu">
+      <Menu v-if="isLoggedIn"></Menu>
+    </div>
     <div v-if="isLoggedIn" class="toggle-side-menu" :class="showSideMenu ? 'open' : ''">
       <ToggleSideMenu v-if="isLoggedIn" />
-      <SideMenu v-if="isLoggedIn" :listMenu="_listSideMenu" class="side-menu" />
+      <SideMenu v-if="isLoggedIn" :listMenu="listSideMenu" class="side-menu" />
     </div>
     <div class="router-view" :class="isLoggedIn ? 'p-t-custom' : 'p-0'">
       <router-view>
       </router-view>
     </div>
     <Loading></Loading>
-    <MessageBox class="message-box" v-if="_listMessageBox.length > 0" :listMessageBox="_listMessageBox"
-      @action="actionMessageBox($event)" @closeMessageBox="closeMessageBox()" />
-    <ModalBox v-if="_showModalBox" @closeModal="closeModalBox()" :title="_dataModalBox.title" :icon="_dataModalBox.icon"
-      :message="_dataModalBox.message" :description="_dataModalBox.description" :action="_dataModalBox.action"
-      class="modal-box" />
-    <ModalCustom v-if="configModalCustom.show" :show="configModalCustom.show" :reference="configModalCustom.reference" :title="configModalCustom.title"
-      :icon="configModalCustom.icon" :message="configModalCustom.message" :action="configModalCustom.action"
-      :description="configModalCustom.description"></ModalCustom>
+    <div class="message-box">
+      <MessageBox v-if="listMessageBox.length > 0" :listMessageBox="listMessageBox" @action="actionMessageBox($event)"
+        @closeMessageBox="closeMessageBox()" />
+    </div>
+    <div class="modal-box">
+      <ModalBox v-if="showModalBox" @closeModal="closeModalBox()" :title="dataModalBox.title" :icon="dataModalBox.icon"
+        :message="dataModalBox.message" :description="dataModalBox.description" :action="dataModalBox.action" />
+    </div>
+    <ModalCustom v-if="configModalCustom.show" :show="configModalCustom.show" :reference="configModalCustom.reference"
+      :title="configModalCustom.title" :icon="configModalCustom.icon" :message="configModalCustom.message"
+      :action="configModalCustom.action" :description="configModalCustom.description"></ModalCustom>
   </main>
 </template>
 <script>
@@ -50,9 +55,10 @@ export default {
   components: { Menu, ModalBox, ModalCustom, MessageBox, SideMenu, ToggleSideMenu, SwitchMode, Loading },
   setup() {
     const isLoggedIn = ref(false);
-    const _showModalBox = ref(false);
+    const showModalBox = ref(false);
     const isDarkMode = ref(true);
     const showMainBar = ref(false);
+    const showNotifyBar = ref(false);
     const router = useRouter();
 
     const configModalCustom = ref({
@@ -64,33 +70,33 @@ export default {
       action: "",
       description: "",
     });
-    const _dataModalBox = ref({
+    const dataModalBox = ref({
       title: "",
       message: "",
       action: "",
       description: "",
     });
 
-    const _listMessageBox = ref([]);
+    const listMessageBox = ref([]);
     const _actionMessageBox = ref();
 
-    const _listSideMenu = ref([]);
+    const listSideMenu = ref([]);
     const showSideMenu = ref(false);
 
     const methods = reactive({
       closeModalBox() {
-        _showModalBox.value = false;
+        showModalBox.value = false;
       },
-      showModalBox(title, message, description, icon, action) {
-        _dataModalBox.value.title = title;
-        _dataModalBox.value.message = message;
-        _dataModalBox.value.description = description;
-        _dataModalBox.value.action = action;
-        _dataModalBox.value.icon = icon;
-        _showModalBox.value = true;
+      handleModalBox(title, message, description, icon, action) {
+        dataModalBox.value.title = title;
+        dataModalBox.value.message = message;
+        dataModalBox.value.description = description;
+        dataModalBox.value.action = action;
+        dataModalBox.value.icon = icon;
+        showModalBox.value = true;
       },
       addMessageBox(title, message, btnText, modalBoxClass, funcEmit) {
-        _listMessageBox.value.push({
+        listMessageBox.value.push({
           title: title,
           message: message,
           btnText: btnText,
@@ -98,14 +104,14 @@ export default {
           funcEmit: funcEmit,
         });
         setTimeout(() => {
-          _listMessageBox.value.pop();
+          listMessageBox.value.pop();
         }, 3000);
       },
       clearMessageBox() {
-        _listMessageBox.value = [];
+        listMessageBox.value = [];
       },
       clearModalBox() {
-        _showModalBox.value = false;
+        showModalBox.value = false;
       },
       actionMessageBox(event) {
         _actionMessageBox.value = event;
@@ -126,7 +132,7 @@ export default {
         try {
           const res = await AuthService.getValidateCurrent(router.currentRoute.value);
           if (res.statusCode == 200) {
-            _listSideMenu.value = res.value.data;
+            listSideMenu.value = res.value.data;
             isLoggedIn.value = true;
 
             if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
@@ -136,7 +142,7 @@ export default {
           if (res.statusCode == 302) {
             methods.clearMessageBox();
             methods.clearModalBox();
-            methods.showModalBox(
+            methods.handleModalBox(
               "Oops...",
               res.value?.message ? res.value?.message : "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -150,7 +156,7 @@ export default {
             methods.clearModalBox();
             isLoggedIn.value = false;
             localStorage.clear();
-            methods.showModalBox(
+            methods.handleModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -165,7 +171,7 @@ export default {
             methods.clearModalBox();
             isLoggedIn.value = false;
             localStorage.clear();
-            methods.showModalBox(
+            methods.handleModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -187,6 +193,7 @@ export default {
       if (oldValue != newValue) {
         try {
           showMainBar.value = false;
+          showNotifyBar.value = false;
           showSideMenu.value = false;
 
           methods.requestAccess();
@@ -201,10 +208,12 @@ export default {
     provide("openModalCustom", methods.openModalCustom);
     provide("closeModalCustom", methods.closeModalCustom);
     provide("actionMessageBox", _actionMessageBox.value);
-    provide("listMessageBox", _listMessageBox.value);
-    provide("showModalBox", methods.showModalBox);
+    provide("listMessageBox", listMessageBox.value);
+    provide("handleModalBox", methods.handleModalBox);
     provide("showSideMenu", showSideMenu);
     provide("showMainBar", showMainBar);
+    provide("showNotifyBar", showNotifyBar);
+    provide("showModalBox", showModalBox);
     provide("isLoggedIn", isLoggedIn);
     provide("isDarkMode", isDarkMode);
     return {
@@ -212,11 +221,12 @@ export default {
       isDarkMode,
       isLoggedIn,
       showMainBar,
+      showNotifyBar,
       showSideMenu,
-      _listSideMenu,
-      _dataModalBox,
-      _showModalBox,
-      _listMessageBox,
+      listSideMenu,
+      dataModalBox,
+      showModalBox,
+      listMessageBox,
       configModalCustom,
       ...toRefs(methods),
     };
@@ -247,6 +257,11 @@ body {
 .toggle-side-menu {
   position: fixed;
   z-index: 1
+}
+
+.notify-bar {
+  position: fixed;
+  z-index: 9;
 }
 
 .main-bar {

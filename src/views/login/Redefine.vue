@@ -47,13 +47,13 @@ export default {
       UrlMatch: "",
     });
     const router = useRouter();
-    const _addMessageBox = inject("addMessageBox");
+    const addMessageBox = inject("addMessageBox");
     const methods = reactive({
       register() {
         if (methods.canRegister()) {
           AccountService.redefine(acc.value)
             .then(() => {
-              _addMessageBox(
+              addMessageBox(
                 "Ok...",
                 "Redefinição efetuada com sucesso.",
                 null,

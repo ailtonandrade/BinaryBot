@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../views/login/Login.vue";
-import Forgot from "../views/login/Forgot.vue";
-import Redefine from "../views/login/Redefine.vue";
-import Dashboard from "../views/login/dashboard/Dashboard.vue";
-import NotFound from "../views/NotFound/NotFound.vue";
-import Register from "../views/Register/Register.vue";
-import ValidateCodeVue from "../views/Register/ValidateCode.vue";
-import EditVue from "../views/login/dashboard/Edit.vue";
+import Login from "@/views/login/Login.vue";
+import Forgot from "@/views/login/Forgot.vue";
+import Redefine from "@/views/login/Redefine.vue";
+import Dashboard from "@/views/login/dashboard/Dashboard.vue";
+import NotFound from "@/views/NotFound/NotFound.vue";
+import Register from "@/views/Register/Register.vue";
+import ValidateCodeVue from "@/views/Register/ValidateCode.vue";
+import EditVue from "@/views/Edit.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,8 +27,8 @@ const router = createRouter({
       component: Register,
     },
     {
-      path: "/management/users/list-users",
-      name: "listUsers",
+      path: "/management/users/create-user",
+      name: "CreateUser",
       component: Register,
       meta: { requiresAuth: true },
     },
@@ -64,8 +64,11 @@ const router = createRouter({
 });
 
 // Função de navegação personalizada com objeto no query param
-router.goTo = (routeName, objectData) => {
+router.goToPath = (routerPath) => {
+  router.push({ path: routerPath });
+};
 
+router.goTo = (routeName, objectData) => {
   if (Array.isArray(objectData)) {
     router.push({ name: routeName, params: { obj: JSON.stringify(objectData) } });
   }
@@ -91,7 +94,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else {
-
     // Se a rota não requer autenticação, continue para a rota desejada
     next();
   }

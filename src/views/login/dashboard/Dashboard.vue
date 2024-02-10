@@ -53,9 +53,9 @@ export default defineComponent({
     const router = useRouter();
     const userData = ref();
     //modal box
-    const _showModalBox = inject("showModalBox");
+    const showModalBox = inject("showModalBox");
     //message box
-    const _addMessageBox = inject("addMessageBox");
+    const addMessageBox = inject("addMessageBox");
     const _actionMessageBox = inject("actionMessageBox");
     const handleActionMessageBox = computed(() => {
       runActionMessageBox(_actionMessageBox);
@@ -71,18 +71,9 @@ export default defineComponent({
           }
         }
       },
-      getStockMarket(){
-        DashboardService.getStockMarket()
-        .then((resp) => {
-          console.log(resp);
-        })
-        .catch((ex) => {
-          console.error(ex);
-        })
-      },
       checkMessageBox(){
         if (localStorage.getItem("confirmedEmail") === "false") {
-        _addMessageBox(
+        addMessageBox(
           "Atenção",
           "Confirmação de email não realizada",
           "Reenviar email de confirmação",
@@ -96,6 +87,7 @@ export default defineComponent({
         .then((response) => {
           if (response) {
             userData.value = response.perfils[0].perfilType.description;
+            localStorage.setItem("imgUser", response.imgUser);
           }
         })
         .catch((error) => {
@@ -107,7 +99,6 @@ export default defineComponent({
     onMounted(() => {
       methods.getAllPerfil();
       methods.checkMessageBox();
-      methods.getStockMarket();
     });
 
     return {

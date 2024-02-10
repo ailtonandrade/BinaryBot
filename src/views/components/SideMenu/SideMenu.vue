@@ -1,7 +1,7 @@
 <template>
   <div v-if="showSideMenu">
     <!-- menu expanded -->
-    <div v-for="(menu, index) in _listMenu" :key="index">
+    <div v-for="(menu, index) in listMenu" :key="index">
       <div class="btn-side-menu collapse-animation expand-animation" :class="{ 'drop': menu.isDropped }">
         <ul class="d-flex p-2 m-3" :id="menu.name" @click="action(menu, menu.subMenu, menu.name)">
           <button class="d-flex justify-center align-center">
@@ -47,7 +47,7 @@
   </div>
   <div v-else>
     <!-- menu collapsed -->
-    <div v-for="(menu, index) in _listMenu" :key="index">
+    <div v-for="(menu, index) in listMenu" :key="index">
       <div class="btn-side-menu collapse-animation expand-animation" :class="{ 'drop': menu.isDropped }">
         <ul class="d-flex p-2 m-3 justify-center" :id="menu.name" @click="action(menu, menu.subMenu, menu.name)">
           <button class="d-flex large">
@@ -95,27 +95,26 @@ export default {
   setup(props) {
     const router = useRouter();
     const showSideMenu = inject("showSideMenu");
-    const _listMenu = ref();
+    const listMenu = ref();
     const methods = reactive({
       action(element, child, route) {
         if (!Array.isArray(child)) {
-          methods.goToRoute(route)
+          if (router.currentRoute.value.path !== ("/" + route)) {
+            router.goToPath(route);
+          }
         } else {
           element.isDropped = !element.isDropped;
         }
       },
-      goToRoute(route) {
-        router.push(route);
-      }
     });
 
     onMounted(() => {
-      _listMenu.value = props.listMenu;
+      listMenu.value = props.listMenu;
     })
     return {
       router,
       showSideMenu,
-      _listMenu,
+      listMenu,
       ...toRefs(methods),
     };
   },

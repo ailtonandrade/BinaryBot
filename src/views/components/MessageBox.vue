@@ -1,6 +1,6 @@
 <template>
   <div v-for="(m, index) in listMessageBox" :key="index">
-    <div class="container modal-box-content p-1" :class="m.modalBoxClass">
+    <div class="col-6 modal-box-content p-1" :class="m.modalBoxClass">
       <div class="flex-row justify-center col-12">
         <div class="col-9">
           <span class="modal-box-title">{{ m.title }} - </span>
@@ -11,9 +11,7 @@
         </div>
       </div>
       <div class="col-12">
-        <div class="col-12">
-          <a href="#" @click.prevent="funcEmit(m.funcEmit)" class="modal-box-btn">{{ m.btnText }}</a>
-        </div>
+        <a href="#" @click.prevent="funcEmit(m.funcEmit)" class="modal-box-btn">{{ m.btnText }}</a>
       </div>
     </div>
   </div>
@@ -25,7 +23,7 @@ import "../../styles/commom.css";
 
 export default defineComponent({
   props: ["listMessageBox"],
-  emits: ["reconfirmEmail", "closeMessageBox"],
+  emits: ["reconfirmEmail", "closeMessageBox", "action"],
   setup(props, { emit }) {
     const methods = reactive({
       funcEmit(func) {
@@ -40,9 +38,7 @@ export default defineComponent({
     };
   },
 });
-onMounted(() => {
 
-});
 </script>
 <style scoped>
 html body {
@@ -54,7 +50,6 @@ html body {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
   animation: opacityShow 0.6s ease;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -126,4 +121,5 @@ html body {
   to {
     opacity: 1;
   }
-}</style>
+}
+</style>
