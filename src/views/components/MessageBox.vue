@@ -19,7 +19,7 @@
 
 <script>
 import { inject, toRefs, reactive, onMounted, defineComponent } from "vue";
-import "../../styles/commom.css";
+import "@/styles/commom.css";
 
 export default defineComponent({
   props: ["listMessageBox"],
