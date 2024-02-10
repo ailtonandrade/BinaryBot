@@ -34,12 +34,12 @@ import {
   defineComponent,
 } from "vue";
 import { useRouter } from "vue-router";
-import { Perfils } from "../../../enums/perfils";
+import { Perfils } from "@/enums/perfils";
 import AdminBoard from "./adminBoard/adminBoard.vue";
-import AuthService from "../../../services/AuthService";
-import DashboardService from "../../../services/DashboardService";
-import CardBox from "../../components/Layout/CardBox.vue";
-import MarqueeList from "./components/MarqueeList.vue";
+import AuthService from "@/services/AuthService";
+import DashboardService from "@/services/DashboardService";
+import CardBox from "@/views/components/Layout/CardBox.vue";
+import MarqueeList from "@/views/dashboard/components/MarqueeList.vue";
 
 export default defineComponent({
   components: {
@@ -115,8 +115,8 @@ export default defineComponent({
 </script>
   
 <style scoped>
-@import "../../../styles/commom.css";
-@import "../../../styles/boardLayout.css";
+@import "@/styles/commom.css";
+@import "@/styles/boardLayout.css";
 
 .dashboard-content {
   display: flex;

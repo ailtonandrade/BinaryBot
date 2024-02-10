@@ -12,7 +12,7 @@
 <script>
 import { reactive, toRefs, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import Auxiliar from "../../../../global/auxiliar";
+import Auxiliar from "@/global/auxiliar";
 
 export default {
   setup() {
@@ -36,6 +36,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../../styles/commom.css";
-@import "../../../../styles/boardLayout.css";
+@import "@/styles/commom.css";
+@import "@/styles/boardLayout.css";
 </style>
