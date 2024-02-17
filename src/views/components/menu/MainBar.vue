@@ -69,7 +69,6 @@ export default {
 </script>
 <style scoped>
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
-@import "@/styles/commom.css";
 
 .main-bar {
   opacity: 0;

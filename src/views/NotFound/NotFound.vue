@@ -58,7 +58,6 @@ export default defineComponent({
 </script>
   
 <style scoped>
-@import "@/styles/commom.css";
 
 html body {
   background-color: var(--switch-mode-primary);

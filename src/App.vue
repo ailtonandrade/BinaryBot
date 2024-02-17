@@ -236,8 +236,9 @@ export default {
 <style>
 @import url("https://kit.fontawesome.com/6ae4d69823.js");
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
-@import "@/styles/commom.css";
-@import "@/styles/sidebar.css";
+@import "./styles/commom.css";
+@import "./styles/sidebar.css";
+@import "./styles/boardLayout.css";
 
 html,
 body {

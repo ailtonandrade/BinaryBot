@@ -34,8 +34,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@import "@/styles/commom.css";
-@import "@/styles/boardLayout.css";
-</style>

@@ -115,8 +115,6 @@ export default defineComponent({
 </script>
   
 <style scoped>
-@import "@/styles/commom.css";
-@import "@/styles/boardLayout.css";
 
 .dashboard-content {
   display: flex;
