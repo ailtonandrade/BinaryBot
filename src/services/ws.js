@@ -5,7 +5,7 @@ const MSG_ERROR_CONNECTION_ERROR = "Connection error: ";
 
 class Ws {
   constructor() {
-    this.serverUrl = "wss://localhost:7079/ws/";
+    this.serverUrl = process.env.VUE_APP_API_WEBSOCKET + "ws/";
     if (localStorage.getItem("token")) {
 
       this.socket = new WebSocket(this.serverUrl);

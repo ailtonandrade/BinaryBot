@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Auxiliar from '../global/auxiliar';
 
-const baseUrl = 'https://localhost:7079/';
+const baseUrl = process.env.VUE_APP_API_URL;
 
 class Http {
 
   async post(endpoint, data) {
+    console.log(process);
     try {
       var resp = null;
       this.showLoading(true);

@@ -53,7 +53,7 @@ export default {
   props: ['showHide'],
   setup(props, { emit }) {
     var token = ref(ObjectUtils.encode(localStorage.getItem('token')));
-    var socket = new WebSocket(`wss://localhost:7079/notifications?clientId=${token.value}`);
+    var socket = new WebSocket(process.env.VUE_APP_API_WEBSOCKET + `notifications?clientId=${token.value}`);
 
     const router = useRouter();
     const notifications = ref([]);
@@ -84,7 +84,7 @@ export default {
       reconnectWebSocket() {
         if (socket.readyState == WebSocket.CLOSED) {
           setTimeout(() => {
-            socket = new WebSocket(`wss://localhost:7079/notifications?clientId=${token.value}`);
+            socket = new WebSocket(process.env.VUE_APP_API_WEBSOCKET + `notifications?clientId=${token.value}`);
             socket.onerror = () => {
               console.log("Reconnecting...");
               methods.reconnectWebSocket();
