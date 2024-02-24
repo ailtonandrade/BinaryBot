@@ -47,7 +47,6 @@ import Loading from "./views/components/Loading.vue";
 import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
-import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 import ModalCustom from './views/components/ModalCustom.vue';
 
 export default {
