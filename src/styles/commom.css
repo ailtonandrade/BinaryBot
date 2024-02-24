@@ -27,7 +27,19 @@
   --fixed-light-mode-tertiary: rgb(200, 200, 200);
   --element-backdrop: rgb(0, 0, 0);
 }
-
+:root{
+  background-color: var(--switch-mode-primary);
+}
+:root::-webkit-scrollbar {
+  width: 10px;
+}
+:root::-webkit-scrollbar-thumb {
+        background-color: var(--decoration-primary-after); /* Cor do polegar (a parte móvel) */
+        border-radius: 10px; /* Borda arredondada */
+}
+:root::-webkit-scrollbar-track {
+  background-color: var(--switch-elements-mode-tertiary); /* Cor do rastro (a parte fixa) */
+}
 /* MARGINS */
 .mt-10 {
   margin-top: 100px;
@@ -405,6 +417,7 @@ body {
 }
 
 .nav-notify {
+  position: relative;
   display: flex;
 }
 
@@ -412,7 +425,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: -10px;
+  margin-right: -10px;
   font-weight: 600;
   height: 15px;
   width: 15px;
@@ -420,6 +433,68 @@ body {
   cursor: pointer;
   padding: 0px 15px;
   background-color: var(--decoration-primary);
+  z-index: 2;
+}
+
+/* CHECKBOX */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--switch-elements-mode-secondary);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 11px;
+  width: 11px;
+  left: 2px;
+  bottom: 4px;
+  background-color: var(--switch-mode-secondary);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--decoration-primary);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--decoration-primary);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(14px);
+  -ms-transform: translateX(14px);
+  transform: translateX(14px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 10px;
+}
+
+.slider.round:before {
+  border-radius: 10px;
 }
 
 /* BTN */

@@ -1,8 +1,17 @@
 <template>
   <div :class="{ 'notify-bar': true, 'show': showHide }">
+    <div class="col-lg-4 col-md-6 col-sm-6 ml-auto  pt-3 d-flex justify-content-start notify-box-filter">
+      <label class="switch mx-1 d-flex">
+        <input id="form-checkbox-1" type="checkbox" v-model="filter.showDeletedNotifications" class="mx-1" @change="filterNotifications()" />
+        <span class="slider round"></span>
+      </label>
+      <span class="notify-box-filter-label small">
+        Visualizar notificações excluídas.
+      </span>
+    </div>
     <div class="col-lg-4 col-md-6 col-sm-6 ml-auto notify-box">
       <div v-if="notifications?.length == 0">
-        <div class="col-12 p-1 b-shadow-1 notify-empty">
+        <div class="col-12 p-1 b-shadow-1 notify-empty mt-1">
           <div class="flex-row notify-box-elements-dt-visualized align-center">
           </div>
           <div class="notify-box-elements-data d-flex align-center text-center">
@@ -12,19 +21,28 @@
       </div>
       <div v-else>
         <div v-for="(item, index) in notifications" :key="index">
-          <div class="col-12 p-1 b-shadow-1 notify-box-element" :class="{ 'visualized': item.visualized }"
-            @click="handleNotify(item)">
+          <div class="col-12 p-1 mt-1 b-shadow-1 notify-box-element" :class="{ 'visualized': item.visualized }">
             <div class="flex-row notify-box-elements-dt-visualized align-center">
               <div class="col-1">
                 <div class="notify-box-element-visualized"></div>
               </div>
-              <div class="col-11">
+              <div class="col-3">
                 <div class="notify-box-element-dt">
                   {{ item.dt_creation }}
                 </div>
               </div>
+              <div v-if="!item.dt_delete" class="col-8 d-flex justify-content-end">
+                <div class="col-1 notify-box-trash">
+                  <div class="notify-box-trash-icon" @click="deleteNotify(item)">
+                    <font-awesome-icon class="btn-nav-icon" icon="fa-regular fa-trash-alt" size="1x" />
+                  </div>
+                </div>
+              </div>
+              <div v-else class="col-8 notify-box-deleted">
+                <span>Excluido em: {{ item.dt_deleteFormated }}</span>
+              </div>
             </div>
-            <div class="notify-box-elements-data">
+            <div class="notify-box-elements-data" @click="handleNotify(item)">
               <div class="notify-box-element-title">
                 {{ item.title }}
               </div>
@@ -47,6 +65,7 @@ import { useRouter } from "vue-router";
 import DateUtils from '@/Utils/DateUtils.js';
 import ObjectUtils from '@/Utils/ObjectUtils.js';
 import { webSocketRequestEnum } from '@/enums/webSocketRequestEnum.js';
+import { getGlobalThis } from "@microsoft/signalr/dist/esm/Utils";
 
 export default {
   name: "NotifyBar",
@@ -56,15 +75,20 @@ export default {
     var socket = new WebSocket(process.env.VUE_APP_API_WEBSOCKET + `notifications?clientId=${token.value}`);
 
     const router = useRouter();
+    const moment = inject("moment");
     const notifications = ref([]);
     const maxTextLength = ref(60);
     const tryReconnect = ref(500);
-    const newNotifyQtd = ref(inject('newNotifyQtd'));
+    const newNotifyQtd = inject('newNotifyQtd');
+    const checkedNotify = inject("checkedNotify");
+    const filter = ref({
+      showDeletedNotifications: false
+    });
     const methods = reactive({
       connectWebSocket() {
         socket.onopen = (event) => {
           console.log("Connection established.")
-          methods.send('get-notify', null);
+          methods.send('get-notify', null, filter.value);
         }
 
         socket.onclose = (event) => {
@@ -92,7 +116,7 @@ export default {
 
             socket.onopen = (event) => {
               console.log("Reconnected.")
-              methods.send('get-notify', null);
+              methods.send('get-notify', null, filter.value);
             }
 
           }, tryReconnect.value
@@ -107,6 +131,8 @@ export default {
               id: d.id,
               dt_creation: DateUtils.formatToAgo(d.dt_creation),
               dt_visualized: d.dt_visualized,
+              dt_delete: d.dt_delete,
+              dt_deleteFormated: d.dt_delete ? moment(d.dt_delete).format('DD/MM/YYYY, HH:mm') : null,
               title: methods.formatTextNotification(d.title),
               subtitle: methods.formatTextNotification(d.subtitle),
               message: methods.formatTextNotification(d.message),
@@ -116,28 +142,34 @@ export default {
             notifications.value.push(obj);
           })
         } else if (typeof dataList === 'object') {
-          notifications.value.push({
+          notifications.value.unshift({
             id: dataList.id,
             dt_creation: DateUtils.formatToAgo(dataList.dt_creation),
             dt_visualized: dataList.dt_visualized,
+            dt_delete: null,
             title: methods.formatTextNotification(dataList.title),
             subtitle: methods.formatTextNotification(dataList.subtitle),
             message: methods.formatTextNotification(dataList.message),
             url: dataList.url,
             visualized: dataList.visualized
           });
+          checkedNotify.value = false;
         }
       },
-      send(message, data) {
+      send(message, data, filter) {
         const messageObject = {
           message: message,
           clientId: token.value,
-          data: data
+          data: data,
+          filter: filter
         };
         socket.send(JSON.stringify(messageObject));
       },
       formatTextNotification(text) {
         return text.length > maxTextLength.value ? text.substring(0, maxTextLength.value) + "..." : text;
+      },
+      filterNotifications() {
+        methods.send('get-notify', null, filter.value);
       },
       handleNotify(notify) {
         let aux = -1;
@@ -148,12 +180,22 @@ export default {
         });
 
         if (aux !== -1) {
-          notifications.value[aux].visualized = true;
-          notifications.value[aux].dt_visualized = DateUtils.formatJsToApi(new Date());
-          methods.send('update-notify', notifications.value[aux]);
+          methods.send('update-notify', notifications.value[aux], filter.value);
           newNotifyQtd.value = notifications.value.filter(n => !n.visualized).length;
         }
-      }
+      },
+      deleteNotify(notify) {
+        let aux = -1;
+        notifications.value.forEach((n, index) => {
+          if (n.id === notify.id) {
+            aux = index;
+          }
+        });
+
+        if (aux !== -1) {
+          methods.send('delete-notify', notifications.value[aux], filter.value);
+        }
+      },
     });
 
     onMounted(async () => {
@@ -161,13 +203,15 @@ export default {
     })
 
     onBeforeUnmount(() => {
-      socket.close(9010, 'Logout user.');
+      socket.close(3001, 'Logout user.');
     });
 
     return {
+      filter,
       router,
       tryReconnect,
       newNotifyQtd,
+      checkedNotify,
       maxTextLength,
       notifications,
       ...toRefs(methods),
@@ -189,13 +233,14 @@ export default {
 }
 
 .notify-box::-webkit-scrollbar {
-  width: 0;
-  /* Largura da barra de rolagem */
+  width: 8px;
 }
-
+.notify-box::-webkit-scrollbar-thumb {
+        background-color: var(--decoration-primary); /* Cor do polegar (a parte móvel) */
+        border-radius: 10px; /* Borda arredondada */
+}
 .notify-box-element {
   background-color: var(--switch-mode-primary);
-  cursor: pointer;
   margin-bottom: 5px;
   border-radius: 5px;
   transition: 0.1s;
@@ -257,18 +302,52 @@ export default {
 
 .notify-box-element-title {
   color: var(--decoration-primary);
+  cursor: pointer;
 }
 
 .notify-box-element-subtitle {
   font-weight: 600;
   font-size: small;
+  cursor: pointer;
 }
 
 .notify-box-element-message {
   font-weight: 100;
   font-size: smaller;
+  cursor: pointer;
 }
 
+.notify-box-trash {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-elements-mode-secondary);
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.notify-box-trash:hover {
+  background-color: var(--decoration-primary);
+  color: var(--switch-mode-secondary);
+  border-radius: 5px;
+}
+
+.notify-box-deleted {
+  display: flex;
+  justify-content: end;
+  font-size: 8pt;
+}
+
+.notify-box-filter{
+  position: fixed;
+  z-index: 2;
+  background-color: var(--switch-mode-tertiary);
+}
+
+.notify-box-filter-label{
+  color: var(--switch-elements-mode-secondary);
+}
 /* VISUALIZED */
 .notify-box-element.visualized {
   opacity: 0.5;

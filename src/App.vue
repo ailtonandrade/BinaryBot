@@ -48,6 +48,7 @@ import AuthService from "./services/AuthService";
 import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
 import ModalCustom from './views/components/ModalCustom.vue';
+import moment from 'moment';
 
 export default {
   name: "App",
@@ -215,6 +216,7 @@ export default {
     provide("showModalBox", showModalBox);
     provide("isLoggedIn", isLoggedIn);
     provide("isDarkMode", isDarkMode);
+    provide("moment", moment);
     return {
       router,
       isDarkMode,
@@ -271,9 +273,8 @@ body {
 
 .router-view {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
   background-color: var(--switch-mode-primary);
 }
 </style>

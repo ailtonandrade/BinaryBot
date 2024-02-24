@@ -6,7 +6,6 @@ const baseUrl = process.env.VUE_APP_API_URL;
 class Http {
 
   async post(endpoint, data) {
-    console.log(process);
     try {
       var resp = null;
       this.showLoading(true);

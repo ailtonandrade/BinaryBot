@@ -12,12 +12,12 @@
       </div>
       <div id="options" class="col-lg-3 col-md-3 col-sm-11 d-flex flex-row justify-content-end align-center">
         <div id="notify" class="btn-nav nav-notify" :class="{ 'active': showNotifyBar }" @click="toggleNotify()">
+          <div v-if="!checkedNotify && (newNotifyQtd && newNotifyQtd > 0)" class="new-notify">{{ newNotifyQtd > 9 ? '9+' : newNotifyQtd }}
+          </div>
           <button class="p-1">
             <font-awesome-icon class="btn-nav-icon" :class="{ 'active': showNotifyBar }"
               :icon="!showNotifyBar ? 'fa-regular fa-bell' : 'fa-regular fa-bell'" size="1x" />
           </button>
-          <div v-if="newNotifyQtd && newNotifyQtd > 0" class="new-notify">{{ newNotifyQtd > 9 ? '9+' : newNotifyQtd }}
-          </div>
         </div>
         <div id="user-data" class="d-flex info-user align-center">
           <img v-if="userData?.imgUser" id="img-user" class="px-2 b-radius-100" style="width:45px;"
@@ -58,6 +58,7 @@ export default {
     const showMainBar = inject("showMainBar", false);
     const showNotifyBar = inject("showNotifyBar", false);
     const newNotifyQtd = ref(0);
+    const checkedNotify = ref(false);
     const notifyDataList = ref([]);
     const methods = reactive({
       redirectToHome() {
@@ -66,11 +67,12 @@ export default {
         router.goTo("dashboard");
       },
       toggleNotify() {
+        checkedNotify.value = true;
         showNotifyBar.value = !showNotifyBar.value;
       },
       updateNotifyView(data) {
         notifyDataList.value = data;
-        newNotifyQtd.value = notifyDataList?.value?.map(n => n.visualized === false).length;
+        newNotifyQtd.value = notifyDataList?.value?.filter(n => !n.dt_visualized && !n.dt_delete).length;
       },
       toggleMenu() {
         showMainBar.value = !showMainBar.value;
@@ -92,12 +94,14 @@ export default {
     });
 
     provide('newNotifyQtd', newNotifyQtd);
+    provide('checkedNotify', checkedNotify);
     onMounted(() => {
       methods.handleUserInfos();
     });
     return {
       userData,
       router,
+      checkedNotify,
       showMainBar,
       newNotifyQtd,
       showNotifyBar,
