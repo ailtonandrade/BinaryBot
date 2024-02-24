@@ -8,7 +8,7 @@
         </div>
         <div class="row d-flex align-center justify-content-end">
           <div class="col-12">
-            <div class="col-12">
+            <div class="col-12 d-flex justify-content-center">
               <div class="btn p-0 m-0 upload-input">
                 <input id="upload" hidden type="file" @input="uploadFile($event)" />
                 <label class="btn d-flex align-center decoration-primary b-radius-5 b-shadow-2 upload-label" for="upload">
