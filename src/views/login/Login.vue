@@ -92,6 +92,7 @@ export default {
     );
     const handleModalBox = inject("handleModalBox");
     const showPassword = ref(false);
+    const imgUser = inject("imgUser");
     const objUser = ref({
       UserName: "",
       Password: "",
@@ -168,7 +169,9 @@ export default {
           localStorage.setItem("name", data.name);
           localStorage.setItem("userName", data.userName);
           localStorage.setItem("confirmedEmail", data.confirmedEmail);
-          localStorage.setItem("imgUser", data.imgUser);
+          imgUser.value = data.imgUser;
+          localStorage.setItem("imgUser", imgUser.value);
+
         }
       },
       formatInput() {

@@ -10,9 +10,10 @@
         class="col-lg-8 col-md-8 d-sm-hidden brand-nav justify-content-lg-start justify-content-md-start justify-center">
         <a class="p-1" @click="redirectToHome()" href="#">BinaryBot</a>
       </div>
-      <div id="options" class="col-lg-3 col-md-3 col-sm-11 d-flex flex-row justify-content-end align-center">
-        <div id="notify" class="btn-nav nav-notify" :class="{ 'active': showNotifyBar }" @click="toggleNotify()">
-          <div v-if="!checkedNotify && (newNotifyQtd && newNotifyQtd > 0)" class="new-notify">{{ newNotifyQtd > 9 ? '9+' : newNotifyQtd }}
+      <div id="options" class="col-lg-3 col-md-3 col-sm-11 d-flex justify-content-end align-center">
+        <div id="notify" class="btn-nav nav-notify px-2" :class="{ 'active': showNotifyBar }" @click="toggleNotify()">
+          <div v-if="!checkedNotify && (newNotifyQtd && newNotifyQtd > 0)" class="new-notify">{{ newNotifyQtd > 9 ? '9+' :
+            newNotifyQtd }}
           </div>
           <button class="p-1">
             <font-awesome-icon class="btn-nav-icon" :class="{ 'active': showNotifyBar }"
@@ -20,9 +21,10 @@
           </button>
         </div>
         <div id="user-data" class="d-flex info-user align-center">
-          <img v-if="userData?.imgUser" id="img-user" class="px-2 b-radius-100" style="width:45px;"
-            :src="handleImgUser()" />
-          <span id="name-user">@{{ userData?.userName }}</span>
+          <div class="b-radius-100 img-user-src">
+            <img v-if="userData?.imgUser" id="img-user" class="px-2" :src="handleImgUser" />
+          </div>
+          <span id="name-user" class="px-2">@{{ userData?.userName }}</span>
         </div>
         <div id="options-menu" class="btn-nav px-1" :class="{ 'active': showMainBar }" @click="toggleMenu()">
           <button>
@@ -38,7 +40,7 @@
 </template>
 <script>
 
-import { inject, toRefs, reactive, ref, provide, onMounted } from "vue";
+import { inject, toRefs, reactive, ref, provide, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import MainBar from "./MainBar.vue";
 import NotifyBar from "./NotifyBar.vue";
@@ -53,13 +55,21 @@ export default {
     const router = useRouter();
     const userData = ref({
       userName: "",
-      imgUser: "img/img-user-blank.png"
+      imgUser: ObjectUtils.getImgBlank()
     });
     const showMainBar = inject("showMainBar", false);
     const showNotifyBar = inject("showNotifyBar", false);
+    const imgUser = inject("imgUser");
     const newNotifyQtd = ref(0);
     const checkedNotify = ref(false);
     const notifyDataList = ref([]);
+    const handleImgUser = computed(() => {
+      if (!imgUser.value) {
+        return require("@/assets/" + userData.value.imgUser);
+      } else {
+        return ObjectUtils.getImgFromBytes(imgUser.value);
+      }
+    });
     const methods = reactive({
       redirectToHome() {
         showMainBar.value = false;
@@ -82,15 +92,7 @@ export default {
       },
       handleUserInfos() {
         userData.value.userName = localStorage.getItem("userName");
-        userData.value.imgUser = localStorage.getItem("imgUser");
       },
-      handleImgUser() {
-        try {
-          return "data:image/jpeg;base64," + userData.value.imgUser;
-        } catch (ex) {
-          return require("@/assets/" + userData.value.imgUser);
-        }
-      }
     });
 
     provide('newNotifyQtd', newNotifyQtd);
@@ -106,6 +108,7 @@ export default {
       newNotifyQtd,
       showNotifyBar,
       notifyDataList,
+      handleImgUser,
       ...toRefs(methods),
     };
   },
@@ -142,6 +145,19 @@ export default {
 .info-user {
   font-weight: 600;
   color: var(--switch-elements-mode-primary);
+}
+
+.img-user-src {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 40px;
+  width: 40px;
+}
+
+.img-user-src img {
+  height: 100px;
 }
 
 .btn-nav.active button {

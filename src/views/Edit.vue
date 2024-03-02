@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap justify-content-md-center col-12 mt-3 mb-3">
       <section class="col-lg-6 col-md-6 col-sm-12">
         <div class="col-lg-12 col-md-12 col-sm-12">
-          <img class="col-12 p-0 m-0 perfil-img-edit perfil-img-edit b-radius-5 b-shadow-2" :src="handleImgUser()" />
+          <img class="col-12 p-0 m-0 perfil-img-edit b-radius-5 b-shadow-2" :src="handleImgUser" />
         </div>
         <div class="row d-flex align-center justify-content-end">
           <div class="col-12">
@@ -210,7 +210,7 @@
 </template>
 
 <script>
-import { ref, inject, watch, onMounted, reactive, toRefs } from "vue";
+import { ref, inject, watch, onMounted, reactive, toRefs, computed } from "vue";
 import AccountService from "@/services/AccountService";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
@@ -222,8 +222,16 @@ export default {
   setup() {
     const router = useRouter();
     const addMessageBox = inject("addMessageBox");
+    const imgUser = inject("imgUser");
     const canEdit = ref(false);
     const showPassword = ref(false);
+    const handleImgUser = computed(() => {
+      if (user?.value?.imgUser === ObjectUtils.getImgBlank()) {
+        return require("@/assets/" + user?.value.imgUser);
+      }
+      return ObjectUtils.getImgFromBytes(user?.value.imgUser);
+    });
+
     const user = ref({
       Name: "",
       Birthday: "",
@@ -235,7 +243,7 @@ export default {
       ComplementAddress: "",
       Password: "",
       ConfirmPassword: "",
-      imgUser: localStorage.getItem("imgUser") ?? ObjectUtils.getImgBlank(),
+      imgUser: imgUser.value ?? ObjectUtils.getImgBlank(),
     });
     const error = ref({
       Name: "",
@@ -262,6 +270,9 @@ export default {
                 "success",
                 null
               );
+              imgUser.value = ObjectUtils.getImgFromBytes(user?.value.imgUser);
+              localStorage.setItem("imgUser", imgUser.value);
+              router.goTo("dashboard");
             })
             .catch((ex) => {
               addMessageBox(
@@ -296,12 +307,7 @@ export default {
             user.value.ComplementAddress
           );
       },
-      handleImgUser() {
-        if (user?.value?.imgUser === ObjectUtils.getImgBlank()) {
-          return require("@/assets/" + user?.value.imgUser);
-        }
-        return ObjectUtils.getImgFromBytes(user?.value.imgUser);
-      },
+
       clearErrors() {
         error.value.Name = "";
         error.value.Document = "";
@@ -440,8 +446,7 @@ export default {
           user.value.Document.trim() != "" &&
           user.value.Phone.trim() != "" &&
           user.value.Birthday != null &&
-          user.value.Password.trim() != "" &&
-          user.value.ConfirmPassword.trim() != ""
+          user.value.Password.trim() === user.value.ConfirmPassword.trim()
         ) {
           return true;
         }
@@ -474,6 +479,7 @@ export default {
         user.value.Phone = data.phone;
         user.value.ZipCode = data.zipCode;
         user.value.imgUser = data?.imgUser;
+        imgUser.value = data.imgUser;
       },
       getInfoUser() {
         AccountService.getInfoUser()
@@ -499,6 +505,7 @@ export default {
       error,
       router,
       canEdit,
+      handleImgUser,
       showPassword,
       ...toRefs(methods),
     };

@@ -537,6 +537,10 @@ input:checked + .slider:before {
 
 /* EDIT-PAGE */
 .perfil-img-edit {
+  max-height: 50vh;
+  width: 100%;
+  object-fit: cover;
+  object-position: center; 
   border-radius: 10px;
 }
 

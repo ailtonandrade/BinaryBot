@@ -26,6 +26,7 @@
 <script>
 import {
   ref,
+  emit,
   computed,
   onMounted,
   toRefs,
@@ -47,7 +48,7 @@ export default defineComponent({
     AdminBoard,
     CardBox,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const title = ref("Painel");
     const description = ref("Informações de conta.");
     const router = useRouter();
@@ -71,28 +72,27 @@ export default defineComponent({
           }
         }
       },
-      checkMessageBox(){
+      checkMessageBox() {
         if (localStorage.getItem("confirmedEmail") === "false") {
-        addMessageBox(
-          "Atenção",
-          "Confirmação de email não realizada",
-          "Reenviar email de confirmação",
-          "warning",
-          "reconfirmEmail"
-        );
-      }
+          addMessageBox(
+            "Atenção",
+            "Confirmação de email não realizada",
+            "Reenviar email de confirmação",
+            "warning",
+            "reconfirmEmail"
+          );
+        }
       },
-      getAllPerfil(){
+      getAllPerfil() {
         AuthService.getPerfil()
-        .then((response) => {
-          if (response) {
-            userData.value = response.perfils[0].perfilType.description;
-            localStorage.setItem("imgUser", response.imgUser);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .then((response) => {
+            if (response) {
+              userData.value = response.perfils[0].perfilType.description;
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
     });
 
@@ -115,7 +115,6 @@ export default defineComponent({
 </script>
   
 <style scoped>
-
 .dashboard-content {
   display: flex;
   justify-content: center;

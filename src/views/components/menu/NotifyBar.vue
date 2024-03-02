@@ -1,13 +1,20 @@
 <template>
   <div :class="{ 'notify-bar': true, 'show': showHide }">
-    <div class="col-lg-4 col-md-6 col-sm-6 ml-auto  pt-3 d-flex justify-content-start notify-box-filter">
-      <label class="switch mx-1 d-flex">
-        <input id="form-checkbox-1" type="checkbox" v-model="filter.showDeletedNotifications" class="mx-1" @change="filterNotifications()" />
-        <span class="slider round"></span>
-      </label>
-      <span class="notify-box-filter-label small">
-        Visualizar notificações excluídas.
-      </span>
+    <div class="col-lg-4 col-md-6 col-sm-6 ml-auto  pt-3 d-flex flex-column notify-box-filter">
+      <div class="col-12 d-flex">
+        <label class="switch mx-1 d-flex justify-content-start ">
+          <input id="form-checkbox-1" max-length="100" type="checkbox" v-model="filter.showDeletedNotifications" class="mx-1"
+            @change="filterNotifications()" />
+          <span class="slider round"></span>
+        </label>
+        <span class="notify-box-filter-label small">
+          Visualizar notificações excluídas.
+        </span>
+      </div>
+      <div class="col-12 form-control">
+        <input id="form-search-1" placeholder="Busque: 'novidades', 'documentos' ..." type="text"
+          v-model="filter.content" class="form-control" @input="filterNotifications()" @keydown.enter="handleSerarchInput()"/>
+      </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 ml-auto notify-box">
       <div v-if="notifications?.length == 0">
@@ -82,7 +89,8 @@ export default {
     const newNotifyQtd = inject('newNotifyQtd');
     const checkedNotify = inject("checkedNotify");
     const filter = ref({
-      showDeletedNotifications: false
+      showDeletedNotifications: false,
+      content: null
     });
     const methods = reactive({
       connectWebSocket() {
@@ -165,11 +173,22 @@ export default {
         };
         socket.send(JSON.stringify(messageObject));
       },
+      handleSerarchInput(){
+        document.getElementById('form-search-1').blur();
+      },
       formatTextNotification(text) {
         return text.length > maxTextLength.value ? text.substring(0, maxTextLength.value) + "..." : text;
       },
       filterNotifications() {
-        methods.send('get-notify', null, filter.value);
+        let canFilter = true;
+
+        if((filter.value?.content?.length > 0 && filter.value?.content?.length < 3) || filter.value?.content?.length > 100){
+          canFilter = false;
+        }
+
+        if(canFilter){
+          methods.send('get-notify', null, filter.value);
+        }
       },
       handleNotify(notify) {
         let aux = -1;
@@ -235,10 +254,14 @@ export default {
 .notify-box::-webkit-scrollbar {
   width: 8px;
 }
+
 .notify-box::-webkit-scrollbar-thumb {
-        background-color: var(--decoration-primary); /* Cor do polegar (a parte móvel) */
-        border-radius: 10px; /* Borda arredondada */
+  background-color: var(--decoration-primary);
+  /* Cor do polegar (a parte móvel) */
+  border-radius: 10px;
+  /* Borda arredondada */
 }
+
 .notify-box-element {
   background-color: var(--switch-mode-primary);
   margin-bottom: 5px;
@@ -339,15 +362,16 @@ export default {
   font-size: 8pt;
 }
 
-.notify-box-filter{
+.notify-box-filter {
   position: fixed;
   z-index: 2;
   background-color: var(--switch-mode-tertiary);
 }
 
-.notify-box-filter-label{
+.notify-box-filter-label {
   color: var(--switch-elements-mode-secondary);
 }
+
 /* VISUALIZED */
 .notify-box-element.visualized {
   opacity: 0.5;

@@ -60,7 +60,7 @@ export default {
     const showMainBar = ref(false);
     const showNotifyBar = ref(false);
     const router = useRouter();
-
+    const imgUser = ref(localStorage.getItem("imgUser"));
     const configModalCustom = ref({
       show: false,
       reference: "",
@@ -216,9 +216,11 @@ export default {
     provide("showModalBox", showModalBox);
     provide("isLoggedIn", isLoggedIn);
     provide("isDarkMode", isDarkMode);
+    provide("imgUser", imgUser);
     provide("moment", moment);
     return {
       router,
+      imgUser,
       isDarkMode,
       isLoggedIn,
       showMainBar,

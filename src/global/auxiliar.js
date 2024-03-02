@@ -54,13 +54,17 @@ class Auxiliar {
 
     async getHash(obj) {
         const newObj = JSON.parse(JSON.stringify(obj));
-        newObj.Password = MD5(newObj.Password).toString(enc.Hex);
+        if (newObj?.Password) {
+            newObj.Password = MD5(newObj.Password).toString(enc.Hex);
+        }
         return newObj;
     }
     async getHashRedefine(obj) {
         const newObj = JSON.parse(JSON.stringify(obj));
-        newObj.Password = MD5(newObj.Password).toString(enc.Hex);
-        newObj.ConfirmPassword = MD5(newObj.ConfirmPassword).toString(enc.Hex);
+        if (newObj?.Password && newObj?.ConfirmPassword) {
+            newObj.Password = MD5(newObj.Password).toString(enc.Hex);
+            newObj.ConfirmPassword = MD5(newObj.ConfirmPassword).toString(enc.Hex);
+        }
         return newObj;
     }
 

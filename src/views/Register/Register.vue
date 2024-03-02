@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap justify-content-md-center col-12 mt-3 mb-3">
       <section class="col-lg-6 col-md-6 col-sm-12">
         <div class="col-lg-12 col-md-12 col-sm-12">
-          <img v-if="acc?.imgUser" class="col-12 p-0 m-0 perfil-img-edit perfil-img-edit b-radius-5 b-shadow-2"
+          <img v-if="acc?.imgUser" class="col-12 p-0 m-0 perfil-img-edit b-radius-5 b-shadow-2"
             :src="handleImgUser()" />
         </div>
         <div class="row d-flex align-center justify-content-end">
@@ -28,6 +28,7 @@
           </div>
         </div>
       </section>
+      
       <section class="col-lg-6 col-md-12 col-sm-12">
         <form>
           <section class="d-flex flex-wrap">
@@ -36,9 +37,9 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Nome Completo:</label>
+                    <label for="name" class="form-label-text">Nome Completo:</label>
                     <input type="text" id="name" class="input-text" v-model="acc.Name" @change="validateName()"
-                      placeholder="usuari011011" />
+                      placeholder="Seu Nome Compleeto" />
                   </div>
                   <div class="box-error">
                     <span class="textError">{{ error.Name }}</span>
@@ -49,16 +50,48 @@
             <!-- Data Nascimento -->
             <div class="col-lg-6 col-md-6 col-sm-12 mb-1">
               <div class="form-control">
-                <div class="d-flex">
+                <div class="d-flex flex-column">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Data de Nascimento:</label>
+                    <label for="birthday" class="form-label-text">Data de Nascimento:</label>
                     <input type="date" id="birthday" class="input-text" v-model="acc.Birthday"
-                      @change="validateBirthday()" placeholder="01/01/1970" />
-                  </div>
-                  <div class="box-error">
-                    <span class="textError">{{ error.Birthday }}</span>
+                      @blur="validateBirthday()" placeholder="01/01/1970" />
                   </div>
                 </div>
+              </div>
+              <div class="box-error">
+                <span class="textError">{{ error.Birthday }}</span>
+              </div>
+            </div>
+          </section>
+          <section class="d-flex flex-wrap">
+            <!-- Usuário -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-1">
+              <div class="form-control">
+                <div class="d-flex">
+                  <div class="col-12">
+                    <label for="usuario" class="form-label-text">Usuário:</label>
+                    <input type="text" id="UserName" class="input-text" v-model="acc.UserName" @change="validateUserName()"
+                      placeholder="usuari011011" />
+                  </div>
+                  <div class="box-error">
+                    <span class="textError">{{ error.UserName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Email -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-1">
+              <div class="form-control">
+                <div class="d-flex flex-column">
+                  <div class="col-12">
+                    <label for="email" class="form-label-text">Email:</label>
+                    <input type="text" id="email" class="input-text" v-model="acc.Email"
+                      @change="validateEmail()" placeholder="user@mail.com" />
+                  </div>
+                </div>
+              </div>
+              <div class="box-error">
+                <span class="textError">{{ error.Email }}</span>
               </div>
             </div>
           </section>
@@ -68,12 +101,9 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Documento:</label>
+                    <label for="document" class="form-label-text">Documento:</label>
                     <input type="text" id="Document" class="input-text" v-model="acc.Document"
-                      @change="validateDocument()" placeholder="01/01/1970" />
-                  </div>
-                  <div class="box-error">
-                    <span class="textError">{{ error.Document }}</span>
+                      @change="validateDocument()" placeholder="012345678901" />
                   </div>
                 </div>
               </div>
@@ -83,9 +113,9 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Telefone/Celular:</label>
+                    <label for="Phone" class="form-label-text">Telefone/Celular:</label>
                     <input type="text" id="Phone" class="input-text" v-model="acc.Phone" @change="validatePhone()"
-                      placeholder="01/01/1970" />
+                      placeholder="01191234567" />
                   </div>
                   <div class="box-error">
                     <span class="textError">{{ error.Phone }}</span>
@@ -100,11 +130,11 @@
               <div class="d-flex flex-column form-control">
                 <div class="d-flex flex-row">
                   <div class="col-3">
-                    <label for="pais" class="form-label-text">País:</label>
+                    <label class="form-label-text">País:</label>
                   </div>
                   <div class="col-9 form-control d-flex flex-column">
-                    <input type="text" v-model="acc.Country" class="form-control b-shadow-2" list="countries" id="country"
-                      @change="validateCountry()">
+                    <input type="text" id="country" v-model="acc.Country" class="form-control b-shadow-2" list="countries"
+                      @change="validateCountry()" />
                     <datalist id="countries">
                       <option value="USA">USA</option>
                       <option value="BRA">BRAZIL</option>
@@ -121,7 +151,7 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">CEP:</label>
+                    <label for="ZipCode" class="form-label-text">CEP:</label>
                     <input type="text" id="ZipCode" class="input-text" v-model="acc.ZipCode" @change="validateZipCode()"
                       placeholder="23230231" />
                   </div>
@@ -138,9 +168,9 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Endereço:</label>
-                    <input type="text" id="Endereço" class="input-text" v-model="acc.Address" @change="validateAddress()"
-                      placeholder="01/01/1970" />
+                    <label for="Endereco" class="form-label-text">Endereço:</label>
+                    <input type="text" id="Endereco" class="input-text" v-model="acc.Address" @change="validateAddress()"
+                      placeholder="Broadway avenue" />
                   </div>
                   <div v-if="error.Address" class="box-error">
                     <span class="textError">{{ error.Address }}</span>
@@ -153,7 +183,7 @@
               <div class="form-control">
                 <div class="d-flex">
                   <div class="col-12">
-                    <label for="usuario" class="form-label-text">Complemento:</label>
+                    <label for="Complemento" class="form-label-text">Complemento:</label>
                     <input type="text" id="Complemento" class="input-text" v-model="acc.ComplementAddress"
                       placeholder="" />
                   </div>
@@ -188,7 +218,7 @@
             <div class="form-control">
               <div class="d-flex align-center justify-center">
                 <div class="col-10">
-                  <label for="password" class="form-label-text">Confirmar Senha:</label>
+                  <label for="password-confirm" class="form-label-text">Confirmar Senha:</label>
                   <input :type="showPassword ? 'text' : 'password'" id="password-confirm" class="input-text"
                     v-model="acc.ConfirmPassword" placeholder="c0nfirm p@ssw0rd" @change="validateConfirmPassword()" />
                 </div>
@@ -200,7 +230,7 @@
           </div>
 
           <div class="mb-6 mt-4 d-flex justify-content-center">
-            <button type="button" class="btn decoration-primary" @click="edit()" :disabled="!canRegister()">
+            <button type="button" class="btn decoration-primary" @click="register()" :disabled="!canRegister">
               Salvar alterações
             </button>
           </div>
@@ -211,7 +241,7 @@
 </template>
 
 <script>
-import { ref, inject, watch, reactive, toRefs } from "vue";
+import { ref, inject, watch, reactive, toRefs, computed } from "vue";
 import AccountService from "@/services/AccountService";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
@@ -226,6 +256,30 @@ export default {
     const addMessageBox = inject("addMessageBox");
     const showPassword = ref(false);
     const router = useRouter();
+    const canRegister = computed(() => {
+      console.log(acc.value)
+      if (
+          error.value.Name?.trim() == "" &&
+          error.value.UserName?.trim() == "" &&
+          //error.value.Document?.trim() == "" &&
+          error.value.Email?.trim() == "" &&
+          error.value.Phone?.trim() == "" &&
+          error.value.Birthday?.trim() == "" &&
+          error.value.Password?.trim() == "" &&
+          error.value.ConfirmPassword?.trim() == "" &&
+          acc.value.Name?.trim() != "" &&
+          acc.value.UserName?.trim() != "" &&
+          //acc.value.Document?.trim() != "" &&
+          acc.value.Email?.trim() != "" &&
+          acc.value.Phone?.trim() != "" &&
+          acc.value.Birthday?.trim() != "" &&
+          acc.value.Password?.trim() != "" &&
+          acc.value.ConfirmPassword?.trim() != ""
+        ) {
+          return true;
+        }
+        return false;
+    });
     const acc = ref({
       Name: "",
       UserName: "",
@@ -258,7 +312,7 @@ export default {
 
     const methods = reactive({
       register() {
-        if (methods.canRegister()) {
+        if (canRegister.value) {
           AccountService.register(acc.value)
             .then(() => {
               addMessageBox(
@@ -268,7 +322,7 @@ export default {
                 "success",
                 null
               );
-              router.push("/");
+              router.goTo("dashboard");
             })
             .catch((err) => {
             });
@@ -459,40 +513,17 @@ export default {
           console.log("Nenhum arquivo selecionado");
         }
       },
-      canRegister() {
-        if (
-          error.value.Name?.trim() == "" &&
-          error.value.UserName?.trim() == "" &&
-          //error.value.Document?.trim() == "" &&
-          error.value.Email?.trim() == "" &&
-          error.value.Phone?.trim() == "" &&
-          error.value.Birthday?.trim() == "" &&
-          error.value.Password?.trim() == "" &&
-          error.value.ConfirmPassword?.trim() == "" &&
-          acc.value.Name?.trim() != "" &&
-          acc.value.UserName?.trim() != "" &&
-          //acc.value.Document?.trim() != "" &&
-          acc.value.Email?.trim() != "" &&
-          acc.value.Phone?.trim() != "" &&
-          acc.value.Birthday?.trim() != "" &&
-          acc.value.Password?.trim() != "" &&
-          acc.value.ConfirmPassword?.trim() != ""
-        ) {
-          return true;
-        }
-        return false;
-      },
     });
 
     watch(acc.value, (newV, oldV) => {
       methods.formatInput();
-      methods.canRegister();
     });
 
     return {
       acc,
       error,
       title,
+      canRegister,
       description,
       showPassword,
       ...toRefs(methods),
