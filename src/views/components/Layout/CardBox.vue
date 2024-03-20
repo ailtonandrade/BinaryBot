@@ -1,8 +1,8 @@
 <template>
   <div class="card-box d-flex flex-column align-center justify-center">
     <div class="container-fluid d-flex flex-column align-start justify-center">
-      <h1>{{ title }}</h1>
-      <p>{{ description }}</p>
+      <h3>{{ title }}</h3>
+      <p class="small">{{ description }}</p>
       <LineDecoration></LineDecoration>
       <div class="mb-3 p-0 row breadcrumb-container">
         <div v-for="(text, index) in breadcrumb" :key="index">
@@ -50,16 +50,24 @@ export default ({
 </script>
 <style scoped>
 .card-box {
-  margin: 0 0 0 70px;
-  padding: 25px 50px 20px 50px;
+  margin: 0 10px;
+  padding: 20px 5px 0 20px;
   background-color: var(--switch-mode-primary);
 }
-
+@media (min-width: 600px){
+  .card-box{
+    padding: 20px 5px 0 70px;
+    overflow: hidden;
+  }
+}
 .card-box-content {
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
   border-radius: 20px;
   box-shadow: 1px 1px 1px 1px rgb(0, 0, 0, 0.2);
   background-color: var(--switch-mode-secondary);
+  overflow: hidden;
 }
 
 .breadcrumb-container {
@@ -95,6 +103,7 @@ h1 {
 p {
   color: var(--switch-elements-mode-primary);
 }
+
 </style>
 
 

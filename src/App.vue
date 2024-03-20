@@ -8,7 +8,7 @@
       <ToggleSideMenu v-if="isLoggedIn" />
       <SideMenu v-if="isLoggedIn" :listMenu="listSideMenu" class="side-menu" />
     </div>
-    <div class="router-view" :class="isLoggedIn ? 'p-t-custom' : 'p-0'">
+    <div class="router-view" :class="isLoggedIn ? 'p-t-custom h-100' : 'p-0'">
       <router-view>
       </router-view>
     </div>

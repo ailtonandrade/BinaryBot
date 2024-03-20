@@ -27,6 +27,10 @@
   --fixed-light-mode-tertiary: rgb(200, 200, 200);
   --element-backdrop: rgb(0, 0, 0);
 }
+
+table, h1, h2, h3, h4{
+  color: var(--switch-elements-mode-primary);
+}
 :root{
   background-color: var(--switch-mode-primary);
 }
@@ -40,6 +44,12 @@
 :root::-webkit-scrollbar-track {
   background-color: var(--switch-elements-mode-tertiary); /* Cor do rastro (a parte fixa) */
 }
+
+.d-invisible {
+  visibility: hidden !important;
+}
+
+
 /* MARGINS */
 .mt-10 {
   margin-top: 100px;

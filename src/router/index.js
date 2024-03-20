@@ -6,7 +6,8 @@ import Dashboard from "@/views/dashboard/Dashboard.vue";
 import NotFound from "@/views/NotFound/NotFound.vue";
 import Register from "@/views/Register/Register.vue";
 import ValidateCodeVue from "@/views/Register/ValidateCode.vue";
-import EditVue from "@/views/Edit.vue";
+import EditVue from "@/views/Users/Edit.vue";
+import ListUsers from "@/views/Users/ListUsers.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,6 +47,12 @@ const router = createRouter({
       name: "redefine",
       path: "/redefine",
       component: Redefine,
+    },
+    {
+      name: "list-users",
+      path: "/management/users/list-users",
+      component: ListUsers,
+      meta: { requiresAuth: true },
     },
     {
       name: "edit-perfil",
