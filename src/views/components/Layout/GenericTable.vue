@@ -32,12 +32,13 @@
           </th>
         </thead>
         <div class="col-lg-3 col-md-3 col-sm-4 col-8 options" :class="{ 'active': handleOptions }">
-          <div class="options-btn-group" :class="{ 'd-none': toggleDisabledOptions || option.disabled}" v-for="(option, index) in options"
-            :key="index" @click="action(option.action)">
-            <button class="options-btn" :alt="option.label">
-              <font-awesome-icon class="f-icon" :icon="option.icon" />
-            </button>
-            <label>{{ option.label }}</label>
+          <div v-for="(option, index) in options" :key="index" class="options-group col-12" @click="action(option.action)">
+            <div v-if="!option.disabled" class="options-btn-group col-12">
+              <button class="options-btn" :alt="option.label">
+                <font-awesome-icon class="f-icon" :icon="option.icon" />
+              </button>
+              <label>{{ option.label }}</label>
+            </div>
           </div>
         </div>
         <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
@@ -69,23 +70,23 @@ import { useRouter } from "vue-router";
 
 export default ({
   props: ["objHeader", "objContents", "options", "type"],
-  emits: ['action'],
+  emits: ['action', 'selectedLineObj', 'selectedLineArr'],
   components: {
   },
   name: "GenericTable",
   setup(props, { emit }) {
     const search = ref();
     const handleOptions = ref(false);
+    const filteredObjContents = ref(props.objContents);
     const selectedLineObj = ref(null);
     const selectedLineArr = ref(null);
-    const filteredObjContents = ref(props.objContents);
-    const toggleDisabledOptions = computed(() => {
-      return !selectedLineObj.value && !selectedLineArr.value;
-    })
+
     const methods = reactive({
       action(action) {
-        let data = selectedLineObj.value ?? selectedLineArr.value;
-        emit('action', data)
+        let actionData = {};
+        actionData.data = selectedLineObj.value ?? selectedLineArr.value;
+        actionData.action = action;
+        emit('action', actionData)
         methods.toggleOptions();
       },
       clearSearch() {
@@ -107,6 +108,7 @@ export default ({
               selectedLineArr.value.push(row);
               event.target.parentNode.parentNode.classList.add('selected');
             }
+            emit('selectedLineArr', selectedLineArr.value);
           } else if (props.type == "object") {
             if (JSON.stringify(event.target.parentNode.parentNode.classList).includes("selected")) {
               event.target.parentNode.parentNode.classList.remove('selected');
@@ -116,22 +118,23 @@ export default ({
               selectedLineObj.value = row;
               event.target.parentNode.parentNode.classList.add('selected');
             }
+            emit('selectedLineObj', selectedLineObj.value);
           }
         }
       },
-      searchList(){
+      searchList() {
         methods.clearSelection();
-        if(props.objContents && search.value){
+        if (props.objContents && search.value) {
           filteredObjContents.value = props.objContents.filter(item => JSON.stringify(item).includes(search.value));
-        }else{
+        } else {
           filteredObjContents.value = props.objContents;
         }
       },
-      clearSelection(){
+      clearSelection() {
         const elementosSelecionados = document.querySelectorAll('.row-content.selected');
-              elementosSelecionados.forEach(e => {
-                e.classList.remove('selected');
-              });
+        elementosSelecionados.forEach(e => {
+          e.classList.remove('selected');
+        });
 
         selectedLineObj.value = null;
         selectedLineArr.value = null;
@@ -144,7 +147,6 @@ export default ({
       selectedLineObj,
       selectedLineArr,
       filteredObjContents,
-      toggleDisabledOptions,
       handleOptions,
       ...toRefs(methods),
     };
@@ -214,8 +216,8 @@ table {
 .options {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: start;
+  justify-content: start;
+  align-items: center;
   position: fixed;
   border-radius: 10px;
   margin: 1px 50px;
@@ -239,10 +241,12 @@ table {
 }
 
 .options-btn-group {
+  display:flex;
+  justify-content:start;
+  align-items: center;
   cursor: pointer;
   border-radius: 10px;
-  padding: 5px 5px;
-  width: 100%;
+  padding: 5px 10px;
   border-bottom-style: solid;
   border-bottom-color: var(--switch-mode-secondary);
   border-bottom-width: 0.2px;
@@ -275,7 +279,6 @@ table {
 
 .options-btn-group label {
   cursor: pointer;
-
 }
 
 .options-btn {
@@ -401,7 +404,7 @@ tbody::-webkit-scrollbar-track,
   background-color: var(--switch-elements-mode-tertiary);
 }
 
-.contents-none{
+.contents-none {
   opacity: 0.5;
   margin: 10px;
 }

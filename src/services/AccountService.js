@@ -5,7 +5,7 @@ import http from './http';
 const baseUrl = 'account';
 
 
-class AuthService {
+class AccountService {
   async register(data) {
     return http.post(baseUrl + "/register", await Auxiliar.getHash(data));
   }
@@ -26,5 +26,9 @@ class AuthService {
     data.UrlMatch = new URLSearchParams(window.location.search).get('hf');
     return http.post(baseUrl + "/redefine", await Auxiliar.getHashRedefine(data));
   }
+
+  async getAllUsers(){
+    return http.get(baseUrl + "/get-all-users");
+  }
 }
-export default new AuthService();
+export default new AccountService();
