@@ -27,8 +27,11 @@ class AccountService {
     return http.post(baseUrl + "/redefine", await Auxiliar.getHashRedefine(data));
   }
 
-  async getAllUsers(){
-    return http.get(baseUrl + "/get-all-users");
+  async getAllUsers(orderBy = {}, filterSearch) {
+    return http.post(baseUrl + "/get-all-users?" +
+      "filterSearch=" + filterSearch +
+      "&orderField=" + orderBy.field +
+      "&orderAsc=" + orderBy.order);
   }
 }
 export default new AccountService();

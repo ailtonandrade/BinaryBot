@@ -2,7 +2,8 @@
   <CardBox :title="'Lista de Usuários'" :description="'Manipule os registros de usuário'"
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: 'Listar Usuários', link: '' }]">
     <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'object'"
-      @selectedLineObj="selectedLine($event)" @action="action($event)" />
+      :orderBy="orderBy" @selectedLineObj="selectedLine($event)" @orderByField="getAllUsers($event)"
+      @action="action($event)" @filterSearch="getAllUsers($event)" />
   </CardBox>
 </template>
 
@@ -20,21 +21,31 @@ export default {
   setup() {
     const router = useRouter();
     const addMessageBox = inject("addMessageBox");
-    const selectedLine = ref(null);
+    const selectedLine = ref("");
+    const orderBy = ref({
+      field: "Name",
+      order: true
+    });
     const headers = ref([
       {
         displayName: "Id",
-        name: "ID",
-        order: "desc",
-        orderDefault: true
+        name: "Id",
       },
       {
         displayName: "Nome",
-        name: "NOME",
+        name: "Name",
       },
       {
-        displayName: "Coisas",
-        name: "COISAS",
+        displayName: "Email",
+        name: "Email",
+      },
+      {
+        displayName: "Phone",
+        name: "Phone",
+      },
+      {
+        displayName: "Status",
+        name: "Status",
       },
     ]);
     const contentTable = ref([]);
@@ -76,17 +87,20 @@ export default {
     });
 
     const methods = reactive({
-      getAllUsers(){
-        AccountService.getAllUsers()
-        .then((resp) => {
-          console.log(resp);
-        })
-        .catch((ex) => {
-          console.log(ex);
-        })
+      getAllUsers(event) {
+        AccountService.getAllUsers(orderBy.value, ObjectUtils.getEvent(event?.search))
+          .then((resp) => {
+            methods.responseTable(resp);
+          })
+          .catch((ex) => {
+
+          })
       },
       action(event) {
         console.log(event.action)
+      },
+      responseTable(response) {
+        contentTable.value = response;
       },
       selectedLine(event) {
         selectedLine.value = event;
@@ -98,6 +112,7 @@ export default {
     });
 
     return {
+      orderBy,
       headers,
       optionsTable,
       contentTable,

@@ -18,6 +18,11 @@ class Http {
       resp = response.data;
       return resp
     } catch (err) {
+      console.log("err")
+      console.log(err.response?.status)
+      if (err.response?.status === 403) {
+        window.location.href = "/"; // Redireciona para a raiz do seu site
+      }
       throw err;
     }
     finally {

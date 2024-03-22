@@ -11,6 +11,9 @@ export default class ObjectUtils {
   static getImgBlank() {
     return "img/img-user-blank.png";
   }
+  static getEvent(event){
+    return (event !== undefined) ? event : "";
+  }
   static encode(input) {
     let a, b, c, d;
 

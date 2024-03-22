@@ -2,48 +2,46 @@
   <div class="col-12">
     <div class="col-lg-3 col-md-3 col-sm-4 col-12 mx-4 px-0 ml-auto search">
       <div class="col-10 mx-0 search-input">
-        <input id="valueHeaderFilter" class="col-12" type="text" placeholder="abc..." v-model="search" />
+        <input id="valueHeaderFilter" class="col-12" type="text" placeholder="abc..." v-model="filter.search" />
       </div>
-      <div class="col-1 f-trash-icon" :class="search?.length > 0 ? 'd-block' : 'd-invisible'" @click="clearSearch()">
+      <div class="col-1 f-trash-icon" :class="filter.search ? 'd-block' : 'd-invisible'" @click="clearSearch()">
         <font-awesome-icon :icon="'fa-regular fa-trash-alt'" />
       </div>
-      <div class="col-1 h-100 search-f-icon" @click="searchList()">
+      <button :disabled="!filter.search" class="btn col-1 h-100 search-f-icon" @click="searchList()">
         <font-awesome-icon :icon="'fa-solid fa-search'" />
+      </button>
+    </div>
+    <div class="th-options p-1" :class="{ 'active': handleOptions }" @click="toggleOptions()">
+      <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-8 options" :class="{ 'active': handleOptions }">
+      <div v-for="(option, index) in options" :key="index" class="options-group col-12" @click="action(option.action)">
+        <div v-if="!option.disabled" class="options-btn-group col-12">
+          <button class="options-btn" :alt="option.label">
+            <font-awesome-icon class="f-icon" :icon="option.icon" />
+          </button>
+          <label>{{ option.label }}</label>
+        </div>
       </div>
     </div>
+    <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
     <div class="col-12 generic-table">
       <table class="col-12">
         <thead>
-          <th>
-            <div class="th-options p-1" :class="{ 'active': handleOptions }" @click="toggleOptions()">
-              <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
-            </div>
-          </th>
           <th v-for="(header, indexHead) in objHeader" :key="indexHead">
-            <div class="header">
+            <div class="header" @click="toggleOrderBy(header)">
               <div class="col-11">
                 {{ header.displayName }}
               </div>
               <div class="col-1">
-                <font-awesome-icon class="f-icon"
+                <font-awesome-icon class="f-icon" :class="{ 'd-none': orderBy.field != header.name }"
                   :icon="header.order ? 'fa-solid fa-arrow-up' : 'fa-solid fa-arrow-down'" />
               </div>
             </div>
           </th>
         </thead>
-        <div class="col-lg-3 col-md-3 col-sm-4 col-8 options" :class="{ 'active': handleOptions }">
-          <div v-for="(option, index) in options" :key="index" class="options-group col-12" @click="action(option.action)">
-            <div v-if="!option.disabled" class="options-btn-group col-12">
-              <button class="options-btn" :alt="option.label">
-                <font-awesome-icon class="f-icon" :icon="option.icon" />
-              </button>
-              <label>{{ option.label }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
-        <tbody v-if="filteredObjContents?.length > 0">
-          <tr class="row-content" v-for="(row, indexRow) in filteredObjContents" :key="indexRow"
+        <tbody v-if="objContents?.length > 0">
+          <tr class="row-content" v-for="(row, indexRow) in objContents" :key="indexRow"
             @click="selectLine(row, indexRow, $event)">
             <td class="content-disabled">
             </td>
@@ -69,18 +67,18 @@ import { computed, watch, reactive, toRefs, ref, inject, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 export default ({
-  props: ["objHeader", "objContents", "options", "type"],
-  emits: ['action', 'selectedLineObj', 'selectedLineArr'],
+  props: ["objHeader", "objContents", "options", "type", "orderBy"],
+  emits: ['action', 'filterSearch', 'orderByField', 'selectedLineObj', 'selectedLineArr'],
   components: {
   },
   name: "GenericTable",
   setup(props, { emit }) {
-    const search = ref();
     const handleOptions = ref(false);
-    const filteredObjContents = ref(props.objContents);
+    const filter = ref({
+      search: ""
+    });
     const selectedLineObj = ref(null);
     const selectedLineArr = ref(null);
-
     const methods = reactive({
       action(action) {
         let actionData = {};
@@ -89,8 +87,15 @@ export default ({
         emit('action', actionData)
         methods.toggleOptions();
       },
+      toggleOrderBy(headField) {
+        headField.order = !headField.order;
+        props.orderBy.field = headField.name;
+        props.orderBy.order = headField.order;
+        emit('orderByField', props.orderBy);
+      },
       clearSearch() {
-        search.value = null;
+        filter.value.search = "";
+        emit('filterSearch', filter.value);
       },
       toggleOptions() {
         handleOptions.value = !handleOptions.value;
@@ -124,11 +129,7 @@ export default ({
       },
       searchList() {
         methods.clearSelection();
-        if (props.objContents && search.value) {
-          filteredObjContents.value = props.objContents.filter(item => JSON.stringify(item).includes(search.value));
-        } else {
-          filteredObjContents.value = props.objContents;
-        }
+        emit('filterSearch', filter.value);
       },
       clearSelection() {
         const elementosSelecionados = document.querySelectorAll('.row-content.selected');
@@ -143,10 +144,9 @@ export default ({
 
 
     return {
-      search,
+      filter,
       selectedLineObj,
       selectedLineArr,
-      filteredObjContents,
       handleOptions,
       ...toRefs(methods),
     };
@@ -241,8 +241,8 @@ table {
 }
 
 .options-btn-group {
-  display:flex;
-  justify-content:start;
+  display: flex;
+  justify-content: start;
   align-items: center;
   cursor: pointer;
   border-radius: 10px;
@@ -309,7 +309,6 @@ table {
   font-size: 8pt;
 }
 
-thead th:first-child,
 .th-options {
   user-select: none;
   cursor: pointer;
