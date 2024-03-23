@@ -72,7 +72,7 @@ const router = createRouter({
 
 // Função de navegação personalizada com objeto no query param
 router.goToPath = (routerPath) => {
-  router.push({ path: routerPath });
+  router.push({ path: "/"+routerPath });
 };
 
 router.goTo = (routeName, objectData) => {

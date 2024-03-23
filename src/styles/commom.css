@@ -9,22 +9,22 @@
   --danger: #ff5733;
   --danger-after: #ad3f26;
   --danger-active: rgb(39, 28, 2);
-  --default-mode-primary: rgb(240, 240, 240);
-  --default-mode-secondary: rgb(210, 210, 210);
-  --default-mode-tertiary: rgb(200, 200, 200);
   --default-elements-mode-primary: rgb(44, 44, 44);
-  --switch-mode-primary: rgb(240, 240, 240);
-  --switch-mode-secondary: rgb(210, 210, 210);
-  --switch-mode-tertiary: rgb(200, 200, 200);
-  --switch-mode-elements-primary: rgb(44, 44, 44);
-  --switch-mode-elements-secondary: rgb(33, 33, 33);
+  --switch-mode-primary:           rgb(180, 180, 180);
+  --switch-mode-secondary:         rgb(130, 130, 130);
+  --switch-mode-tertiary:          rgb(80, 80, 80);
+  --switch-mode-elements-primary:  rgb(44, 44, 44);
+  --switch-mode-elements-secondary:rgb(33, 33, 33);
   --switch-mode-elements-tertiary: rgb(22, 22, 22);
-  --fixed-dark-mode-primary: rgb(22, 22, 22);
-  --fixed-dark-mode-secondary: rgb(33, 33, 33);
-  --fixed-dark-mode-tertiary: rgb(44, 44, 44);
-  --fixed-light-mode-primary: rgb(240, 240, 240);
-  --fixed-light-mode-secondary: rgb(210, 210, 210);
-  --fixed-light-mode-tertiary: rgb(200, 200, 200);
+  --fixed-dark-mode-primary:       rgb(22, 22, 22);
+  --fixed-dark-mode-secondary:     rgb(33, 33, 33);
+  --fixed-dark-mode-tertiary:      rgb(44, 44, 44);
+  --fixed-light-mode-primary:      rgb(180, 180, 180);
+  --fixed-light-mode-secondary:    rgb(130, 130, 130);
+  --fixed-light-mode-tertiary:     rgb(80, 80, 80);
+  --default-mode-primary:          rgb(180, 180, 180);
+  --default-mode-secondary:        rgb(130, 130, 130);
+  --default-mode-tertiary:         rgb(80, 80, 80);
   --element-backdrop: rgb(0, 0, 0);
 }
 

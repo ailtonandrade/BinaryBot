@@ -7,10 +7,10 @@
       <div class="mb-3 p-0 row breadcrumb-container">
         <div v-for="(text, index) in breadcrumb" :key="index">
           <div class="breadcrumb-content">
-            <span class="breadcrumb-link smaller" @click=goToRoute(text.link)>
+            <span class="breadcrumb-link" @click=goToRoute(text.link)>
               {{ text.name }}
             </span>
-            <b v-if="++index < breadcrumb?.length" class="breadcrumb-dot medium"> > </b>
+            <b v-if="++index < breadcrumb?.length" class="breadcrumb-dot medium"> - </b>
           </div>
         </div>
       </div>
@@ -73,26 +73,32 @@ export default ({
 .breadcrumb-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .breadcrumb-content {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .breadcrumb-link {
-  margin: 0 10px 0 10px;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
+  padding: 0 10px;
+  height:20px;
   color: var(--switch-elements-mode-tertiary);
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: x-small;
+  font-size: small;
   background-color: var(--switch-mode-tertiary);
   box-shadow: 1px 1px 1px 0.1px rgb(0, 0, 0, 0.2);
 }
 
 .breadcrumb-dot {
+  pointer-events:none;
   color: var(--switch-elements-mode-tertiary);
 }
 
