@@ -1,7 +1,7 @@
 <template>
   <div class="card-box d-flex flex-column align-center justify-center">
     <div class="container-fluid d-flex flex-column align-start justify-center">
-      <h3>{{ title }}</h3>
+      <h4>{{ title }}</h4>
       <p class="small">{{ description }}</p>
       <LineDecoration></LineDecoration>
       <div class="mb-3 p-0 row breadcrumb-container">
