@@ -1,53 +1,47 @@
 <template>
-  <div class="col-12">
-    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mx-4 px-0 ml-auto search">
-      <div class="col-10 mx-0 search-input">
-        <input id="valueHeaderFilter" class="col-12" type="text" placeholder="abc..." v-model="filter.search" />
+  <div class="col-12 d-flex flex-column aligm-itms-start">
+    <div class="col-12 col-sm-6 px-0 d-flex">
+      <div class="th-options d-flex justify-content-center align-items-center" :class="{ 'active': handleOptions }" @click="toggleOptions()">
+        <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
       </div>
-      <div class="col-1 f-trash-icon" :class="filter.search ? 'd-block' : 'd-invisible'" @click="clearSearch()">
-        <font-awesome-icon :icon="'fa-regular fa-trash-alt'" />
+      <div class="options" :class="{ 'active': handleOptions }">
+        <div v-for="(option, index) in options" :key="index" class="" @click="action(option.action)">
+          <div v-if="!option.disabled" class="options-btn-group">
+            <button class="options-btn" :alt="option.label">
+              <font-awesome-icon class="f-icon" :icon="option.icon" />
+            </button>
+            <label>{{ option.label }}</label>
+          </div>
+        </div>
       </div>
-      <button :disabled="!filter.search" class="btn col-1 h-100 search-f-icon" @click="searchList()">
+      <div class="col-8 px-0 mx-0 search d-flex align-items-center">
+        <div class="col-10 search-input">
+          <input id="valueHeaderFilter" class="col-12 px-0 mx-0" type="text" placeholder="abc..." v-model="filter.search" />
+        </div>
+        <div class="col-2 f-trash-icon d-flex justify-content-center" :class="filter.search ? 'd-block' : 'd-invisible'" @click="clearSearch()">
+          <font-awesome-icon :icon="'fa-regular fa-trash-alt'" />
+        </div>
+      </div>
+      <button class="btn search-f-icon" :disabled="!filter.search" @click="searchList()">
         <font-awesome-icon :icon="'fa-solid fa-search'" />
       </button>
     </div>
-    <div class="th-options p-1" :class="{ 'active': handleOptions }" @click="toggleOptions()">
-      <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-4 col-8 options" :class="{ 'active': handleOptions }">
-      <div v-for="(option, index) in options" :key="index" class="options-group col-12" @click="action(option.action)">
-        <div v-if="!option.disabled" class="options-btn-group col-12">
-          <button class="options-btn" :alt="option.label">
-            <font-awesome-icon class="f-icon" :icon="option.icon" />
-          </button>
-          <label>{{ option.label }}</label>
-        </div>
-      </div>
-    </div>
-    <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
-    <div class="col-12 generic-table">
-      <table class="col-12">
+    <div class="generic-table">
+      <table class="">
         <thead>
           <th v-for="(header, indexHead) in objHeader" :key="indexHead">
-            <div class="header" @click="toggleOrderBy(header)">
-              <div class="col-11">
-                {{ header.displayName }}
-              </div>
-              <div class="col-1">
-                <font-awesome-icon class="f-icon" :class="{ 'd-none': orderBy.field != header.name }"
-                  :icon="header.order ? 'fa-solid fa-arrow-up' : 'fa-solid fa-arrow-down'" />
-              </div>
+            <div class="header d-flex justify-content-around" @dblclick="toggleOrderBy(header)">
+              {{ header.displayName }}
+              <font-awesome-icon class="f-icon" :class="{ 'd-none': orderBy.field != header.name }"
+                :icon="header.order ? 'fa-solid fa-arrow-up' : 'fa-solid fa-arrow-down'" />
             </div>
           </th>
         </thead>
         <tbody v-if="objContents?.length > 0">
-          <tr class="row-content" v-for="(row, indexRow) in objContents" :key="indexRow"
-            @click="selectLine(row, indexRow, $event)">
-            <td class="content-disabled">
-            </td>
+          <tr class="row-content" v-for="(row, indexRow) in objContents" :key="indexRow">
             <td v-for="(content, indexCnt) in row" :key="indexCnt">
-              <div class="content">
-                <span>{{ content }}</span>
+              <div class="content" @click="selectLine(row, indexRow, $event)">
+                {{ content }}
               </div>
             </td>
           </tr>
@@ -59,6 +53,7 @@
         </tbody>
       </table>
     </div>
+    <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
   </div>
 </template>
 
@@ -156,43 +151,25 @@ export default ({
 
 <style scoped>
 .generic-table {
+  padding: 0 !important;
   overflow: auto;
 }
 
 table {
   overflow: auto;
-  min-width: 700px;
+  min-width: 500px;
   font-size: 9pt;
-}
-
-.search {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  border-radius: 5px;
-  border-style: solid;
-  border-color: var(--switch-mode-tertiary);
-  border-width: 1px;
-  padding: 0 5px;
-  background-color: var(--switch-mode-primary);
-  margin: 5px 0;
 }
 
 .search-input input[type="text"] {
   border-style: none;
   outline: none;
-  padding: 0 5px;
-  height: 100%;
-  font-size: 10pt;
+  font-size: 9pt;
   background-color: var(--switch-mode-primary) !important;
 }
 
 .f-trash-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  cursor:pointer;
   font-size: 8pt;
   color: var(--switch-elements-mode-primary);
   opacity: 0.4;
@@ -204,23 +181,19 @@ table {
   justify-content: center;
   background-color: var(--switch-mode-tertiary) !important;
   color: var(--switch-elements-mode-secondary);
-  border-color: var(--switch-mode-tertiary);
   opacity: 0.8;
+  border-radius: 0 5px 0 0;
   cursor: pointer;
-}
-
-.search-f-icon:hover {
-  opacity: 1;
 }
 
 .options {
   display: flex;
+  margin-top: 2%;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   position: fixed;
   border-radius: 10px;
-  margin: 1px 50px;
   height: 0;
   opacity: 0;
   background-color: var(--switch-mode-primary);
@@ -232,8 +205,7 @@ table {
 .options.active {
   overflow-y: auto;
   transition: 0.2s;
-  margin: -10px 40px;
-  padding: 10px 10px;
+  padding: 10px 0px;
   height: auto;
   max-height: 130px;
   min-height: 30px;
@@ -245,7 +217,7 @@ table {
   justify-content: start;
   align-items: center;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 5px 10px;
   border-bottom-style: solid;
   border-bottom-color: var(--switch-mode-secondary);
@@ -253,32 +225,10 @@ table {
   transition: 0.2s;
 }
 
-.backdrop-options {
-  position: fixed;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  top: 0;
-  left: 0;
-  background-color: black;
-  z-index: 1;
-  transition: 0.2s;
-}
-
-.backdrop-options.active {
-  width: 100%;
-  height: 100%;
-  opacity: 0.2;
-  transition: 0.2s;
-}
 
 .options-btn-group:hover {
   background-color: var(--switch-mode-tertiary);
   transition: 0.2s;
-}
-
-.options-btn-group label {
-  cursor: pointer;
 }
 
 .options-btn {
@@ -286,40 +236,30 @@ table {
   border-radius: 5px;
   height: 30px;
   width: 30px;
-  margin: 2px 5px;
   color: var(--switch-elements-mode-secondary);
   background-color: var(--switch-mode-secondary);
   border-style: none;
   outline: none;
 }
 
-.options-btn:hover {
-  background-color: var(--switch-mode-tertiary);
+.options-btn-group label {
+  margin: 0;
+  padding-left: 5px;
+  cursor: pointer;
+  font-size: 9pt;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-height: 40px;
-  padding: 0 15px;
+.search{
+  background-color: var(--switch-mode-primary);
 }
 
-.header .f-icon {
-  font-size: 8pt;
-}
 
 .th-options {
-  user-select: none;
   cursor: pointer;
   width: 30px;
   background-color: var(--decoration-primary-after);
   color: var(--switch-elements-mode-primary);
-  box-shadow: -1px 1px 2px 0.5px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 5px 0 0 0;
   transition: 0.2s;
 }
 
@@ -331,11 +271,26 @@ table {
 
 thead {
   background-color: var(--decoration-primary);
-  color: var(--switch-mode-secondary);
-  border-radius: 5px 5px 0 0;
+  color: var(--fixed-dark-mode-tertiary);
+  border-radius: 0 5px 0 0;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .f-icon {
+  font-size: 8pt;
+}
+
+th{
+  transition: 0.2s;
 }
 
 th:hover {
+  transition: 0.2s;
   background-color: var(--decoration-primary-after);
 }
 
@@ -351,10 +306,6 @@ tbody tr {
   width: 100%;
 }
 
-td {
-  padding: 0 0px;
-}
-
 td .content {
   display: flex;
   justify-content: start;
@@ -365,46 +316,20 @@ td .content-disabled {
   pointer-events: none;
 }
 
-td:first-child {
-  width: 20px;
-}
-
 tr {
+  cursor: pointer;
   table-layout: fixed;
   background-color: var(--switch-mode-secondary);
+  transition: 0.2s;
 }
 
 tr:hover {
+  transition: 0.2s;
   background-color: var(--switch-mode-tertiary);
 }
 
 .row-content.selected {
   background-color: var(--decoration-primary);
   color: var(--switch-mode-primary);
-}
-
-
-.generic-table::-webkit-scrollbar,
-tbody::-webkit-scrollbar,
-.options::-webkit-scrollbar {
-  height: 7px;
-  width: 7px;
-}
-
-.generic-table::-webkit-scrollbar-thumb,
-tbody::-webkit-scrollbar-thumb,
-.options::-webkit-scrollbar-thumb {
-  background-color: var(--decoration-primary-after);
-}
-
-.generic-table::-webkit-scrollbar-track,
-tbody::-webkit-scrollbar-track,
-.options::-webkit-scrollbar-track {
-  background-color: var(--switch-elements-mode-tertiary);
-}
-
-.contents-none {
-  opacity: 0.5;
-  margin: 10px;
 }
 </style>
