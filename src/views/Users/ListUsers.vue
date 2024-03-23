@@ -10,7 +10,7 @@
 <script>
 import { ref, inject, watch, onMounted, reactive, toRefs, computed } from "vue";
 import AccountService from "@/services/AccountService";
-import GenericTable from "@/views/components/Layout/GenericTable.vue";
+import GenericTable from "@/views/components/GenericTable/GenericTable.vue";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
 import { useRouter } from "vue-router";

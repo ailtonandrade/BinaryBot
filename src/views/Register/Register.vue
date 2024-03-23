@@ -231,7 +231,7 @@
 
           <div class="mb-6 mt-4 d-flex justify-content-center">
             <button type="button" class="btn decoration-primary" @click="register()" :disabled="!canRegister">
-              Salvar alterações
+              Criar usuário
             </button>
           </div>
         </form>

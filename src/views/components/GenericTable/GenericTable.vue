@@ -1,33 +1,8 @@
 <template>
   <div class="col-12 d-flex flex-column aligm-itms-start">
-    <div class="col-12 col-sm-6 px-0 d-flex">
-      <div class="th-options d-flex justify-content-center align-items-center" :class="{ 'active': handleOptions }" @click="toggleOptions()">
-        <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
-      </div>
-      <div class="options" :class="{ 'active': handleOptions }">
-        <div v-for="(option, index) in options" :key="index" class="" @click="action(option.action)">
-          <div v-if="!option.disabled" class="options-btn-group">
-            <button class="options-btn" :alt="option.label">
-              <font-awesome-icon class="f-icon" :icon="option.icon" />
-            </button>
-            <label>{{ option.label }}</label>
-          </div>
-        </div>
-      </div>
-      <div class="col-8 px-0 mx-0 search d-flex align-items-center">
-        <div class="col-10 search-input">
-          <input id="valueHeaderFilter" class="col-12 px-0 mx-0" type="text" placeholder="abc..." v-model="filter.search" />
-        </div>
-        <div class="col-2 f-trash-icon d-flex justify-content-center" :class="filter.search ? 'd-block' : 'd-invisible'" @click="clearSearch()">
-          <font-awesome-icon :icon="'fa-regular fa-trash-alt'" />
-        </div>
-      </div>
-      <button class="btn search-f-icon" :disabled="!filter.search" @click="searchList()">
-        <font-awesome-icon :icon="'fa-solid fa-search'" />
-      </button>
-    </div>
+    <FilterSearch />
     <div class="generic-table">
-      <table class="">
+      <table>
         <thead>
           <th v-for="(header, indexHead) in objHeader" :key="indexHead">
             <div class="header d-flex justify-content-around" @dblclick="toggleOrderBy(header)">
@@ -58,13 +33,15 @@
 </template>
 
 <script>
-import { computed, watch, reactive, toRefs, ref, inject, onMounted } from "vue";
+import { computed, watch, reactive, toRefs, ref, inject, provide } from "vue";
 import { useRouter } from "vue-router";
+import FilterSearch from "./Components/FilterSearch.vue";
 
 export default ({
   props: ["objHeader", "objContents", "options", "type", "orderBy"],
   emits: ['action', 'filterSearch', 'orderByField', 'selectedLineObj', 'selectedLineArr'],
   components: {
+    FilterSearch
   },
   name: "GenericTable",
   setup(props, { emit }) {
@@ -138,6 +115,13 @@ export default ({
       }
     });
 
+    provide("handleOptions", handleOptions);
+    provide("toggleOptions", methods.toggleOptions);
+    provide("clearSearch", methods.clearSearch);
+    provide("searchList", methods.searchList);
+    provide("action", methods.action);
+    provide("filter", filter);
+    provide("options", props.options);
 
     return {
       filter,
@@ -162,125 +146,12 @@ table {
   font-size: 9pt;
 }
 
-.search-input input[type="text"] {
-  border-style: none;
-  outline: none;
-  font-size: 9pt;
-  background-color: var(--switch-mode-primary) !important;
-}
-
-.f-trash-icon {
-  cursor:pointer;
-  font-size: 8pt;
-  color: var(--switch-elements-mode-primary);
-  opacity: 0.4;
-}
-
-.search-f-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--switch-mode-tertiary) !important;
-  color: var(--switch-elements-mode-secondary);
-  opacity: 0.8;
-  border-radius: 0 5px 0 0;
-  cursor: pointer;
-}
-
-.options {
-  display: flex;
-  margin-top: 2%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  border-radius: 10px;
-  height: 0;
-  opacity: 0;
-  background-color: var(--switch-mode-primary);
-  transition: 0.2s;
-  z-index: 2;
-  overflow-y: hidden;
-}
-
-.options.active {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  overflow-y: auto;
-  transition: 0.2s;
-  padding: 10px 0px;
-  height: auto;
-  width:200px;
-  max-height: 130px;
-  min-height: 30px;
-  opacity: 1;
-}
-
-.options-btn-group {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  cursor: pointer;
-  width:170px;
-  border-radius: 5px;
-  padding: 5px 10px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--switch-mode-secondary);
-  border-bottom-width: 0.2px;
-  transition: 0.2s;
-}
-
-
-.options-btn-group:hover {
-  background-color: var(--switch-mode-tertiary);
-  transition: 0.2s;
-}
-
-.options-btn {
-  cursor: pointer;
-  border-radius: 5px;
-  height: 30px;
-  width: 30px;
-  color: var(--switch-elements-mode-secondary);
-  background-color: var(--switch-mode-secondary);
-  border-style: none;
-  outline: none;
-}
-
-.options-btn-group label {
-  margin: 0;
-  padding-left: 5px;
-  cursor: pointer;
-  font-size: 9pt;
-}
-
-.search{
-  background-color: var(--switch-mode-primary);
-}
-
-
-.th-options {
-  cursor: pointer;
-  width: 30px;
-  background-color: var(--decoration-primary-after);
-  color: var(--switch-elements-mode-primary);
-  border-radius: 5px 0 0 0;
-  transition: 0.2s;
-}
-
-.th-options.active {
-  background-color: var(--switch-mode-primary);
-  color: var(--switch-elements-mode-primary);
-  transition: 0.2s;
-}
-
 thead {
   background-color: var(--decoration-primary);
   color: var(--fixed-dark-mode-tertiary);
   border-radius: 0 5px 0 0;
   user-select: none;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .header {
@@ -293,8 +164,8 @@ thead {
   font-size: 8pt;
 }
 
-th{
-  padding:5px;
+th {
+  padding: 5px;
   transition: 0.2s;
 }
 
@@ -327,16 +198,17 @@ tr:hover {
   background-color: var(--switch-mode-tertiary);
 }
 
-td{
+td {
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: var(--switch-mode-tertiary);
-  padding:5px;
+  padding: 5px;
 }
 
 td .content {
   word-wrap: break-word;
 }
+
 .row-content.selected {
   background-color: var(--switch-mode-tertiary);
   color: var(--switch-elements-mode-primary);
