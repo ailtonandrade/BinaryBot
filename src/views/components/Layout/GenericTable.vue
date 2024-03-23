@@ -87,6 +87,7 @@ export default ({
         props.orderBy.field = headField.name;
         props.orderBy.order = headField.order;
         emit('orderByField', props.orderBy);
+        methods.clearSelection();
       },
       clearSearch() {
         filter.value.search = "";
@@ -203,10 +204,14 @@ table {
 }
 
 .options.active {
+  display: flex;
+  justify-content: start;
+  align-items: center;
   overflow-y: auto;
   transition: 0.2s;
   padding: 10px 0px;
   height: auto;
+  width:200px;
   max-height: 130px;
   min-height: 30px;
   opacity: 1;
@@ -217,6 +222,7 @@ table {
   justify-content: start;
   align-items: center;
   cursor: pointer;
+  width:170px;
   border-radius: 5px;
   padding: 5px 10px;
   border-bottom-style: solid;
@@ -273,6 +279,8 @@ thead {
   background-color: var(--decoration-primary);
   color: var(--fixed-dark-mode-tertiary);
   border-radius: 0 5px 0 0;
+  user-select: none;
+  cursor:pointer;
 }
 
 .header {
@@ -286,6 +294,7 @@ thead {
 }
 
 th{
+  padding:5px;
   transition: 0.2s;
 }
 
@@ -304,21 +313,11 @@ thead,
 tbody tr {
   display: table;
   width: 100%;
-}
-
-td .content {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
-
-td .content-disabled {
-  pointer-events: none;
+  table-layout: fixed;
 }
 
 tr {
   cursor: pointer;
-  table-layout: fixed;
   background-color: var(--switch-mode-secondary);
   transition: 0.2s;
 }
@@ -328,8 +327,19 @@ tr:hover {
   background-color: var(--switch-mode-tertiary);
 }
 
+td{
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: var(--switch-mode-tertiary);
+  padding:5px;
+}
+
+td .content {
+  word-wrap: break-word;
+}
 .row-content.selected {
-  background-color: var(--decoration-primary);
-  color: var(--switch-mode-primary);
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-elements-mode-primary);
+  font-weight: 500;
 }
 </style>

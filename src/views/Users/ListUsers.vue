@@ -44,6 +44,10 @@ export default {
         name: "Phone",
       },
       {
+        displayName: "Country",
+        name: "Country",
+      },
+      {
         displayName: "Status",
         name: "Status",
       },
