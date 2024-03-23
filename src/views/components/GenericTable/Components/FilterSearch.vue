@@ -33,7 +33,7 @@
 import { reactive, toRefs, ref, inject } from "vue";
 
 export default ({
-    props: [],
+    props: ["options"],
     emits: [],
     components: {},
     name: "FilterSearch",
@@ -42,7 +42,6 @@ export default ({
         const toggleOptions = inject("toggleOptions");
         const clearSearch = inject("clearSearch");
         const searchList = inject("searchList");
-        const options = inject("options");
         const action = inject("action");
         const filter = inject("filter");
         const methods = reactive({
@@ -56,7 +55,6 @@ export default ({
             searchList,
             action,
             filter,
-            options,
             ...toRefs(methods)
         };
     }

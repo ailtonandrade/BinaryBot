@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 d-flex flex-column aligm-itms-start">
-    <FilterSearch />
+    <FilterSearch :options="options"/>
     <div class="generic-table">
       <table>
         <thead>
@@ -121,7 +121,6 @@ export default ({
     provide("searchList", methods.searchList);
     provide("action", methods.action);
     provide("filter", filter);
-    provide("options", props.options);
 
     return {
       filter,
