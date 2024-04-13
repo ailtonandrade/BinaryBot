@@ -2,13 +2,14 @@
   <CardBox :title="'Lista de Usuários'" :description="'Manipule os registros de usuário'"
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: 'Listar Usuários', link: '' }]">
     <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'object'"
-      :orderBy="orderBy" @selectedLineObj="selectedLine($event)" @orderByField="getAllUsers($event)"
-      @action="action($event)" @filterSearch="getAllUsers($event)" />
+      :orderBy="orderBy" :optionsPagination="pagination" @selectedLineObj="selectedLine($event)"
+      @orderByField="getAllUsers($event)"
+      @togglePagination="getAllUsers()" @action="action($event)" @filterSearch="getAllUsers($event)" />
   </CardBox>
 </template>
 
 <script>
-import { ref, inject, watch, onMounted, reactive, toRefs, computed } from "vue";
+import { ref, inject, provide, onMounted, reactive, toRefs, computed } from "vue";
 import AccountService from "@/services/AccountService";
 import GenericTable from "@/views/components/GenericTable/GenericTable.vue";
 import CardBox from "@/views/components/Layout/CardBox.vue";
@@ -22,6 +23,12 @@ export default {
     const router = useRouter();
     const addMessageBox = inject("addMessageBox");
     const selectedLine = ref("");
+    const pagination = ref({
+      offset: 0,
+      maxItems: 0,
+      limit: 0,
+      limitOptions: []
+    });
     const orderBy = ref({
       field: "Name",
       order: true
@@ -92,9 +99,14 @@ export default {
 
     const methods = reactive({
       getAllUsers(event) {
-        AccountService.getAllUsers(orderBy.value, ObjectUtils.getEvent(event?.search))
+        console.log(pagination.value)
+        AccountService.getAllUsers(pagination.value, orderBy.value, ObjectUtils.getEvent(event?.search))
           .then((resp) => {
-            methods.responseTable(resp);
+            pagination.value.maxItems = resp.maxItems;
+            pagination.value.offset = resp.offset;
+            pagination.value.limit = resp.limit;
+            pagination.value.limitOptions = resp.limitOptions;
+            methods.responseTable(resp.dataSet);
           })
           .catch((ex) => {
 
@@ -115,7 +127,9 @@ export default {
       methods.getAllUsers();
     });
 
+    provide("pagination", pagination);
     return {
+      pagination,
       orderBy,
       headers,
       optionsTable,

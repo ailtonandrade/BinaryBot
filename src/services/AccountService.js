@@ -27,11 +27,14 @@ class AccountService {
     return http.post(baseUrl + "/redefine", await Auxiliar.getHashRedefine(data));
   }
 
-  async getAllUsers(orderBy = {}, filterSearch) {
+  async getAllUsers(pagination, orderBy, filterSearch) {
     return http.post(baseUrl + "/get-all-users?" +
       "filterSearch=" + filterSearch +
-      "&orderField=" + orderBy.field +
-      "&orderAsc=" + orderBy.order);
+      "&orderField="  + orderBy.field +
+      "&orderAsc="    + orderBy.order +
+      "&offset="      + pagination.offset +
+      "&maxItems="    + pagination.maxItems +
+      "&limit="        + pagination.limit)
   }
 }
 export default new AccountService();

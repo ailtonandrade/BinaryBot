@@ -28,6 +28,7 @@
         </tbody>
       </table>
     </div>
+    <Pagination :optionsPagination="pagination" @pagination="togglePagination($event)"/>
     <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
   </div>
 </template>
@@ -36,16 +37,19 @@
 import { computed, watch, reactive, toRefs, ref, inject, provide } from "vue";
 import { useRouter } from "vue-router";
 import FilterSearch from "./Components/FilterSearch.vue";
+import Pagination from "./Components/Pagination.vue";
 
 export default ({
   props: ["objHeader", "objContents", "options", "type", "orderBy"],
-  emits: ['action', 'filterSearch', 'orderByField', 'selectedLineObj', 'selectedLineArr'],
+  emits: ['action', 'filterSearch', 'orderByField', 'selectedLineObj', 'selectedLineArr', "togglePagination"],
   components: {
-    FilterSearch
+    FilterSearch,
+    Pagination
   },
   name: "GenericTable",
   setup(props, { emit }) {
     const handleOptions = ref(false);
+    const pagination = inject("pagination");
     const filter = ref({
       search: ""
     });
@@ -58,6 +62,11 @@ export default ({
         actionData.action = action;
         emit('action', actionData)
         methods.toggleOptions();
+      },
+      togglePagination(option) {
+        pagination.value = option;
+        emit('togglePagination');
+        methods.clearSelection();
       },
       toggleOrderBy(headField) {
         headField.order = !headField.order;
@@ -124,6 +133,7 @@ export default ({
 
     return {
       filter,
+      pagination,
       selectedLineObj,
       selectedLineArr,
       handleOptions,

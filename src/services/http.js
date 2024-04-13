@@ -7,7 +7,6 @@ class Http {
 
   async post(endpoint, data) {
     try {
-      var resp = null;
       this.showLoading(true);
       var response = await axios.post(baseUrl + endpoint, data, {
         headers: {
@@ -15,13 +14,12 @@ class Http {
           'Content-Type': 'application/json',
         }
       })
-      resp = response.data;
-      return resp
+      return response.data
     } catch (err) {
-      console.log("err")
-      console.log(err.response?.status)
-      if (err.response?.status === 403) {
-        window.location.href = "/"; // Redireciona para a raiz do seu site
+      if (err.response?.status !== 200 
+          && window.location.pathname !== "/") {
+        // Redireciona para a raiz
+        //window.location.href = "/";
       }
       throw err;
     }
