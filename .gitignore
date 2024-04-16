@@ -3,8 +3,8 @@ node_modules
 /dist
 
 # Arquivos de certificado SSL
-dev_key.key
-dev_cert.crt
+key.pem
+cert.pem
 ./cert
 vue.config.js
 
