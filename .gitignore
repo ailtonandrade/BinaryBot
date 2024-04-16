@@ -5,7 +5,7 @@ node_modules
 # Arquivos de certificado SSL
 dev_key.key
 dev_cert.crt
-
+./cert
 vue.config.js
 
 # local env files
