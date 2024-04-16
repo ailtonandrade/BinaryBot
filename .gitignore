@@ -7,6 +7,8 @@ key.pem
 cert.pem
 ./cert
 vue.config.js
+.env.Development
+.env.Production
 
 # local env files
 .env.local
