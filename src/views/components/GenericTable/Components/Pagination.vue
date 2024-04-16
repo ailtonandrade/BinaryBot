@@ -5,7 +5,9 @@
                 <option v-for="(option, index) in optionsPagination.limitOptions" :key="index" :value="option">{{ option }}</option>
             </select>
         </div>
-        <div class="col-9">
+        <div class="col-4">
+        </div>
+        <div class="col-5">
         </div>
     </div>
 </template>

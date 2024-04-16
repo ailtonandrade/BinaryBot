@@ -27,7 +27,8 @@ export default {
       offset: 0,
       maxItems: 0,
       limit: 0,
-      limitOptions: []
+      limitOptions: [],
+      offsetOptions: []
     });
     const orderBy = ref({
       field: "Name",
@@ -102,10 +103,8 @@ export default {
         console.log(pagination.value)
         AccountService.getAllUsers(pagination.value, orderBy.value, ObjectUtils.getEvent(event?.search))
           .then((resp) => {
-            pagination.value.maxItems = resp.maxItems;
-            pagination.value.offset = resp.offset;
-            pagination.value.limit = resp.limit;
-            pagination.value.limitOptions = resp.limitOptions;
+            console.log(resp)
+            pagination.value = resp;
             methods.responseTable(resp.dataSet);
           })
           .catch((ex) => {
