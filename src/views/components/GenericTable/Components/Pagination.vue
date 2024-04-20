@@ -48,7 +48,6 @@ export default ({
             return optionsPagination.value?.offsetOptions[optionsPagination.value?.offsetOptions.length - 1];
         })
         const offsetActive = computed(() => {
-            console.log("optionsPagination");
             return optionsPagination.value.offset + 1;
         })
         const backwardBtn = computed(() => {
@@ -65,6 +64,7 @@ export default ({
         });
         const methods = reactive({
             handleLimitOptions() {
+                indexPaginatorOffset.value = 0;
                 emit("pagination", 0);
             },
             handlePage(pageNum) {
@@ -109,18 +109,18 @@ export default ({
                 }
             },
             generatePaginator() {
-                console.log(optionsPagination.value)
                 if (optionsPagination.value?.offsetOptions?.length > 0) {
                     let opt = [];
+                    let optAux = 0;
                     paginationArr.value = [];
                     optionsPagination.value?.offsetOptions.forEach((item, index) => {
-                        if (opt.length <= 4) {
-                            opt.push(item);
+                        opt.push(item);
+                        optAux++;
+                        if (opt.length > 4 || (optAux == optionsPagination.value?.offsetOptions?.length)) {
+                            paginationArr.value.push({ opt });
+                            opt = [];
                         }
-
                     })
-                    paginationArr.value.push({ opt });
-                    opt = [];
                 }
                 showPaginatorArr.value = paginationArr.value[indexPaginatorOffset.value]?.opt ?? [];
             }

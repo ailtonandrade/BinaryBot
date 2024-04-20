@@ -25,8 +25,6 @@ export default class ObjectUtils {
   }
   static onlyNum(event, defaultNum) {
     let numbers = /^[0-9]+$/;
-
-    console.log(event)
     if (!event.toString().match(numbers)) {
       event = defaultNum
     }
