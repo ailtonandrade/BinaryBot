@@ -64,7 +64,7 @@ export default ({
         methods.toggleOptions();
       },
       togglePagination(option) {
-        pagination.value = option;
+        pagination.value.offset = option;
         emit('togglePagination');
         methods.clearSelection();
       },

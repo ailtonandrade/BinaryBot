@@ -100,10 +100,8 @@ export default {
 
     const methods = reactive({
       getAllUsers(event) {
-        console.log(pagination.value)
         AccountService.getAllUsers(pagination.value, orderBy.value, ObjectUtils.getEvent(event?.search))
           .then((resp) => {
-            console.log(resp)
             pagination.value = resp;
             methods.responseTable(resp.dataSet);
           })
