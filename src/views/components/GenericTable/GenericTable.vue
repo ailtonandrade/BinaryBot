@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 d-flex flex-column aligm-itms-start">
-    <FilterSearch :options="options"/>
+    <FilterSearch :options="options" />
     <div class="generic-table">
       <table>
         <thead>
@@ -28,7 +28,7 @@
         </tbody>
       </table>
     </div>
-    <Pagination :optionsPagination="pagination" @pagination="togglePagination($event)"/>
+    <Pagination :optionsPagination="pagination" @pagination="togglePagination($event)" />
     <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
   </div>
 </template>

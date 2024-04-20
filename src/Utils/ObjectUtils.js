@@ -11,7 +11,7 @@ export default class ObjectUtils {
   static getImgBlank() {
     return "img/img-user-blank.png";
   }
-  static getEvent(event){
+  static getEvent(event) {
     return (event !== undefined) ? event : "";
   }
   static encode(input) {
@@ -22,5 +22,14 @@ export default class ObjectUtils {
     c = input.substring(40);
     d = c + a + b;
     return d.split('').reverse().join('');
+  }
+  static onlyNum(event, defaultNum) {
+    let numbers = /^[0-9]+$/;
+
+    console.log(event)
+    if (!event.toString().match(numbers)) {
+      event = defaultNum
+    }
+    return event;
   }
 }
