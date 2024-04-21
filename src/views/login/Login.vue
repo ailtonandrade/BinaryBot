@@ -103,12 +103,11 @@ export default {
     const methods = reactive({
       login() {
         if (!objUser.value.UserName || !objUser.value.Password) {
-          openModalBox(
-            "Atenção",
-            "Por favor, preencha todos os campos.",
-            "",
-            ""
-          );
+          openModalBox({
+            title: "Atenção",
+            icon: "fa-solid fa-warning",
+            message: "Por favor, preencha todos os campos.",
+          });
         } else {
           logging.value = true;
           AuthService.login(objUser.value)
@@ -117,21 +116,17 @@ export default {
             })
             .catch((error) => {
               if (error?.response?.data?.message) {
-                openModalBox(
-                  "Oops...",
-                  "Usuário ou senha inválidos",
-                  "Descricao",
-                  "fa-solid fa-warning",
-                  null
-                );
+                openModalBox({
+                  title: "Oops...",
+                  icon: "fa-solid fa-warning",
+                  message: "Usuário ou senha inválidos",
+                });
               } else {
-                openModalBox(
-                  "Oops...",
-                  "Não foi possível realizar o login, tente novamente mais tarde.",
-                  "Descricao",
-                  "fa-solid fa-warning",
-                  null
-                );
+                openModalBox({
+                  title: "Oops...",
+                  message: "Não foi possível realizar o login, tente novamente mais tarde.",
+                  icon: "fa-solid fa-warning",
+                });
               }
             })
             .finally(() => {
@@ -152,13 +147,11 @@ export default {
               }
             })
             .catch((error) => {
-              openModalBox(
-                "Oops...",
-                "Usuário ou senha inválidos",
-                "Descricao",
-                "error",
-                null
-              );
+              openModalBox({
+                title: "Oops...",
+                message: "Usuário ou senha inválidos",
+                icon: "fa-solid fa-xmark",
+              });
             });
         }
       },
