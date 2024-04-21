@@ -25,7 +25,7 @@
       <hr />
       <div v-if="action">
         <div class="col-12 d-flex justify-content-center">
-          <button class="btn-action-confirm" @click="action">
+          <button class="btn-action-confirm" @click="toAction()">
             Confirmar
           </button>
         </div>
@@ -54,6 +54,7 @@ export default defineComponent({
       },
       toAction() {
         this.action();
+        methods.closeModal();
       },
     });
     return {

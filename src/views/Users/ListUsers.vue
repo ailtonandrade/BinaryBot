@@ -22,7 +22,6 @@ export default {
   setup() {
     const router = useRouter();
     const openModalBox = inject("openModalBox");
-    const clearModalBox = inject("clearModalBox");
     const selectedLine = ref("");
     const pagination = ref({
       offset: 0,
@@ -113,25 +112,23 @@ export default {
         let obj = {};
         switch (event.action) {
           case "activate": {
-            obj = {
+            openModalBox({
               title: "Ativação de usuário",
               icon: "fa-solid fa-circle-exclamation",
               message: "Tem certeza que deseja ativar o usuário ?",
               description: selectedLine.value.Name,
               action: methods.activateUser,
-            }
-            openModalBox(obj);
+            });
             break;
           }
           case "inactivate": {
-            obj = {
+            openModalBox({
               title: "Desativação de usuário",
               icon: "fa-solid fa-circle-exclamation",
               message: "Tem certeza que deseja desativar o usuário ?",
               description: selectedLine.value.Name,
               action: methods.inactivateUser,
-            }
-            openModalBox(obj);
+            });
             break;
           }
           case "edit": {
@@ -145,7 +142,7 @@ export default {
 
       },
       inactivateUser() {
-        console.log("inativando o usuario")
+        console.log("inativando o usuario !")
       },
       editUser() {
         console.log("editando o usuario")
@@ -171,7 +168,6 @@ export default {
       contentTable,
       selectedLine,
       openModalBox,
-      clearModalBox,
       ...toRefs(methods),
     };
   },
