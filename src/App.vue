@@ -87,12 +87,12 @@ export default {
       closeModalBox() {
         showModalBox.value = false;
       },
-      handleModalBox(title, message, description, icon, action) {
-        dataModalBox.value.title = title;
-        dataModalBox.value.message = message;
-        dataModalBox.value.description = description;
-        dataModalBox.value.action = action;
-        dataModalBox.value.icon = icon;
+      openModalBox(obj) {
+        dataModalBox.value.title = obj.title;
+        dataModalBox.value.message = obj.message;
+        dataModalBox.value.description = obj.description;
+        dataModalBox.value.action = obj.action;
+        dataModalBox.value.icon = obj.icon ?? "";
         showModalBox.value = true;
       },
       addMessageBox(title, message, btnText, modalBoxClass, funcEmit) {
@@ -142,7 +142,7 @@ export default {
           if (res.statusCode == 302) {
             methods.clearMessageBox();
             methods.clearModalBox();
-            methods.handleModalBox(
+            methods.openModalBox(
               "Oops...",
               res.value?.message ? res.value?.message : "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -156,7 +156,7 @@ export default {
             methods.clearModalBox();
             isLoggedIn.value = false;
             localStorage.clear();
-            methods.handleModalBox(
+            methods.openModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -171,7 +171,7 @@ export default {
             methods.clearModalBox();
             isLoggedIn.value = false;
             localStorage.clear();
-            methods.handleModalBox(
+            methods.openModalBox(
               "Oops...",
               "Usuário não autenticado. Realize novamente o login",
               "Descricao",
@@ -209,7 +209,7 @@ export default {
     provide("closeModalCustom", methods.closeModalCustom);
     provide("actionMessageBox", _actionMessageBox.value);
     provide("listMessageBox", listMessageBox.value);
-    provide("handleModalBox", methods.handleModalBox);
+    provide("openModalBox", methods.openModalBox);
     provide("showSideMenu", showSideMenu);
     provide("showMainBar", showMainBar);
     provide("showNotifyBar", showNotifyBar);

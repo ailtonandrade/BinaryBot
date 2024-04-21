@@ -1,10 +1,10 @@
 <template>
   <CardBox :title="'Lista de Usuários'" :description="'Manipule os registros de usuário'"
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: 'Listar Usuários', link: '' }]">
-    <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'array'"
+    <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'object'"
       :orderBy="orderBy" :optionsPagination="pagination" @selectedLineObj="selectedLine($event)"
-      @orderByField="getAllUsers($event)"
-      @togglePagination="getAllUsers()" @action="action($event)" @filterSearch="getAllUsers($event)" />
+      @orderByField="getAllUsers($event)" @togglePagination="getAllUsers()" @action="action($event)"
+      @filterSearch="getAllUsers($event)" />
   </CardBox>
 </template>
 
@@ -21,7 +21,8 @@ export default {
   components: { CardBox, GenericTable },
   setup() {
     const router = useRouter();
-    const addMessageBox = inject("addMessageBox");
+    const openModalBox = inject("openModalBox");
+    const clearModalBox = inject("clearModalBox");
     const selectedLine = ref("");
     const pagination = ref({
       offset: 0,
@@ -66,34 +67,20 @@ export default {
         {
           icon: "fa-solid fa-plus",
           label: "Ativar usuário",
-          action: "activeUser",
-          disabled: !selectedLine.value,
+          action: "activate",
+          disabled: methods.handleActions("activate"),
         },
         {
           icon: "fa-regular fa-trash-alt",
           label: "Desativar usuário",
-          action: "removeUser",
-          disabled: !selectedLine.value,
+          action: "inactivate",
+          disabled: methods.handleActions("inactivate"),
         },
         {
           icon: "fa-regular fa-edit",
           label: "Editar usuário",
-          action: "editUser",
-          disabled: false,
-        },
-
-        {
-          icon: "fa-regular fa-edit",
-          label: "Editar usuário",
-          action: "editUser",
-          disabled: false,
-        },
-
-        {
-          icon: "fa-regular fa-edit",
-          label: "Editar usuário",
-          action: "editUser",
-          disabled: false,
+          action: "edit",
+          disabled: methods.handleActions("edit"),
         },
       ]
     });
@@ -109,8 +96,58 @@ export default {
 
           })
       },
+      handleActions(action) {
+        switch (action) {
+          case "activate": {
+            return !selectedLine.value || selectedLine.value.Status
+          }
+          case "inactivate": {
+            return !selectedLine.value || !selectedLine.value.Status
+          }
+          case "edit": {
+            return !selectedLine.value
+          }
+        }
+      },
       action(event) {
-        console.log(event.action)
+        let obj = {};
+        switch (event.action) {
+          case "activate": {
+            obj = {
+              title: "Ativação de usuário",
+              icon: "",
+              message: "Tem certeza que deseja desativar o usuário: " + selectedLine.value.UserName,
+              description: selectedLine.value.Name,
+              action: methods.activateUser,
+            }
+            break;
+          }
+          case "inactivate": {
+            obj = {
+              title: "Desativação de usuário",
+              icon: "",
+              message: "Tem certeza que deseja desativar o usuário:",
+              description: selectedLine.value.Name,
+              action: methods.inactivateUser,
+            }
+            break;
+          }
+          case "edit": {
+            methods.editUser();
+            break;
+          }
+        }
+        openModalBox(obj);
+      },
+      activateUser() {
+        console.log("ativando o usuario")
+
+      },
+      inactivateUser() {
+        console.log("inativando o usuario")
+      },
+      editUser() {
+        console.log("editando o usuario")
       },
       responseTable(response) {
         contentTable.value = response;
@@ -132,6 +169,8 @@ export default {
       optionsTable,
       contentTable,
       selectedLine,
+      openModalBox,
+      clearModalBox,
       ...toRefs(methods),
     };
   },

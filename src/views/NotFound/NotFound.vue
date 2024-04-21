@@ -23,7 +23,7 @@ export default defineComponent({
     const router = useRouter();
     //modal box
     const isLoggedIn = inject("isLoggedIn");
-    const handleModalBox = inject("handleModalBox");
+    const openModalBox = inject("openModalBox");
     const clearModalBox = inject("clearModalBox");
 
 
@@ -32,7 +32,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      handleModalBox(
+      openModalBox(
         "Oops...",
         "Não encontramos o que procura.",
         "Descricao",

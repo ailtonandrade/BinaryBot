@@ -90,7 +90,7 @@ export default {
     const description = ref(
       "Automatize suas operações binårias e trades na plataforma mais usada no mundo"
     );
-    const handleModalBox = inject("handleModalBox");
+    const openModalBox = inject("openModalBox");
     const showPassword = ref(false);
     const imgUser = inject("imgUser");
     const objUser = ref({
@@ -103,7 +103,7 @@ export default {
     const methods = reactive({
       login() {
         if (!objUser.value.UserName || !objUser.value.Password) {
-          handleModalBox(
+          openModalBox(
             "Atenção",
             "Por favor, preencha todos os campos.",
             "",
@@ -117,7 +117,7 @@ export default {
             })
             .catch((error) => {
               if (error?.response?.data?.message) {
-                handleModalBox(
+                openModalBox(
                   "Oops...",
                   "Usuário ou senha inválidos",
                   "Descricao",
@@ -125,7 +125,7 @@ export default {
                   null
                 );
               } else {
-                handleModalBox(
+                openModalBox(
                   "Oops...",
                   "Não foi possível realizar o login, tente novamente mais tarde.",
                   "Descricao",
@@ -152,7 +152,7 @@ export default {
               }
             })
             .catch((error) => {
-              handleModalBox(
+              openModalBox(
                 "Oops...",
                 "Usuário ou senha inválidos",
                 "Descricao",
