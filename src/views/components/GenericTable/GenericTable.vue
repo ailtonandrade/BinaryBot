@@ -1,6 +1,7 @@
 <template>
   <div class="col-12 d-flex flex-column aligm-itms-start">
-    <FilterSearch :options="options" />
+    <FilterSearch :options="options" :type="type" :objContents="objContents"
+      @handleSelectionAll="handleSelectionAll($event)" />
     <div class="generic-table">
       <table>
         <thead>
@@ -55,6 +56,7 @@ export default ({
     });
     const selectedLineObj = ref(null);
     const selectedLineArr = ref(null);
+    const toggleSelection = ref(false);
     const methods = reactive({
       action(action) {
         let actionData = {};
@@ -82,7 +84,20 @@ export default ({
       toggleOptions() {
         handleOptions.value = !handleOptions.value;
       },
-
+      handleSelectionAll(event) {
+        if (event) {
+          if (props.type === "array") {
+            const elementos = document.querySelectorAll('.row-content');
+            elementos.forEach(e => {
+              e.classList.add('selected');
+            });
+            selectedLineArr.value = props.objContents;
+          }
+        } else {
+          methods.clearSelection();
+        }
+        console.log(selectedLineArr.value)
+      },
       selectLine(row, indexRow, event) {
         if (!JSON.stringify(event.target.classList).includes("content-disabled")) {
           if (props.type == "array") {
@@ -118,24 +133,26 @@ export default ({
         elementosSelecionados.forEach(e => {
           e.classList.remove('selected');
         });
-
+        toggleSelection.value = false;
         selectedLineObj.value = null;
         selectedLineArr.value = null;
       }
     });
 
+    provide("toggleSelection", toggleSelection);
     provide("handleOptions", handleOptions);
+    provide("filter", filter);
     provide("toggleOptions", methods.toggleOptions);
     provide("clearSearch", methods.clearSearch);
     provide("searchList", methods.searchList);
     provide("action", methods.action);
-    provide("filter", filter);
 
     return {
       filter,
       pagination,
       selectedLineObj,
       selectedLineArr,
+      toggleSelection,
       handleOptions,
       ...toRefs(methods),
     };
@@ -185,8 +202,9 @@ th:hover {
 
 tbody {
   display: block;
-  height: 200px;
   overflow: auto;
+  height: fit-content;
+  max-height: 600px;
 }
 
 thead,

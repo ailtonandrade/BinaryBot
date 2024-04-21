@@ -5,6 +5,14 @@
             <font-awesome-icon class="f-icon" icon="fa-solid fa-ellipsis-v" />
         </div>
         <div class="options" :class="{ 'active': handleOptions }">
+            <div v-if="type === 'array'" class="options-btn-group selection">
+                <div class="options-btn d-flex align-center justify-content-center">
+                    <input type="checkbox" @change="handleSelectionAll()" :checked="toggleSelection" />
+                </div>
+                <div class="px-0 mx-0">
+                    <label>{{ !toggleSelection ? "Selecionar todos" : "Desmarcar todos" }}</label>
+                </div>
+            </div>
             <div v-for="(option, index) in options" :key="index" class="" @click="action(option.action)">
                 <div v-if="!option.disabled" class="options-btn-group">
                     <button class="options-btn" :alt="option.label">
@@ -16,8 +24,7 @@
         </div>
         <div class="col-8 px-0 mx-0 search d-flex align-items-center">
             <div class="col-10 search-input">
-                <input id="valueHeaderFilter" class="col-12 px-0 mx-0" type="text" placeholder="abc..."
-                    v-model="filter.search" />
+                <input id="valueHeaderFilter" class="row" type="text" placeholder="abc..." v-model="filter.search" />
             </div>
             <div class="col-2 f-trash-icon d-flex justify-content-center"
                 :class="filter.search ? 'd-block' : 'd-invisible'" @click="clearSearch()">
@@ -33,8 +40,8 @@
 import { reactive, toRefs, ref, inject } from "vue";
 
 export default ({
-    props: ["options"],
-    emits: [],
+    props: ["options", "objContents", "type"],
+    emits: ["handleSelectionAll"],
     components: {},
     name: "FilterSearch",
     setup(props, { emit }) {
@@ -44,11 +51,16 @@ export default ({
         const searchList = inject("searchList");
         const action = inject("action");
         const filter = inject("filter");
+        const toggleSelection = inject("toggleSelection");
         const methods = reactive({
-
+            handleSelectionAll() {
+                toggleSelection.value = !toggleSelection.value;
+                emit("handleSelectionAll", toggleSelection.value)
+            }
         });
 
         return {
+            toggleSelection,
             handleOptions,
             toggleOptions,
             clearSearch,
@@ -62,7 +74,7 @@ export default ({
 
 })
 </script>
-<style>
+<style scoped>
 .th-options {
     cursor: pointer;
     width: 30px;
@@ -169,6 +181,24 @@ export default ({
     padding-left: 5px;
     cursor: pointer;
     font-size: 9pt;
+}
+
+.selection {
+    padding: 0;
+    background-color: var(--switch-mode-secondary);
+}
+
+.selection label {
+    font-size: 8pt;
+}
+
+input[type="checkbox"] {
+    border: none;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: var(--decoration-primary);
+    border: none;
 }
 
 .search {

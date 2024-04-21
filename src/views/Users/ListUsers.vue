@@ -1,7 +1,7 @@
 <template>
   <CardBox :title="'Lista de Usuários'" :description="'Manipule os registros de usuário'"
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: 'Listar Usuários', link: '' }]">
-    <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'object'"
+    <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'array'"
       :orderBy="orderBy" :optionsPagination="pagination" @selectedLineObj="selectedLine($event)"
       @orderByField="getAllUsers($event)"
       @togglePagination="getAllUsers()" @action="action($event)" @filterSearch="getAllUsers($event)" />

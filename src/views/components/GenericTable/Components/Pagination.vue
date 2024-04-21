@@ -1,21 +1,21 @@
 <template>
     <div class="row pt-4">
-        <div class="col-lg-1 col-md-2 col-sm-2 col-5">
+        <div class="col-lg-1 col-md-2 col-sm-2 col-12 mb-4">
             <select v-if="optionsPagination?.limitOptions?.length > 1" v-model="optionsPagination.limit"
                 class="form-control px-0" @change="handleLimitOptions()">
                 <option v-for="(option, index) in optionsPagination.limitOptions" :key="index" :value="option">{{ option
                     }}</option>
             </select>
         </div>
-        <div v-if="showPaginatorArr.length > 1" class="paginator-box col-4">
+        <div v-if="showPaginatorArr.length > 1" class="paginator-box col-lg-3 col-md-5 col-sm-6 col-12 mb-4">
             <div class="paginator-item-rl border-radius-left-1 g-button" :class="{ 'not-enable': backwardBtn }"
                 @click.prevent="handleOffsetPaginator(-1)">
                 &laquo;
             </div>
             <div v-for="(item, index) in showPaginatorArr" :key="index" class="paginator-item g-button"
                 :class="{ 'active': item === offsetActive }" @click.prevent="handlePage(item)">
-                <input type="text" class="input-offset-active" @change=handlePage($event) v-if="item === offsetActive"
-                    :value="item" />
+                <input type="text" class="input-offset-active m-0 p-0" @change=handlePage($event)
+                    v-if="item === offsetActive" :value="item" />
                 <span v-else>{{ item }}</span>
             </div>
             <div class="paginator-item-rl border-radius-right-1 g-button" :class="{ 'not-enable': forwardBtn }"
@@ -172,6 +172,7 @@ export default ({
 }
 
 .paginator-item.active {
+    border-radius: 6px;
     background-color: var(--decoration-primary);
 }
 
@@ -179,13 +180,17 @@ export default ({
     background-color: var(--decoration-primary-after);
 }
 
+.g-button {
+    height: unset;
+    flex: 1;
+}
+
 input[type="text"] {
     border: none;
-    line-height: 30px;
+    line-height: 2em;
+    font-size: 10pt;
     width: 2em;
-    margin: 0 10px;
     text-align: center;
-    margin: 0;
     background-color: var(--decoration-primary) !important;
 }
 
