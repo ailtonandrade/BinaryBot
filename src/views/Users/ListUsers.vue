@@ -115,21 +115,23 @@ export default {
           case "activate": {
             obj = {
               title: "Ativação de usuário",
-              icon: "",
-              message: "Tem certeza que deseja desativar o usuário: " + selectedLine.value.UserName,
+              icon: "fa-solid fa-circle-exclamation",
+              message: "Tem certeza que deseja ativar o usuário ?",
               description: selectedLine.value.Name,
               action: methods.activateUser,
             }
+            openModalBox(obj);
             break;
           }
           case "inactivate": {
             obj = {
               title: "Desativação de usuário",
-              icon: "",
-              message: "Tem certeza que deseja desativar o usuário:",
+              icon: "fa-solid fa-circle-exclamation",
+              message: "Tem certeza que deseja desativar o usuário ?",
               description: selectedLine.value.Name,
               action: methods.inactivateUser,
             }
+            openModalBox(obj);
             break;
           }
           case "edit": {
@@ -137,7 +139,6 @@ export default {
             break;
           }
         }
-        openModalBox(obj);
       },
       activateUser() {
         console.log("ativando o usuario")

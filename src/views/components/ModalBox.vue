@@ -1,19 +1,21 @@
 <template>
   <div @click="closeModal()" class="modal-box-back" />
   <div class="body justify-center modal-box-content">
-    <div class="col-12">
-      <div class="flex-row col-12">
-        <div class="flex col-10 align-center flex-start">
+    <div class="col-12 px-0">
+      <div class="header-modal-box flex-row col-12 justify-content-between align-center">
+        <div class="d-flex justify-content-center align-center">
           <font-awesome-icon v-if="icon" class="icon-modal" :icon="icon" size="2x" />
+        </div>
+        <div class="d-flex justify-content-start align-center">
           <h1 v-if="title != null" class="title">{{ title }}</h1>
         </div>
-        <div :class="icon != null ? 'col-2' : 'col-12'" class="flex align-center flex-center">
-          <button @click="closeModal()" class="btn-close">X</button>
+        <div class="col-1">
+          <button class="btn-close" @click="closeModal()">X</button>
         </div>
       </div>
       <hr />
       <div class="col-12">
-        <div class="d-flex flex-column align-center col-12 justify-center">
+        <div class="d-flex flex-column align-center">
           <p class="message">
             {{ message }}
           </p>
@@ -21,7 +23,7 @@
         </div>
       </div>
       <hr />
-      <div v-if="action" class="flex-row">
+      <div v-if="action">
         <div class="col-12 d-flex justify-content-center">
           <button class="btn-action-confirm" @click="action">
             Confirmar
@@ -72,6 +74,12 @@ export default defineComponent({
   background-color: var(--switch-mode-secondary);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   transition: 0.6s ease;
+  padding: 10px 5px;
+}
+
+.header-modal-box {
+  border-radius: 6px;
+  background-color: var(--switch-mode-tertiary);
 }
 
 .modal-box-back {
@@ -82,7 +90,6 @@ export default defineComponent({
 }
 
 .icon-modal {
-  margin-right: 10px;
   color: var(--switch-elements-mode-secondary);
 }
 
@@ -122,8 +129,8 @@ export default defineComponent({
 }
 
 .btn-close:hover {
-  color: var(--switch-elements-mode-secondary);
-  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-mode-secondary);
+  background-color: var(--switch-elements-mode-tertiary);
 }
 
 .btn-close:active {
@@ -148,8 +155,8 @@ export default defineComponent({
 
 .btn-action-confirm {
   height: 25px;
-  background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-elements-mode-tertiary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -160,8 +167,8 @@ export default defineComponent({
 }
 
 .btn-action-confirm:hover {
-  color: var(--switch-elements-mode-secondary);
-  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-mode-secondary);
+  background-color: var(--switch-elements-mode-tertiary);
 }
 
 .btn-action-confirm:active {
