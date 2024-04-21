@@ -516,7 +516,6 @@ input:checked + .slider:before {
   height: 100%;
   flex-grow: 1;
   cursor: pointer;
-  transition: 0.2s;
   user-select: none;
   box-shadow: 1px 1px 2px var(--fixed-dark-mode-primary);
 }
