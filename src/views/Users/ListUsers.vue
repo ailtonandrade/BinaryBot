@@ -144,22 +144,31 @@ export default {
           Status: 1
         }
         AccountService.updateStatusUser(objUser)
-        .then((resp) => {
-          console.log(resp)
-        })
-        .catch((ex) => {
-          console.error(ex);
-        })
-        .finally(() => {
-          methods.getAllUsers();
-        });
+          .then((resp) => {
+            console.log(resp)
+          })
+          .catch((ex) => {
+            console.error(ex);
+          })
+          .finally(() => {
+            methods.getAllUsers();
+          });
       },
       inactivateUser() {
         let objUser = {
           Id: selectedLine.value.Id,
           Status: 0
         }
-        AccountService.updateStatusUser(objUser);
+        AccountService.updateStatusUser(objUser)
+          .then((resp) => {
+            console.log(resp)
+          })
+          .catch((ex) => {
+            console.error(ex);
+          })
+          .finally(() => {
+            methods.getAllUsers();
+          });
         console.log("inativando o usuario !")
       },
       editUser() {

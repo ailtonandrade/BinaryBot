@@ -62,7 +62,8 @@ export default ({
         let actionData = {};
         actionData.data = selectedLineObj.value ?? selectedLineArr.value;
         actionData.action = action;
-        emit('action', actionData)
+        methods.clearSelection();
+        emit('action', actionData);
         methods.toggleOptions();
       },
       togglePagination(option) {
