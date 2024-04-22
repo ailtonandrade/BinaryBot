@@ -22,6 +22,7 @@ export default {
   setup() {
     const router = useRouter();
     const openModalBox = inject("openModalBox");
+    const addMessageBox = inject("addMessageBox");
     const selectedLine = ref("");
     const pagination = ref({
       offset: 0,
@@ -145,6 +146,13 @@ export default {
         }
         AccountService.updateStatusUser(objUser)
           .then((resp) => {
+            addMessageBox(
+              "Ok...",
+              resp,
+              null,
+              "success",
+              null
+            );
             console.log(resp)
           })
           .catch((ex) => {
@@ -161,12 +169,20 @@ export default {
         }
         AccountService.updateStatusUser(objUser)
           .then((resp) => {
+            addMessageBox(
+              "Ok...",
+              resp,
+              null,
+              "success",
+              null
+            );
             console.log(resp)
           })
           .catch((ex) => {
             console.error(ex);
           })
           .finally(() => {
+
             methods.getAllUsers();
           });
         console.log("inativando o usuario !")
@@ -191,6 +207,7 @@ export default {
       pagination,
       orderBy,
       headers,
+      addMessageBox,
       optionsTable,
       contentTable,
       selectedLine,
