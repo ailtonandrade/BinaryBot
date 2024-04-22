@@ -196,11 +196,11 @@ thead {
 
 th {
   padding: 5px;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 th:hover {
-  transition: 0.2s;
+  transition: 0.1s;
   background-color: var(--decoration-primary-after);
 }
 
@@ -221,11 +221,11 @@ tbody tr {
 tr {
   cursor: pointer;
   background-color: var(--switch-mode-secondary);
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 tr:hover {
-  transition: 0.2s;
+  transition: 0.1s;
   background-color: var(--switch-mode-tertiary);
 }
 
@@ -233,11 +233,19 @@ td {
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: var(--switch-mode-tertiary);
-  padding: 5px;
 }
+
+.content {}
 
 td .content {
   word-wrap: break-word;
+  height: 100% !important;
+  padding: 0 2px;
+}
+
+.row-content {
+  padding: 0;
+  margin: 0;
 }
 
 .row-content.selected {
