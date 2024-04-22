@@ -31,7 +31,7 @@
                 <font-awesome-icon :icon="'fa-regular fa-trash-alt'" />
             </div>
         </div>
-        <button class="btn search-f-icon" :disabled="!filter.search" @click="searchList()">
+        <button class="btn search-f-icon"  @click="searchList()">
             <font-awesome-icon :icon="'fa-solid fa-search'" />
         </button>
     </div>

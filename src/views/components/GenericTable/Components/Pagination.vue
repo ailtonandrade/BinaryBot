@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="resume">
+    <div v-if="maxPaginatorArr" class="resume">
         <span>Total de resultados {{ optionsPagination.maxItems }}</span>
         <span> - </span>
         <span>Página {{ offsetActive }} de {{ maxPaginatorArr }}</span>
@@ -121,8 +121,10 @@ export default ({
                             opt = [];
                         }
                     })
+                    showPaginatorArr.value = paginationArr.value[indexPaginatorOffset.value]?.opt ?? [];
+                } else {
+                    showPaginatorArr.value = []
                 }
-                showPaginatorArr.value = paginationArr.value[indexPaginatorOffset.value]?.opt ?? [];
             }
         });
 

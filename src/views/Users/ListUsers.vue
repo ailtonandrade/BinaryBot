@@ -139,9 +139,27 @@ export default {
       },
       activateUser() {
         console.log("ativando o usuario")
-
+        let objUser = {
+          Id: selectedLine.value.Id,
+          Status: 1
+        }
+        AccountService.updateStatusUser(objUser)
+        .then((resp) => {
+          console.log(resp)
+        })
+        .catch((ex) => {
+          console.error(ex);
+        })
+        .finally(() => {
+          methods.getAllUsers();
+        });
       },
       inactivateUser() {
+        let objUser = {
+          Id: selectedLine.value.Id,
+          Status: 0
+        }
+        AccountService.updateStatusUser(objUser);
         console.log("inativando o usuario !")
       },
       editUser() {

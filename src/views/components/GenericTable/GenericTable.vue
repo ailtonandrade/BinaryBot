@@ -96,7 +96,6 @@ export default ({
         } else {
           methods.clearSelection();
         }
-        console.log(selectedLineArr.value)
       },
       selectLine(row, indexRow, event) {
         if (!JSON.stringify(event.target.classList).includes("content-disabled")) {
@@ -133,6 +132,10 @@ export default ({
         elementosSelecionados.forEach(e => {
           e.classList.remove('selected');
         });
+        pagination.value.offsetOptions = [];
+        pagination.value.dataSet = [];
+        pagination.value.maxItems = 0;
+
         toggleSelection.value = false;
         selectedLineObj.value = null;
         selectedLineArr.value = null;

@@ -26,15 +26,17 @@ class AccountService {
     data.UrlMatch = new URLSearchParams(window.location.search).get('hf');
     return http.post(baseUrl + "/redefine", await Auxiliar.getHashRedefine(data));
   }
-
   async getAllUsers(pagination, orderBy, filterSearch) {
     return http.post(baseUrl + "/get-all-users?" +
       "filterSearch=" + filterSearch +
-      "&orderField="  + orderBy.field +
-      "&orderAsc="    + orderBy.order +
-      "&offset="      + pagination.offset +
-      "&maxItems="    + pagination.maxItems +
-      "&limit="        + pagination.limit)
+      "&orderField=" + orderBy.field +
+      "&orderAsc=" + orderBy.order +
+      "&offset=" + pagination.offset +
+      "&maxItems=" + pagination.maxItems +
+      "&limit=" + pagination.limit)
+  }
+  async updateStatusUser(objUser) {
+    return http.post(baseUrl + "/update-status-user", objUser)
   }
 }
 export default new AccountService();
