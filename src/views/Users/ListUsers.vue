@@ -99,13 +99,13 @@ export default {
       handleActions(action) {
         switch (action) {
           case "activate": {
-            return !selectedLine.value || selectedLine.value.Status
+            return selectedLine.value == null || selectedLine.value?.Status
           }
           case "inactivate": {
-            return !selectedLine.value || !selectedLine.value.Status
+            return selectedLine.value == null || !selectedLine.value?.Status
           }
           case "edit": {
-            return !selectedLine.value
+            return selectedLine.value == null
           }
         }
       },
