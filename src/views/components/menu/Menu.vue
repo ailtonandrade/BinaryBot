@@ -22,7 +22,7 @@
         </div>
         <div id="user-data" class="d-flex info-user align-center">
           <div class="b-radius-100 img-user-src">
-            <img v-if="userData?.imgUser" id="img-user" class="px-2" :src="handleImgUser" />
+            <img v-if="userData?.imgUser" id="img-user" class="px-2 h-100" :src="handleImgUser" />
           </div>
           <span id="name-user" class="px-2">@{{ userData?.userName }}</span>
         </div>
@@ -64,7 +64,7 @@ export default {
     const checkedNotify = ref(false);
     const notifyDataList = ref([]);
     const handleImgUser = computed(() => {
-      if (!imgUser.value) {
+      if (!imgUser?.value || imgUser?.value == "null") {
         return require("@/assets/" + userData.value.imgUser);
       } else {
         return ObjectUtils.getImgFromBytes(imgUser.value);

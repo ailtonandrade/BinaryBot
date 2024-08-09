@@ -49,7 +49,8 @@
                 <span>Excluido em: {{ item.dt_deleteFormated }}</span>
               </div>
             </div>
-            <div class="notify-box-elements-data" @click="handleNotify(item)">
+            <div class="notify-box-elements-data" @click="handleNotify(item)"
+            :title="item.url">
               <div class="notify-box-element-title">
                 {{ item.title }}
               </div>
@@ -201,6 +202,14 @@ export default {
         if (aux !== -1) {
           methods.send('update-notify', notifications.value[aux], filter.value);
           newNotifyQtd.value = notifications.value.filter(n => !n.visualized).length;
+        }
+
+        if(notify.url){
+          if(notify.url.includes("http")){
+            window.open(notify.url, '_blank');
+          }else{
+            router.push(notify.url);
+          }
         }
       },
       deleteNotify(notify) {
