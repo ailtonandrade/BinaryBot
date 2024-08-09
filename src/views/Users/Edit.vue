@@ -214,22 +214,24 @@ import { ref, inject, watch, onMounted, reactive, toRefs, computed } from "vue";
 import AccountService from "@/services/AccountService";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import ObjectUtils from "@/Utils/ObjectUtils";
 
 export default {
   components: { CardBox },
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const addMessageBox = inject("addMessageBox");
     const imgUser = inject("imgUser");
     const canEdit = ref(false);
     const showPassword = ref(false);
     const handleImgUser = computed(() => {
-      if (user?.value?.imgUser === ObjectUtils.getImgBlank()) {
-        return require("@/assets/" + user?.value.imgUser);
+      if (user?.value?.imgUser == "null" || !user?.value?.imgUser || user?.value?.imgUser === ObjectUtils.getImgBlank()) {
+        return require("@/assets/" + ObjectUtils.getImgBlank());
+      }else{
+        return ObjectUtils.getImgFromBytes(user?.value.imgUser);
       }
-      return ObjectUtils.getImgFromBytes(user?.value.imgUser);
     });
 
     const user = ref({
@@ -482,7 +484,7 @@ export default {
         imgUser.value = data.imgUser;
       },
       getInfoUser() {
-        AccountService.getInfoUser()
+        AccountService.getInfoUser(route?.params?.id)
           .then((response) => {
             methods.responseData(response.result);
           })
@@ -503,6 +505,7 @@ export default {
     return {
       user,
       error,
+      route,
       router,
       canEdit,
       handleImgUser,

@@ -133,7 +133,7 @@ export default {
             break;
           }
           case "edit": {
-            methods.editUser();
+            methods.editUser(selectedLine.value);
             break;
           }
         }
@@ -187,8 +187,9 @@ export default {
           });
         console.log("inativando o usuario !")
       },
-      editUser() {
-        console.log("editando o usuario")
+      editUser(data) {
+        router.push("/edit-user-perfil/"+data.Id)
+        console.log("editando o usuario: "+data.Id)
       },
       responseTable(response) {
         contentTable.value = response;

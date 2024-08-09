@@ -12,8 +12,12 @@ class AccountService {
   async edit(data) {
     return http.post(baseUrl + "/edit", await Auxiliar.getHash(data));
   }
-  async getInfoUser() {
-    return http.post(baseUrl + "/get-info-user", { UserName: localStorage.getItem("userName") });
+  async getInfoUser(id) {
+    let obj = {
+      Id: Number(id),
+      UserName: id ? null : localStorage.getItem("userName")
+    }
+    return http.post(baseUrl + "/get-info-user", obj);
   }
   async reSendCode() {
     const searchParams = new URLSearchParams(window.location.search);

@@ -244,6 +244,26 @@ table, h1, h2, h3, h4{
 
 
 /* INPUTS */
+
+.form-label-text {
+  font-size: 8pt;
+}
+
+.input-text {
+  font-size: 9pt;
+}
+
+.textError {
+  color: rgb(155, 57, 57);
+  font-size: 7pt;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.box-error {
+  height: 18px;
+}
+
 .label-form-control {
   font-size: 8pt;
 }

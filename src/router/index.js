@@ -8,6 +8,8 @@ import Register from "@/views/Register/Register.vue";
 import ValidateCodeVue from "@/views/Register/ValidateCode.vue";
 import EditVue from "@/views/Users/Edit.vue";
 import ListUsers from "@/views/Users/ListUsers.vue";
+import EditPagesVue from "@/views/Pages/EditPages.vue";
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -58,6 +60,18 @@ const router = createRouter({
       name: "edit-perfil",
       path: "/edit-perfil",
       component: EditVue,
+      meta: { requiresAuth: true },
+    },
+    {
+      name: "edit-user-perfil",
+      path: "/edit-user-perfil/:id",
+      component: EditVue,
+      meta: { requiresAuth: true },
+    },
+    {
+      name: "edit-pages",
+      path: "/management/pages/edit-pages",
+      component: EditPagesVue,
       meta: { requiresAuth: true },
     },
     {
