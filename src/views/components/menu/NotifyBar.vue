@@ -254,7 +254,7 @@ export default {
   max-height: 500px;
   overflow-y: auto;
   border-radius: 5px;
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   background-color: var(--switch-mode-secondary);
   box-shadow: -1px 1px 0.1px 0.1px rgba(0, 0, 0, 0.2);
   padding: 10px;
@@ -354,7 +354,7 @@ export default {
   justify-content: center;
   cursor: pointer;
   background-color: var(--switch-mode-tertiary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-radius: 5px;
   transition: 0.2s;
 }
@@ -378,7 +378,7 @@ export default {
 }
 
 .notify-box-filter-label {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 /* VISUALIZED */
@@ -387,10 +387,10 @@ export default {
 }
 
 .notify-box-element.visualized .notify-box-element-title {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .notify-box-element.visualized .notify-box-element-visualized {
-  background-color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-elements-secondary);
 }
 </style>

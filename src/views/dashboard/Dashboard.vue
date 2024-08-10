@@ -120,6 +120,6 @@ export default defineComponent({
   justify-content: center;
   height: 100vh;
   border-radius: 10px;
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 </style>

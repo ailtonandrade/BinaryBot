@@ -103,7 +103,7 @@ export default {
   align-items: center;
   transition: 0.3s;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
   cursor: pointer;
 }
 
@@ -124,7 +124,7 @@ export default {
   outline: none;
   border: none;
   transition: 0.3s;
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
   background-color: transparent;
   cursor: pointer;
 }
@@ -141,7 +141,7 @@ export default {
 }
 
 .dark-mode-sun {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   transform: translateY(-10px);
   transition: 1s ease-in-out;
   opacity: 0.5;
@@ -155,7 +155,7 @@ export default {
 }
 
 .dark-mode-moon {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   transform: translateY(-10px);
   transition: 1s ease-in-out;
   opacity: 0.5;

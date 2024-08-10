@@ -89,7 +89,7 @@ export default ({
   margin: 0px 10px;
   padding: 0 10px;
   height:20px;
-  color: var(--switch-elements-mode-tertiary);
+  color: var(--switch-mode-elements-tertiary);
   border-radius: 5px;
   cursor: pointer;
   font-size: small;
@@ -99,15 +99,15 @@ export default ({
 
 .breadcrumb-dot {
   pointer-events:none;
-  color: var(--switch-elements-mode-tertiary);
+  color: var(--switch-mode-elements-tertiary);
 }
 
 h1 {
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
 }
 
 p {
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
 }
 
 </style>

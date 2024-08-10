@@ -250,7 +250,7 @@ td .content {
 
 .row-content.selected {
   background-color: var(--switch-mode-tertiary);
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
   font-weight: 500;
 }
 </style>

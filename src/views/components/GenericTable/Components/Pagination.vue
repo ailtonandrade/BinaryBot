@@ -153,7 +153,7 @@ export default ({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--switch-elements-mode-tertiary);
+    color: var(--switch-mode-elements-tertiary);
 }
 
 .paginator-item-rl {
@@ -229,6 +229,6 @@ input[type="text"]::selection {
     padding: 15px 0;
     gap: 15px;
     font-size: small;
-    color: var(--switch-elements-mode-tertiary);
+    color: var(--switch-mode-elements-tertiary);
 }
 </style>

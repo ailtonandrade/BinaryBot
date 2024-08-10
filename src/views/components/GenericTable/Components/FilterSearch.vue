@@ -79,14 +79,14 @@ export default ({
     cursor: pointer;
     width: 30px;
     background-color: var(--decoration-primary-after);
-    color: var(--switch-elements-mode-primary);
+    color: var(--switch-mode-elements-primary);
     border-radius: 5px 0 0 0;
     transition: 0.2s;
 }
 
 .th-options.active {
     background-color: var(--switch-mode-primary);
-    color: var(--switch-elements-mode-primary);
+    color: var(--switch-mode-elements-primary);
     transition: 0.2s;
 }
 
@@ -100,7 +100,7 @@ export default ({
 .f-trash-icon {
     cursor: pointer;
     font-size: 8pt;
-    color: var(--switch-elements-mode-primary);
+    color: var(--switch-mode-elements-primary);
     opacity: 0.4;
 }
 
@@ -109,7 +109,7 @@ export default ({
     align-items: center;
     justify-content: center;
     background-color: var(--switch-mode-tertiary) !important;
-    color: var(--switch-elements-mode-secondary);
+    color: var(--switch-mode-elements-secondary);
     opacity: 0.8;
     border-radius: 0 5px 0 0;
     cursor: pointer;
@@ -170,7 +170,7 @@ export default ({
     border-radius: 5px;
     height: 30px;
     width: 30px;
-    color: var(--switch-elements-mode-secondary);
+    color: var(--switch-mode-elements-secondary);
     background-color: var(--switch-mode-secondary);
     border-style: none;
     outline: none;

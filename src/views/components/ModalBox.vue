@@ -91,18 +91,18 @@ export default defineComponent({
 }
 
 .icon-modal {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .title {
   padding-top: 15px;
   font-size: x-large;
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .message {
   font-size: large;
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 
 }
 
@@ -120,7 +120,7 @@ export default defineComponent({
   height: 25px;
   width: 25px;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -131,7 +131,7 @@ export default defineComponent({
 
 .btn-close:hover {
   color: var(--switch-mode-secondary);
-  background-color: var(--switch-elements-mode-tertiary);
+  background-color: var(--switch-mode-elements-tertiary);
 }
 
 .btn-close:active {
@@ -142,7 +142,7 @@ export default defineComponent({
 .btn-action-cancel {
   height: 25px;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -157,7 +157,7 @@ export default defineComponent({
 .btn-action-confirm {
   height: 25px;
   background-color: var(--switch-mode-tertiary);
-  color: var(--switch-elements-mode-tertiary);
+  color: var(--switch-mode-elements-tertiary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -169,7 +169,7 @@ export default defineComponent({
 
 .btn-action-confirm:hover {
   color: var(--switch-mode-secondary);
-  background-color: var(--switch-elements-mode-tertiary);
+  background-color: var(--switch-mode-elements-tertiary);
 }
 
 .btn-action-confirm:active {

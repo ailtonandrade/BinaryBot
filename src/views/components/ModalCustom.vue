@@ -130,7 +130,7 @@ console.log(props.show)
   height: 25px;
   width: 25px;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -145,14 +145,14 @@ console.log(props.show)
 .btn-close:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 /* btn action */
 .btn-action-cancel {
   height: 25px;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -167,13 +167,13 @@ console.log(props.show)
 .btn-action-cancel:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .btn-action-confirm {
   height: 25px;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-style: none;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -188,7 +188,7 @@ console.log(props.show)
 .btn-action-confirm:active {
   opacity: 0.2;
   background-color: var(--switch-mode-secondary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .btn-action {

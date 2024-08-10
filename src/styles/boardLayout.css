@@ -8,7 +8,7 @@
 .b-card {
   display: flex;
   padding: 10px;
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   border-color: var(--switch-mode-tertiary);
   border-style: solid;
   border-width: 1px;
@@ -85,7 +85,7 @@
   height: 20px;
   border-radius: 5px;
   transition: 0.2s;
-  background-color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-elements-secondary);
   opacity: 0.1;
 }
 
@@ -95,7 +95,7 @@
   height: 20px;
   border-radius: 5px;
   transition: 0.2s;
-  background-color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-elements-secondary);
   opacity: 0.1;
 }
 
@@ -106,7 +106,7 @@
   border-radius: 5px;
   border-style: solid;
   transition: 0.2s;
-  background-color: var(--switch-elements-mode-primary);
+  background-color: var(--switch-mode-elements-primary);
   color: var(--switch-mode-primary);
   cursor: pointer;
   opacity: 0.3;
@@ -125,14 +125,14 @@
   border-radius: 10px;
   border-style: none;
   transition: 0.2s;
-  background-color: var(--switch-elements-mode-secondary);
+  background-color: var(--switch-mode-elements-secondary);
   color: var(--switch-mode-secondary);
   cursor: pointer;
 }
 
 .b-btn-platform:hover {
   background-color: var(--switch-mode-primary);
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
 }
 
 .b-btn-platform:focus {

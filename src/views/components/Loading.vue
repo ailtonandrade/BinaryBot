@@ -45,7 +45,7 @@ export default {
 }
 
 .loading-content {
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
 }
 
 .loading-spinner {

@@ -130,7 +130,7 @@ export default {
 }
 
 .brand-nav a {
-  color: var(--switch-elements-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
   background-color: var(--switch-mode-secondary);
   border-radius: 10px;
   transition: 0.2s;
@@ -138,13 +138,13 @@ export default {
 
 .brand-nav a:hover {
   text-decoration: none;
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
   background-color: var(--switch-mode-primary);
 }
 
 .info-user {
   font-weight: 600;
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
 }
 
 .img-user-src {
@@ -162,7 +162,7 @@ export default {
 
 .btn-nav.active button {
   color: var(--switch-mode-secondary);
-  background-color: var(--switch-elements-mode-tertiary);
+  background-color: var(--switch-mode-elements-tertiary);
   border-radius: 10px;
   transition: 0.2s;
 }

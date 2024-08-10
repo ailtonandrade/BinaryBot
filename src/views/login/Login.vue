@@ -39,10 +39,8 @@
                       <input :type="showPassword ? 'text' : 'password'" id="password" class="input-text"
                         @keydown.enter="login()" v-model="objUser.Password" placeholder="p@ssw0rd" />
                     </div>
-                    <div class="col-2 d-flex justify-center">
-                      <button @click.prevent="showPassword = !showPassword" class="showHide">
+                    <div class="d-flex showHide justify-center align-center" @click.prevent="showPassword = !showPassword">
                         {{ showPassword ? "#" : "@" }}
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -60,15 +58,15 @@
                 Entrar
               </button>
               <button type="button"
-                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-secondary b-radius-10 p-1 b-shadow-1">
+                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-forgot decoration-secondary b-radius-10 p-1 b-shadow-1">
                 <router-link to="/forgot-pass">
                   Esqueci a senha
                 </router-link>
               </button>
 
-              <span class="p-1" for="">Ainda não tem uma conta ? Realize um</span>
+              <span class="p-1 default-white" for="">Ainda não tem uma conta ? Realize um</span>
               <router-link to="/register">
-                <u><a><b>novo cadastro</b></a></u>
+                <span class="default-white"><u><a><b>novo cadastro</b></a></u></span>
               </router-link>
             </div>
           </div>
@@ -196,37 +194,43 @@ export default {
 }
 
 .login-form {
-  background-color: var(--default-mode-primary);
+  background-color: var(--default-mode-tertiary);
 }
 
 .btn-login {
   text-decoration: none;
   opacity: 1;
-  color: var(--default-mode-primary);
 }
 
 .btn-login:hover {
   cursor: pointer;
+  background-color: var(--decoration-primary-after);
 }
 
 .btn-login:active {
   opacity: 0.9;
 }
 
+.btn-forgot:hover {
+  cursor: pointer;
+  background-color: var(--default-mode-primary);
+}
+
+
 .bot {
-  background-color: var(--default-mode-secondary);
+  background-color: var(--default-mode-primary);
 }
 
 .form-control,
 .input-text,
 label {
   border: none;
-  background-color: var(--default-mode-secondary) !important;
+  background-color: var(--default-mode-primary) !important;
   color: var(--default-elements-mode-primary) !important;
 }
 
 input {
-  background-color: var(--default-mode-secondary) !important;
+  background-color: var(--default-mode-primary) !important;
 
 }
 
@@ -237,5 +241,4 @@ span {
   color: var(--default-elements-mode-primary);
 }
 
-span {}
 </style>

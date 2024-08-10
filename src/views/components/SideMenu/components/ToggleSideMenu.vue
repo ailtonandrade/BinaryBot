@@ -42,7 +42,7 @@ export default {
   cursor: pointer;
   outline: none;
   border-style: none;
-  color: var(--switch-elements-mode-primary);
+  color: var(--switch-mode-elements-primary);
   background-color: var(--switch-mode-secondary);
   height: 40px;
   width: 40px;
