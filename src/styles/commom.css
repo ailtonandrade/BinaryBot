@@ -62,10 +62,21 @@ table, h1, h2, h3, h4{
   visibility: hidden !important;
 }
 
+.overflow-scroll-x{
+  overflow-x: scroll;
+}
 
 /* MARGINS */
 .mt-10 {
   margin-top: 100px;
+}
+
+.ml-50{
+  margin-left: 50px;
+}
+
+.ml-100{
+  margin-left: 100px;
 }
 
 .mb-8 {
@@ -78,6 +89,15 @@ table, h1, h2, h3, h4{
 
 
 /* PADDINGS */
+
+.pl-50{
+  padding-left: 25px;
+}
+
+.pl-100{
+  padding-left: 50px;
+}
+
 .p-t-custom {
   padding-top: 50px;
 }
@@ -134,6 +154,11 @@ table, h1, h2, h3, h4{
 
 .b-radius-100 {
   border-radius: 100%;
+}
+
+.b-radius-bottom-10{
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .b-shadow-1 {
@@ -352,6 +377,9 @@ body {
   background-color: var(--decoration-primary);
 }
 
+.decoration-primary-after {
+  background-color: var(--decoration-primary-after);
+}
 .warning {
   background-color: var(--warning);
   color: var(--warning-active);
@@ -535,6 +563,12 @@ input:checked + .slider:before {
 }
 
 /* Rounded sliders */
+
+.b-radius-top-0{
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .slider.round {
   border-radius: 10px;
 }
