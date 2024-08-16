@@ -63,26 +63,30 @@ export default {
     ]);
     const contentTable = ref([]);
     const optionsTable = computed(() => {
-      return [
-        {
-          icon: "fa-solid fa-plus",
-          label: "Ativar usuário",
-          action: "activate",
-          disabled: methods.handleActions("activate"),
-        },
-        {
-          icon: "fa-regular fa-trash-alt",
-          label: "Desativar usuário",
-          action: "inactivate",
-          disabled: methods.handleActions("inactivate"),
-        },
-        {
-          icon: "fa-regular fa-edit",
-          label: "Editar usuário",
-          action: "edit",
-          disabled: methods.handleActions("edit"),
-        },
-      ]
+      if (!selectedLine.value) {
+        return [];
+      } else {
+        return [
+          {
+            icon: "fa-solid fa-plus",
+            label: "Ativar usuário",
+            action: "activate",
+            disabled: methods.handleActions("activate"),
+          },
+          {
+            icon: "fa-regular fa-trash-alt",
+            label: "Desativar usuário",
+            action: "inactivate",
+            disabled: methods.handleActions("inactivate"),
+          },
+          {
+            icon: "fa-regular fa-edit",
+            label: "Editar usuário",
+            action: "edit",
+            disabled: methods.handleActions("edit"),
+          },
+        ]
+      }
     });
 
     const methods = reactive({
@@ -188,8 +192,8 @@ export default {
         console.log("inativando o usuario !")
       },
       editUser(data) {
-        router.push("/edit-user-perfil/"+data.Id)
-        console.log("editando o usuario: "+data.Id)
+        router.push("/edit-user-perfil/" + data.Id)
+        console.log("editando o usuario: " + data.Id)
       },
       responseTable(response) {
         contentTable.value = response;

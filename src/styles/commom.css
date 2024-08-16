@@ -692,6 +692,35 @@ tbody::-webkit-scrollbar-track,
   opacity: 0.2;
 }
 
+/* OPTIONS MENU */
+
+.f-icon-menu {
+  border-radius: 100%;
+  border-width: 5px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--decoration-primary);
+  background-color: var(--switch-mode-secondary);
+  border-color: var(--switch-mode-secondary);
+  transition: 0.2s;
+}
+
+.f-icon-menu:hover {
+  color: var(--decoration-primary-after);
+  background-color: var(--switch-mode-tertiary);
+  border-color: var(--switch-mode-tertiary);
+  transition: 0.2s;
+}
+
+.f-icon-menu.active {
+  background-color: var(--switch-mode-tertiary);
+  border-style: solid;
+  transition: 0.2s;
+}
+
+
+
+
 /* ANIMATION */
 @keyframes expand {
   0% {

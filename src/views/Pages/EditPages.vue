@@ -9,7 +9,7 @@
               <font-awesome-icon class="" :icon="'fa-plus'" size="1x"></font-awesome-icon>
             </div>
           </div>
-          <div class="d-flex align-center justify-content-center p-1 menus">
+          <div class="d-flex align-center flex-space-evenly p-1 menus">
             <div class="col-4">
               <div class="b-shadow-1 flex-column justify-center icon-area-menu">
                 <div class="d-flex justify-center py-1">
@@ -19,8 +19,8 @@
                 <input class="form-control b-radius-top-0" :v-model="menu.icon" :value="menu.icon" />
               </div>
             </div>
-            <div class="b-shadow-1 col-6 px-0">
-              <div class="flex-column align-center justify-center icon-area-menu">
+            <div class="col-6 px-1">
+              <div class="flex-column align-center justify-center icon-area-menu b-shadow-1">
                 <small class="px-1">Name </small>
                 <input class="form-control small b-radius-top-0" :v-model="menu.name" :value="menu.name" />
                 <small class="px-1">Display Name </small>
@@ -28,20 +28,16 @@
                   :value="menu.displayName" />
               </div>
             </div>
-            <div class="col-2">
-              <font-awesome-icon class="save-btn" :icon="'fa-regular fa-save'"></font-awesome-icon>
+            <div class="col-2 d-flex justify-center">
+              <OptionsMenu @enjoyAction="enjoyAction($event)" :icon="'gear'"
+                :options="[{ label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }, { label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }]" />
             </div>
           </div>
         </div>
         <!-- SUBMENU -->
         <div v-for="(subMenu, indexSubMenu) in menu.subMenu" :key="indexSubMenu" class="">
           <div class="col-12 my-3">
-            <div class="col-12 py-2 d-flex align-center justify-center submenus">
-              <div class="col-1 d-flex justify-center my-3">
-                <div class="col-4 add-sub">
-                  <font-awesome-icon class="add-btn" :icon="'fa-plus'"></font-awesome-icon>
-                </div>
-              </div>
+            <div class="col-12 py-2 d-flex align-center flex-space-evenly submenus">
               <div class="col-4 px-1">
                 <div class="flex-column justify-center icon-area-menu  b-shadow-1">
                   <div class="d-flex justify-center py-1">
@@ -61,20 +57,16 @@
                     :value="subMenu.displayName" />
                 </div>
               </div>
-              <div class="col-1">
-                <font-awesome-icon class="save-btn" :icon="'fa-regular fa-save'"></font-awesome-icon>
+              <div class="col-2  d-flex justify-center">
+                <OptionsMenu @enjoyAction="enjoyAction($event)" :icon="'gear'"
+                  :options="[{ label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }, { label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }]" />
               </div>
             </div>
           </div>
           <!-- PAGE -->
           <div v-for="(page, indexPage) in subMenu.pages" :key="indexPage" class="">
             <div class="col-12 my-3 mx-1">
-              <div class="col-12 px-1 d-flex align-center justify-content-center p-2 pages">
-                <div class="col-1 d-flex justify-center my-3">
-                  <div class="col-4 add-sub">
-                    <font-awesome-icon :icon="'fa-plus'" size="1x"></font-awesome-icon>
-                  </div>
-                </div>
+              <div class="col-12 px-1 d-flex align-center flex-space-evenly p-2 pages">
                 <div class="col-4 px-1">
                   <div class="flex-column justify-center icon-area-menu  b-shadow-1">
                     <div class="d-flex justify-center py-1">
@@ -94,8 +86,9 @@
                       :value="page.displayName" />
                   </div>
                 </div>
-                <div class="col-1">
-                  <font-awesome-icon class="save-btn" :icon="'fa-regular fa-save'"></font-awesome-icon>
+                <div class="col-2 d-flex justify-center">
+                  <OptionsMenu @enjoyAction="enjoyAction($event)" :icon="'gear'"
+                    :options="[{ label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }, { label: 'Adicionar Sub Menu em /' + menu.name, icon: 'edit', disabled: null, action: 'addSub' }]" />
                 </div>
               </div>
               <div class="d-flex justify-center decoration-primary-after b-radius-bottom-10">
@@ -116,10 +109,11 @@ import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
 import { useRouter, useRoute } from "vue-router";
 import ObjectUtils from "@/Utils/ObjectUtils";
+import OptionsMenu from "../components/GenericTable/Components/OptionsMenu.vue";
 
 export default {
   name: "EditPages",
-  components: { CardBox },
+  components: { CardBox, OptionsMenu },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -127,7 +121,9 @@ export default {
     const menus = ref([]);
 
     const methods = reactive({
-
+      enjoyAction(event) {
+        console.log(event)
+      }
     });
 
     onMounted(() => {
@@ -160,6 +156,9 @@ export default {
   padding: 20px 0px;
   border-radius: 10px;
   color: var(--switch-mode-elements-tertiary);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 700px;
   background-color: var(--switch-mode-primary);
 }
 
@@ -261,5 +260,16 @@ input[type="text"] {
 .save-btn:hover {
   color: var(--decoration-primary-after);
   background-color: var(--switch-mode-tertiary);
+}
+
+.all-menus::-webkit-scrollbar {
+  width: 8px;
+}
+
+.all-menus::-webkit-scrollbar-thumb {
+  background-color: var(--decoration-primary);
+  /* Cor do polegar (a parte móvel) */
+  border-radius: 10px;
+  /* Borda arredondada */
 }
 </style>

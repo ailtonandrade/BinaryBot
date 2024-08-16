@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { computed, watch, reactive, toRefs, ref, inject, provide } from "vue";
+import { computed, watch, reactive, toRefs, ref, inject, provide, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import FilterSearch from "./Components/FilterSearch.vue";
 import Pagination from "./Components/Pagination.vue";
@@ -142,6 +142,10 @@ export default ({
         selectedLineArr.value = null;
       }
     });
+
+    onMounted(() => {
+      methods.clearSelection();
+    })
 
     provide("toggleSelection", toggleSelection);
     provide("handleOptions", handleOptions);
