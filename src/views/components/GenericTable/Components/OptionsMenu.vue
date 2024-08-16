@@ -1,14 +1,16 @@
 <template>
-    <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="handle($event)"></div>
-    <font-awesome-icon class="f-icon-menu" :class="{ 'active': handleOptions }" :icon="'fa-'+icon"
-        @click="handle($event)" />
-    <div id="options-group" class="options-group b-shadow-1">
-        <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
-            <div v-if="!option.disabled" class="options-btn-group">
-                <button class="options-btn" :alt="option.label">
-                    <font-awesome-icon class="f-icon" :icon="option.icon" />
-                </button>
-                <label>{{ option.label }}</label>
+    <div :id="'options-group' + id">
+        <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="handle($event)"></div>
+        <font-awesome-icon class="f-icon-menu" :class="{ 'active': handleOptions }" :icon="'fa-' + icon"
+            @click="handle($event)" />
+        <div :id="'options-group'" class="options-group b-shadow-1">
+            <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
+                <div v-if="!option.disabled" class="options-btn-group">
+                    <button class="options-btn" :alt="option.label">
+                        <font-awesome-icon class="f-icon" :icon="option.icon" />
+                    </button>
+                    <label>{{ option.label }}</label>
+                </div>
             </div>
         </div>
     </div>
@@ -17,42 +19,50 @@
 import { reactive, toRefs, ref, inject, computed, onUpdated, watch } from "vue";
 
 export default ({
-    props: ["options","icon"],
+    props: ["options", "icon", "id"],
     emits: ["enjoyAction"],
     components: {},
     name: "OptionsMenu",
     setup(props, { emit }) {
         const handleOptions = ref(false);
+        const options = ref(props.options)
+        const icon = ref(props.icon)
+        const id = ref(props.id)
         const methods = reactive({
             handle(event) {
                 handleOptions.value = !handleOptions.value;
                 if (handleOptions.value) {
-                    let elementMenu = document.getElementById("options-group");
+                    let mainElement = document.getElementById("options-group" + id.value);
+                    let elementMenu = mainElement.children[2]
                     let mouseX = event.pageX;
                     let mouseY = event.pageY;
                     let maxWidth = window.innerWidth;
                     let maxHeight = window.innerHeight;
 
-                    // Calcula o deslocamento para evitar que o menu saia da tela
                     let offsetX = mouseX < (maxWidth / 4 * 3) ? mouseX : mouseX - 150;
                     let offsetY = mouseY < (maxHeight / 4 * 3) ? mouseY : mouseY - 80;
-                    // Aplica as propriedades para posicionar o menu
-                    elementMenu.style.position = 'fixed'; // Use 'fixed' se quiser que o menu permaneça na tela ao rolar
+
+                    elementMenu.style.position = 'fixed';
                     elementMenu.style.left = `${Math.min(offsetX, maxWidth - elementMenu.offsetWidth)}px`;
                     elementMenu.style.top = `${Math.min(offsetY, maxHeight - elementMenu.offsetHeight)}px`;
                     elementMenu.style.display = 'block';
                 } else {
-                    let elementMenu = document.getElementById("options-group");
+                    let mainElement = document.getElementById("options-group" + id.value);
+                    let elementMenu = mainElement.children[2]
                     elementMenu.style.display = 'none';
                 }
             },
             enjoyAction(option) {
-                emit("enjoyAction", option)
+                emit("enjoyAction", option);
+                methods.handle();
             }
         });
 
 
         return {
+            options,
+            icon,
+            id,
             handleOptions,
             ...toRefs(methods)
         };
@@ -135,17 +145,17 @@ export default ({
     background-color: var(--switch-mode-secondary);
     border-style: none;
     outline: none;
-    
+
 }
 
 .options-group::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 .options-group::-webkit-scrollbar-thumb {
-  background-color: var(--decoration-primary);
-  /* Cor do polegar (a parte móvel) */
-  border-radius: 10px;
-  /* Borda arredondada */
+    background-color: var(--decoration-primary);
+    /* Cor do polegar (a parte móvel) */
+    border-radius: 10px;
+    /* Borda arredondada */
 }
 </style>
