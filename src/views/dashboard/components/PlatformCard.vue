@@ -87,7 +87,7 @@ export default {
     setup(props) {
         const router = useRouter();
         const response = ref();
-        const openModalCustom = inject("openModalCustom");
+        const openModalCustom = inject("addPlatform");
         const configModalAddPlatform = ref({
             reference: "addPlatform",
             title: "Adicionar Plataforma",

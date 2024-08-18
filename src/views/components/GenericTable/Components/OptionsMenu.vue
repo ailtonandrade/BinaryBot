@@ -1,8 +1,8 @@
 <template>
     <div :id="'options-group' + id">
-        <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="handle($event)"></div>
         <font-awesome-icon class="f-icon-menu" :class="{ 'active': handleOptions }" :icon="'fa-' + icon"
             @click="handle($event)" />
+        <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="closeMenu()"></div>
         <div :id="'options-group'" class="options-group b-shadow-1">
             <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
                 <div v-if="!option.disabled" class="options-btn-group">
@@ -30,7 +30,7 @@ export default ({
         const id = ref(props.id)
         const methods = reactive({
             handle(event) {
-                handleOptions.value = !handleOptions.value;
+                handleOptions.value = true;
                 if (handleOptions.value) {
                     let mainElement = document.getElementById("options-group" + id.value);
                     let elementMenu = mainElement.children[2]
@@ -46,15 +46,20 @@ export default ({
                     elementMenu.style.left = `${Math.min(offsetX, maxWidth - elementMenu.offsetWidth)}px`;
                     elementMenu.style.top = `${Math.min(offsetY, maxHeight - elementMenu.offsetHeight)}px`;
                     elementMenu.style.display = 'block';
+                    mainElement.children[1].style.display = 'block'
                 } else {
-                    let mainElement = document.getElementById("options-group" + id.value);
-                    let elementMenu = mainElement.children[2]
-                    elementMenu.style.display = 'none';
+                    methods.closeMenu();
                 }
             },
             enjoyAction(option) {
                 emit("enjoyAction", option);
-                methods.handle();
+                methods.closeMenu();
+            },
+            closeMenu() {
+                let mainElement = document.getElementById("options-group" + id.value);
+                mainElement.children[1].style.display = 'none';
+                mainElement.children[2].style.display = 'none';
+                handleOptions.value = false;
             }
         });
 

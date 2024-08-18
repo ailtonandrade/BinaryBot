@@ -99,6 +99,7 @@
         </div>
       </div>
     </div>
+    <ModalConfirmActionPage :reference="reference" :configModalCustom="configModalCustom" />
   </CardBox>
 </template>
 
@@ -110,26 +111,40 @@ import auxiliar from "@/global/auxiliar";
 import { useRouter, useRoute } from "vue-router";
 import ObjectUtils from "@/Utils/ObjectUtils";
 import OptionsMenu from "../components/GenericTable/Components/OptionsMenu.vue";
+import ModalConfirmActionPage from "./components/ModalConfirmActionPage.vue";
 
 export default {
   name: "EditPages",
-  components: { CardBox, OptionsMenu },
+  components: { CardBox, OptionsMenu, ModalConfirmActionPage },
   setup() {
     const router = useRouter();
     const route = useRoute();
+    
     const addMessageBox = inject("addMessageBox");
+
+    const reference = ref("action-page");
+    const configModalCustom = ref({});
+    const openModalCustom = inject("openModalCustom");
+
     const menus = ref([]);
 
     const methods = reactive({
       enjoyAction(event) {
-        console.log(event)
+        configModalCustom.value = {
+          reference: reference.value,
+          title: event.label,
+          icon: event.icon,
+          message: "",
+          action: event.action,
+          description: "",
+        }
+        openModalCustom(configModalCustom.value)
       }
     });
 
     onMounted(() => {
       MenuService.getAllMenu()
         .then((response) => {
-          console.log(response)
           menus.value = response;
         })
         .catch((err) => {
@@ -141,6 +156,9 @@ export default {
       menus,
       route,
       router,
+      reference,
+      openModalCustom,
+      configModalCustom,
       ...toRefs(methods),
     };
   },
@@ -148,10 +166,6 @@ export default {
 </script>
 
 <style scoped>
-.separator {
-  padding: 0 10px;
-}
-
 .all-menus {
   padding: 20px 0px;
   border-radius: 10px;

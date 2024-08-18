@@ -49,6 +49,7 @@ import { useRouter } from "vue-router";
 import auxiliar from "./global/auxiliar";
 import ModalCustom from './views/components/ModalCustom.vue';
 import moment from 'moment';
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 export default {
   name: "App",
@@ -117,16 +118,12 @@ export default {
         _actionMessageBox.value = event;
       },
       openModalCustom(config) {
-        configModalCustom.value.show = true;
-        configModalCustom.value.reference = config.reference;
-        configModalCustom.value.title = config.title;
-        configModalCustom.value.icon = config.icon;
-        configModalCustom.value.message = config.message;
-        configModalCustom.value.action = config.action;
-        configModalCustom.value.description = config.description;
+        let modal = document.getElementById('modal-custom-' + config.reference);
+        modal.style.display = 'block';
       },
-      closeModalCustom() {
-        configModalCustom.value.show = false;
+      closeModalCustom(config) {
+        let modal = document.getElementById('modal-custom-' + config.reference);
+        modal.style.display = 'none';
       },
       async requestAccess() {
         try {
