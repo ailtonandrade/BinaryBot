@@ -18,7 +18,7 @@
         <div class="col-12">
           <div v-if="configModal?.action?.includes('add')">
             <div class="row">
-              <div class="col-lg-12 col-md-6 col-12 py-2">
+              <div class="col-lg-6 col-md-6 col-12 py-2">
                 <div class="flex-column justify-center icon-area-menu  b-shadow-1">
                   <div class="d-flex justify-center py-1">
                     <font-awesome-icon class="" :icon="data?.icon ?? 'fa-regular fa-circle'"
@@ -29,7 +29,7 @@
                   <input class="form-control b-radius-top-0" @blur="setIcon($event)" v-model="data.icon" />
                 </div>
               </div>
-              <div class="col-lg-12 col-md-6 col-12">
+              <div class="col-lg-6 col-md-6 col-12">
                 <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
                   <small class="">Name </small><br />
                   <small class="sub-text-name">Define o nome da rota que será concatenada ao path.</small>
@@ -145,6 +145,7 @@ export default defineComponent({
   position: fixed;
   top: 50%;
   left: 50%;
+  max-width: 600px;
   transform: translate(-50%, -50%);
   width: 70%;
   padding: 15px;
