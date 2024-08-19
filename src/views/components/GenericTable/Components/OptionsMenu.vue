@@ -5,7 +5,7 @@
         <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="closeMenu()"></div>
         <div :id="'options-group'" class="options-group b-shadow-1">
             <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
-                <div v-if="!option.disabled" class="options-btn-group">
+                <div v-if="option.disabled === false" class="options-btn-group">
                     <button class="options-btn" :alt="option.label">
                         <font-awesome-icon class="f-icon" :icon="option.icon" />
                     </button>
@@ -25,7 +25,6 @@ export default ({
     name: "OptionsMenu",
     setup(props, { emit }) {
         const handleOptions = ref(false);
-        const options = ref(props.options)
         const icon = ref(props.icon)
         const id = ref(props.id)
         const methods = reactive({
@@ -65,7 +64,6 @@ export default ({
 
 
         return {
-            options,
             icon,
             id,
             handleOptions,

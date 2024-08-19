@@ -3,11 +3,10 @@
     <div class="col-12 modal-box">
       <div class="flex-row">
         <div class="d-flex align-center justify-start col-10">
-          <font-awesome-icon v-if="configModalCustom.icon != null" class="icon-modal" :icon="configModalCustom.icon"
-            size="1x" />
-          <h1 v-if="configModalCustom.title != null" class="title">{{ configModalCustom.title }}</h1>
+          <font-awesome-icon v-if="configModal.icon != null" class="icon-modal" :icon="configModal.icon" size="1x" />
+          <h1 v-if="configModal.title != null" class="title">{{ configModal.title }}</h1>
         </div>
-        <div :class="configModalCustom.icon != null ? 'col-2' : 'col-12'" class="flex align-center flex-center">
+        <div :class="configModal.icon != null ? 'col-2' : 'col-12'" class="flex align-center flex-center">
           <button @click="closeModal()" class="btn-close">x</button>
         </div>
       </div>
@@ -16,45 +15,45 @@
       <!-- MODAL CONTENT HERE -->
       <!-- MODAL CONTENT HERE -->
       <div class="modal-box-content">
-        <div class="flex align-center col-12 justify-center">
-          <form>
-            <div class="form-group form-control">
-              <label for="" class="label-form-control">Nome</label>
-              <select class="form-control" id="IqOption" @change="">
-                <option selected value="IqOption">IQ Option</option>
-                <option value="Metatrader">Metatrader 5</option>
-              </select>
-            </div>
-            <div class="form-group form-control">
-              <div class="col-12">
-                <label for="userName" class="form-label-text">Usuário da Plataforma:</label>
-                <input type="text" id="userName" class="input-text" @change="" placeholder="usuari011011" />
+        <div class="col-12">
+          <div v-if="configModal?.action?.includes('add')">
+            <div class="row">
+              <div class="col-lg-12 col-md-6 col-12 py-2">
+                <div class="flex-column justify-center icon-area-menu  b-shadow-1">
+                  <div class="d-flex justify-center py-1">
+                    <font-awesome-icon class="" :icon="data?.icon ?? 'fa-regular fa-circle'"
+                      size="2x"></font-awesome-icon>
+                  </div>
+                  <small class="">Icon </small><br />
+                  <small class="sub-text-name">Atribua um icone para representar esta nova rota.</small>
+                  <input class="form-control b-radius-top-0" @blur="setIcon($event)" v-model="data.icon" />
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-6 col-12">
+                <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
+                  <small class="">Name </small><br />
+                  <small class="sub-text-name">Define o nome da rota que será concatenada ao path.</small>
+                  <input class="form-control small b-radius-top-0" @keyup="toLower($event)" v-model="data.name" />
+                  <small class="">Display Name </small><br />
+                  <small class="sub-text-name">Adiciona um apelido ou uma descrição breve da rota.</small>
+                  <input class="form-control small b-radius-top-0" v-model="data.displayName" />
+                </div>
               </div>
             </div>
-            <div class="form-group form-control">
-              <div class="col-12">
-                <label for="password" class="form-label-text">Senha da Plataforma:</label>
-                <input type="password" id="password" class="input-text" @change="" placeholder="p@ss011011" />
-              </div>
-            </div>
-            <div class="d-flex justify-center">
-              <button type="button"
-                class="col-lg-8 col-md-8 col-sm-12 mb-3 btn btn-login decoration-primary b-radius-10 p-1 b-shadow-1"
-                @click="">
-                Registrar
-              </button>
-            </div>
-          </form>
+          </div>
+          <div v-else>
+            <span class="modal-text-message">{{ configModal?.message }}</span>
+          </div>
         </div>
-        <!-- MODAL CONTENT HERE -->
-        <!-- MODAL CONTENT HERE -->
-        <!-- MODAL CONTENT HERE -->
       </div>
+      <!-- MODAL CONTENT HERE -->
+      <!-- MODAL CONTENT HERE -->
+      <!-- MODAL CONTENT HERE -->
       <hr />
-      <div v-if="configModalCustom.action" class="flex-row">
+      <div v-if="configModal.action" class="flex-row">
         <div class="col-12 flex justify-center">
           <button class="btn-action-confirm" @click="toAction()">
-            Confirmar
+            Confirmar e Salvar alterações
           </button>
         </div>
       </div>
@@ -63,27 +62,52 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, toRefs, inject } from "vue";
+import { defineComponent, reactive, toRefs, inject, ref, computed } from "vue";
 export default defineComponent({
-  emits: ["closeModal"],
-  props: ["configModalCustom", "reference"],
+  emits: ["closeModal", "execute"],
+  props: ["reference"],
+  name: "ModalConfirmActionPage",
   setup(props, { emit }) {
     const closeModalCustom = inject("closeModalCustom");
+    const configModal = inject("configModalCustom");
+    const data = ref({
+      icon: 'fa-regular fa-circle',
+      name: '',
+      displayName: ''
+    });
     const methods = reactive({
       closeModal() {
-        closeModalCustom(props.configModalCustom);
+        closeModalCustom(configModal.value);
+        data.value = {
+          icon: 'fa-regular fa-circle',
+          name: '',
+          displayName: ''
+        };
+      },
+      setIcon(event) {
+        if (!event?.target?.value?.includes('fa-')) {
+          data.value.icon = 'fa-' + event?.target?.value;
+        }
+      },
+      toLower(event) {
+        event.target.value = event.target.value.toLowerCase();
       },
       toAction() {
-        console.log("ação modal custom = " + props.configModalCustom.action);
+        let obj = configModal.value;
+        obj.data = data.value;
+        console.log("execute")
+        console.log(obj)
+        emit("execute", obj);
         methods.closeModal();
       },
     });
     return {
+      data,
+      configModal,
       closeModalCustom,
       ...toRefs(methods),
     };
   },
-  name: "ModalConfirmActionPage",
 });
 </script>
 <style scoped>
@@ -100,7 +124,7 @@ export default defineComponent({
   position: absolute;
   top: 0px;
   left: 0px;
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   background-color: black;
   opacity: 0.5;
@@ -117,10 +141,6 @@ export default defineComponent({
   font-size: large;
 }
 
-.message {
-  font-size: large;
-}
-
 .modal-box {
   position: fixed;
   top: 50%;
@@ -133,12 +153,21 @@ export default defineComponent({
 }
 
 .modal-box-content {
-  animation: slideDown 0.3s ease;
-  width: 80%;
-  min-width: 150px;
-  max-width: 450px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: var(--switch-mode-elements-tertiary);
   padding-top: 5px;
-  opacity: 1;
+}
+
+.modal-text-message {
+  color: var(--switch-mode-elements-secondary);
+}
+
+.sub-text-name {
+  opacity: 0.4;
+  font-size: 7pt;
+  padding: 0;
 }
 
 /* btn close */
@@ -153,16 +182,11 @@ export default defineComponent({
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   transition: 0.5s;
   outline: none;
+  opacity: 0.7;
 }
 
 .btn-close:hover {
-  opacity: 0.9;
-}
-
-.btn-close:active {
-  opacity: 0.2;
-  background-color: var(--switch-mode-secondary);
-  color: var(--switch-mode-elements-secondary);
+  opacity: 1;
 }
 
 /* btn action */

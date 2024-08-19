@@ -9,60 +9,71 @@
   --danger: #ff5733;
   --danger-after: #ad3f26;
   --danger-active: rgb(39, 28, 2);
-  --text-white:           rgb(240, 240, 240);
+  --text-white: rgb(240, 240, 240);
   --default-elements-mode-primary: rgb(44, 44, 44);
-  --switch-mode-primary:           rgb(224, 224, 224);
-  --switch-mode-secondary:         rgb(130, 130, 130);
-  --switch-mode-tertiary:          rgb(80, 80, 80);
-  --switch-mode-elements-primary:  rgb(44, 44, 44);
-  --switch-mode-elements-secondary:rgb(33, 33, 33);
+  --switch-mode-primary: rgb(224, 224, 224);
+  --switch-mode-secondary: rgb(130, 130, 130);
+  --switch-mode-tertiary: rgb(80, 80, 80);
+  --switch-mode-elements-primary: rgb(44, 44, 44);
+  --switch-mode-elements-secondary: rgb(33, 33, 33);
   --switch-mode-elements-tertiary: rgb(224, 224, 224);
-  --fixed-dark-mode-primary:       rgb(22, 22, 22);
-  --fixed-dark-mode-secondary:     rgb(33, 33, 33);
-  --fixed-dark-mode-tertiary:      rgb(44, 44, 44);
-  --fixed-light-mode-primary:      rgb(180, 180, 180);
-  --fixed-light-mode-secondary:    rgb(130, 130, 130);
-  --fixed-light-mode-tertiary:     rgb(80, 80, 80);
-  --default-mode-primary:          rgb(180, 180, 180);
-  --default-mode-secondary:        rgb(130, 130, 130);
-  --default-mode-tertiary:         rgb(80, 80, 80);
+  --fixed-dark-mode-primary: rgb(22, 22, 22);
+  --fixed-dark-mode-secondary: rgb(33, 33, 33);
+  --fixed-dark-mode-tertiary: rgb(44, 44, 44);
+  --fixed-light-mode-primary: rgb(180, 180, 180);
+  --fixed-light-mode-secondary: rgb(130, 130, 130);
+  --fixed-light-mode-tertiary: rgb(80, 80, 80);
+  --default-mode-primary: rgb(180, 180, 180);
+  --default-mode-secondary: rgb(130, 130, 130);
+  --default-mode-tertiary: rgb(80, 80, 80);
   --element-backdrop: rgb(0, 0, 0);
 }
 
-.default-white{
+.default-white {
   color: var(--text-white) !important;
 }
 
-.default-mode-primary{
+.default-mode-primary {
   color: var(--default-mode-primary) !important;
 }
 
-.default-mode-secondary{
+.default-mode-secondary {
   color: var(--default-mode-secondary) !important;
 }
 
-table, h1, h2, h3, h4{
+table,
+h1,
+h2,
+h3,
+h4 {
   color: var(--switch-mode-elements-primary);
 }
-:root{
+
+:root {
   background-color: var(--switch-mode-primary);
 }
+
 :root::-webkit-scrollbar {
   width: 10px;
 }
+
 :root::-webkit-scrollbar-thumb {
-        background-color: var(--decoration-primary-after); /* Cor do polegar (a parte móvel) */
-        border-radius: 10px; /* Borda arredondada */
+  background-color: var(--decoration-primary-after);
+  /* Cor do polegar (a parte móvel) */
+  border-radius: 10px;
+  /* Borda arredondada */
 }
+
 :root::-webkit-scrollbar-track {
-  background-color: var(--switch-mode-elements-tertiary); /* Cor do rastro (a parte fixa) */
+  background-color: var(--switch-mode-elements-tertiary);
+  /* Cor do rastro (a parte fixa) */
 }
 
 .d-invisible {
   visibility: hidden !important;
 }
 
-.overflow-scroll-x{
+.overflow-scroll-x {
   overflow-x: scroll;
 }
 
@@ -71,11 +82,11 @@ table, h1, h2, h3, h4{
   margin-top: 100px;
 }
 
-.ml-50{
+.ml-50 {
   margin-left: 50px;
 }
 
-.ml-100{
+.ml-100 {
   margin-left: 100px;
 }
 
@@ -90,11 +101,11 @@ table, h1, h2, h3, h4{
 
 /* PADDINGS */
 
-.pl-50{
+.pl-50 {
   padding-left: 25px;
 }
 
-.pl-100{
+.pl-100 {
   padding-left: 50px;
 }
 
@@ -156,7 +167,7 @@ table, h1, h2, h3, h4{
   border-radius: 100%;
 }
 
-.b-radius-bottom-10{
+.b-radius-bottom-10 {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -380,6 +391,7 @@ body {
 .decoration-primary-after {
   background-color: var(--decoration-primary-after);
 }
+
 .warning {
   background-color: var(--warning);
   color: var(--warning-active);
@@ -518,7 +530,7 @@ body {
   height: 18px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -548,15 +560,15 @@ body {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--decoration-primary);
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px var(--decoration-primary);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(14px);
   -ms-transform: translateX(14px);
   transform: translateX(14px);
@@ -564,7 +576,7 @@ input:checked + .slider:before {
 
 /* Rounded sliders */
 
-.b-radius-top-0{
+.b-radius-top-0 {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
@@ -578,7 +590,7 @@ input:checked + .slider:before {
 }
 
 /* BTN BUTTON */
-.g-button{
+.g-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -635,7 +647,7 @@ button:focus {
   max-height: 50vh;
   width: 100%;
   object-fit: cover;
-  object-position: center; 
+  object-position: center;
   border-radius: 10px;
 }
 
@@ -719,7 +731,122 @@ tbody::-webkit-scrollbar-track,
 }
 
 
+/* EDIT PAGES */
+.all-menus {
+  padding: 20px 0px;
+  border-radius: 10px;
+  color: var(--switch-mode-elements-tertiary);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 700px;
+  background-color: var(--switch-mode-primary);
+}
 
+.menus {
+  border-radius: 5px;
+  border-left-style: solid;
+  border-width: 10px;
+  border-color: var(--decoration-primary);
+  color: var(--switch-mode-elements-tertiary);
+  background-color: var(--switch-mode-secondary);
+}
+
+.submenus {
+  border-radius: 5px;
+  border-left-style: solid;
+  border-color: var(--decoration-primary-after);
+  border-width: 2px;
+  background-color: var(--switch-mode-secondary);
+  overflow-x: hidden;
+}
+
+.pages {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-left-style: solid;
+  border-width: 1px;
+  border-color: var(--switch-mode-elements-tertiary);
+  background-color: var(--switch-mode-secondary);
+  overflow-x: hidden;
+}
+
+.icon-area-menu {
+  border: dotted;
+  margin: 0;
+  padding: 0;
+  border-color: var(--switch-mode-tertiary);
+  border-width: 3px;
+  border-radius: 10px;
+}
+
+.add-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: dotted;
+  border-radius: 5px;
+  border-width: 3px;
+  padding: 5px;
+  background-color: var(--switch-mode-secondary);
+  border-color: var(--switch-mode-tertiary);
+  opacity: 0.5;
+  color: var(--switch-mode-elements-tertiary);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-menu:hover {
+  background-color: var(--switch-mode-tertiary);
+  opacity: 1;
+  color: var(--switch-mode-elements-tertiary);
+}
+
+.add-sub {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: dotted;
+  border-radius: 5px;
+  border-width: 2px;
+  background-color: var(--switch-mode-secondary);
+  border-color: var(--switch-mode-elements-tertiary);
+  opacity: 0.5;
+  color: var(--switch-mode-elements-tertiary);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-sub:hover {
+  background-color: var(--switch-mode-elements-tertiary);
+  opacity: 1;
+  color: var(--switch-mode-tertiary);
+}
+
+.save-btn {
+  cursor: pointer;
+  padding: 10px;
+  color: var(--switch-elements-mode-primary);
+  border-radius: 100%;
+  margin-left: 50%;
+  transform: translate(-50%);
+  height: 25px;
+  width: 25px;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  color: var(--decoration-primary-after);
+  background-color: var(--switch-mode-tertiary);
+}
+
+.all-menus::-webkit-scrollbar {
+  width: 8px;
+}
+
+.all-menus::-webkit-scrollbar-thumb {
+  background-color: var(--decoration-primary);
+  border-radius: 10px;
+}
 
 /* ANIMATION */
 @keyframes expand {

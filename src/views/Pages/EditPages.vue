@@ -2,13 +2,14 @@
   <CardBox :title="'Meus dados'" :description="'Editando Páginas'"
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: 'Editar Páginas', link: 'edit-pages' }]">
     <div class="col-lg-9 col-12 px-2">
+      <div>
+        <div class="col-12 my-3 add-menu"
+          @click="enjoyAction({ label: 'Adicionar Menu', obj: null, icon: 'plus', disabled: null, action: 'add-menu' })">
+          <font-awesome-icon class="" :icon="'fa-plus'" size="1x"></font-awesome-icon>
+        </div>
+      </div>
       <div v-for="(menu, indexMenu) in menus" :key="menu.name" class="all-menus">
         <div class="col-12">
-          <div>
-            <div class="col-12 my-3 add">
-              <font-awesome-icon class="" :icon="'fa-plus'" size="1x"></font-awesome-icon>
-            </div>
-          </div>
           <div class="d-flex align-center flex-space-evenly p-1 menus">
             <div class="col-4">
               <div class="b-shadow-1 flex-column justify-center icon-area-menu">
@@ -16,21 +17,23 @@
                   <font-awesome-icon class="" :icon="menu.icon ?? 'fa-regular fa-circle'" size="2x"></font-awesome-icon>
                 </div>
                 <small class="">Icon </small>
-                <input class="form-control b-radius-top-0" :v-model="menu.icon" :value="menu.icon" />
+                <input class="form-control b-radius-top-0" @change="() => { menu.disabled = false }" v-model="menu.icon"
+                  :placeholder="menu.icon" />
               </div>
             </div>
             <div class="col-6 px-1">
               <div class="flex-column align-center justify-center icon-area-menu b-shadow-1">
                 <small class="px-1">Name </small>
-                <input class="form-control small b-radius-top-0" :v-model="menu.name" :value="menu.name" />
+                <input class="form-control small b-radius-top-0" @change="() => { menu.disabled = false }"
+                  v-model="menu.name" :placeholder="menu.name" />
                 <small class="px-1">Display Name </small>
-                <input class="form-control small b-radius-top-0" :v-model="menu.displayName"
-                  :value="menu.displayName" />
+                <input class="form-control small b-radius-top-0" @change="() => { menu.disabled = false }"
+                  v-model="menu.displayName" :placeholder="menu.displayName" />
               </div>
             </div>
             <div class="col-2 d-flex justify-center">
               <OptionsMenu :id="menu.name" @enjoyAction="enjoyAction($event)" :icon="'gear'"
-                :options="[{ label: 'Adicionar Sub Menu em /' + menu.name, icon: 'add', disabled: null, action: 'addSub-' + menu.name }, { label: 'Remover Menu /' + menu.name, icon: 'trash', disabled: null, action: 'removeMenu-' + menu.name }]" />
+                :options="[{ label: 'Salvar alterações', obj: menu, icon: 'save', message: 'Tem certeza que deseja salvar as alterações ?', disabled: menu.disabled ?? true, action: 'save-changes-' + menu.name }, { label: 'Adicionar Sub Menu em /' + menu.name, obj: menu, icon: 'add', disabled: false, action: 'add-sub-' + menu.name }, { label: 'Remover Menu /' + menu.name, obj: menu, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover este Menu e todos os seus itens ?', action: 'remove-menu-' + menu.name }]" />
             </div>
           </div>
         </div>
@@ -45,21 +48,23 @@
                       size="2x"></font-awesome-icon>
                   </div>
                   <small class="">Icon </small>
-                  <input class="form-control b-radius-top-0" :v-model="subMenu.icon" :value="subMenu.icon" />
+                  <input class="form-control b-radius-top-0" @change="() => { subMenu.disabled = false }"
+                    v-model="subMenu.icon" :placeholder="subMenu.icon" />
                 </div>
               </div>
               <div class="col-6 px-1">
                 <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
                   <small class="">Name </small>
-                  <input class="form-control small b-radius-top-0" :v-model="subMenu.name" :value="subMenu.name" />
+                  <input class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
+                    v-model="subMenu.name" :placeholder="subMenu.name" />
                   <small class="">Display Name </small>
-                  <input class="form-control small b-radius-top-0" :v-model="subMenu.displayName"
-                    :value="subMenu.displayName" />
+                  <input class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
+                    v-model="subMenu.displayName" :placeholder="subMenu.displayName" />
                 </div>
               </div>
               <div class="col-2  d-flex justify-center">
                 <OptionsMenu :id="subMenu.name" @enjoyAction="enjoyAction($event)" :icon="'gear'"
-                  :options="[{ label: 'Adicionar Página em /' + subMenu.name, icon: 'add', disabled: null, action: 'addPage-' + subMenu.name }, { label: 'Remover Sub Menu /' + subMenu.name, icon: 'trash', disabled: null, action: 'removeSub-' + subMenu.name }]" />
+                  :options="[{ label: 'Salvar alterações', obj: subMenu, icon: 'save', message: 'Tem certeza que deseja salvar as alterações ?', disabled: subMenu.disabled ?? true, action: 'save-changes-' + subMenu.name }, { label: 'Adicionar Página em /' + subMenu.name, obj: subMenu, icon: 'add', disabled: false, action: 'add-page-' + subMenu.name }, { label: 'Remover Sub Menu /' + subMenu.name, obj: subMenu, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover este Sub Menu e todas as suas páginas ?', action: 'remove-sub-' + subMenu.name }]" />
               </div>
             </div>
           </div>
@@ -74,21 +79,23 @@
                         size="2x"></font-awesome-icon>
                     </div>
                     <small class="">Icon </small>
-                    <input class="form-control b-radius-top-0" :v-model="page.icon" :value="page.icon" />
+                    <input class="form-control b-radius-top-0" @change="() => { page.disabled = false }"
+                      v-model="page.icon" :placeholder="page.icon" />
                   </div>
                 </div>
                 <div class="col-6 px-1">
                   <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
                     <small class="">Name </small>
-                    <input class="form-control small b-radius-top-0" :v-model="page.name" :value="page.name" />
+                    <input class="form-control small b-radius-top-0" @change="() => { page.disabled = false }"
+                      v-model="page.name" :placeholder="page.name" />
                     <small class="">Display Name </small>
-                    <input class="form-control small b-radius-top-0" :v-model="page.displayName"
-                      :value="page.displayName" />
+                    <input class="form-control small b-radius-top-0" @change="() => { page.disabled = false }"
+                      v-model="page.displayName" :placeholder="page.displayName" />
                   </div>
                 </div>
                 <div class="col-2 d-flex justify-center">
                   <OptionsMenu :id="page.name" @enjoyAction="enjoyAction($event)" :icon="'gear'"
-                    :options="[{ label: 'Remover Página /' + page.name, icon: 'trash', disabled: null, action: 'removePage-' + page.name }]" />
+                    :options="[{ label: 'Salvar alterações', obj: page, icon: 'save', disabled: page.disabled ?? true, message: 'Tem certeza que deseja salvar as alterações ?', action: 'save-changes-' + page.name }, { label: 'Remover Página /' + page.name, obj: page, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover esta página ?', action: 'remove-page-' + page.name }]" />
                 </div>
               </div>
               <div class="d-flex justify-center decoration-primary-after b-radius-bottom-10">
@@ -99,12 +106,12 @@
         </div>
       </div>
     </div>
-    <ModalConfirmActionPage :reference="reference" :configModalCustom="configModalCustom" />
+    <ModalConfirmActionPage :reference="reference" @execute="execute($event)" />
   </CardBox>
 </template>
 
 <script>
-import { ref, inject, watch, onMounted, reactive, toRefs, computed } from "vue";
+import { ref, inject, watch, onMounted, reactive, toRefs, provide } from "vue";
 import MenuService from "@/services/MenuService";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
@@ -119,7 +126,7 @@ export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
-    
+
     const addMessageBox = inject("addMessageBox");
 
     const reference = ref("action-page");
@@ -130,17 +137,26 @@ export default {
 
     const methods = reactive({
       enjoyAction(event) {
+        console.log("event")
+        console.log(event)
         configModalCustom.value = {
           reference: reference.value,
-          title: event.label,
-          icon: event.icon,
-          message: "",
-          action: event.action,
+          title: event?.label,
+          icon: event?.icon,
+          message: event?.message,
+          action: event?.action,
           description: "",
+          obj: event?.obj,
         }
         openModalCustom(configModalCustom.value)
+      },
+      execute(event) {
+        console.log("execute");
+        console.log(event);
       }
     });
+
+    provide("configModalCustom", configModalCustom);
 
     onMounted(() => {
       MenuService.getAllMenu()
@@ -165,125 +181,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.all-menus {
-  padding: 20px 0px;
-  border-radius: 10px;
-  color: var(--switch-mode-elements-tertiary);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 700px;
-  background-color: var(--switch-mode-primary);
-}
-
-.menus {
-  border-radius: 5px;
-  border-left-style: solid;
-  border-width: 10px;
-  border-color: var(--decoration-primary);
-  color: var(--switch-mode-elements-tertiary);
-  background-color: var(--switch-mode-secondary);
-}
-
-.submenus {
-  border-radius: 5px;
-  border-left-style: solid;
-  border-color: var(--decoration-primary-after);
-  border-width: 2px;
-  background-color: var(--switch-mode-secondary);
-  overflow-x: hidden;
-}
-
-.pages {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-left-style: solid;
-  border-width: 1px;
-  border-color: var(--switch-mode-elements-tertiary);
-  background-color: var(--switch-mode-secondary);
-  overflow-x: hidden;
-}
-
-.icon-area-menu {
-  border: dotted;
-  margin: 0;
-  padding: 0;
-  border-color: var(--switch-mode-tertiary);
-  border-width: 3px;
-  border-radius: 10px;
-}
-
-input[type="text"] {
-  background-color: var(--decoration-primary);
-}
-
-.add {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-style: dotted;
-  border-radius: 5px;
-  border-width: 2px;
-  background-color: var(--switch-mode-secondary);
-  border-color: var(--switch-mode-elements-tertiary);
-  opacity: 0.5;
-  color: var(--switch-mode-elements-tertiary);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.add:hover {
-  background-color: var(--switch-mode-elements-tertiary);
-  opacity: 1;
-  color: var(--switch-mode-tertiary);
-}
-
-.add-sub {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-style: dotted;
-  border-radius: 5px;
-  border-width: 2px;
-  background-color: var(--switch-mode-secondary);
-  border-color: var(--switch-mode-elements-tertiary);
-  opacity: 0.5;
-  color: var(--switch-mode-elements-tertiary);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.add-sub:hover {
-  background-color: var(--switch-mode-elements-tertiary);
-  opacity: 1;
-  color: var(--switch-mode-tertiary);
-}
-
-.save-btn {
-  cursor: pointer;
-  padding: 10px;
-  color: var(--switch-elements-mode-primary);
-  border-radius: 100%;
-  margin-left: 50%;
-  transform: translate(-50%);
-  height: 25px;
-  width: 25px;
-  transition: 0.2s;
-}
-
-.save-btn:hover {
-  color: var(--decoration-primary-after);
-  background-color: var(--switch-mode-tertiary);
-}
-
-.all-menus::-webkit-scrollbar {
-  width: 8px;
-}
-
-.all-menus::-webkit-scrollbar-thumb {
-  background-color: var(--decoration-primary);
-  /* Cor do polegar (a parte móvel) */
-  border-radius: 10px;
-  /* Borda arredondada */
-}
-</style>
+<style scoped></style>

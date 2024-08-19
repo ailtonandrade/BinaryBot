@@ -1,5 +1,4 @@
 <template>
-  <PlatformCard :platforms="listPlatforms"></PlatformCard>
   <div class="b-content">
     <div class="b-card b-column-start">
       <div class="b-row-start align-top">
@@ -31,10 +30,8 @@
 <script>
 import { reactive, toRefs, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import PlatformCard from "../components/PlatformCard.vue";
 export default {
   components: {
-    PlatformCard
   },
   setup() {
     const router = useRouter();
