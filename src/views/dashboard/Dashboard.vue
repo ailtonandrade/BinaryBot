@@ -87,7 +87,7 @@ export default defineComponent({
         AuthService.getPerfil()
           .then((response) => {
             if (response) {
-              userData.value = response.perfils[0].perfilType.description;
+              userData.value = response.perfil.name;
             }
           })
           .catch((error) => {

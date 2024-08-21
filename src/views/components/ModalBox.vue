@@ -1,6 +1,6 @@
 <template>
-  <div @click="closeModal()" class="modal-box-back" />
-  <div class="body justify-center modal-box-content">
+  <div @click="closeModal()" class="modal-box-app-back" />
+  <div class="body justify-center modal-box-app-content">
     <div class="col-12 px-0">
       <div class="header-modal-box flex-row col-12 justify-content-between align-center">
         <div class="d-flex justify-content-center align-center">
@@ -83,7 +83,7 @@ export default defineComponent({
   background-color: var(--switch-mode-tertiary);
 }
 
-.modal-box-back {
+.modal-box-app-back {
   height: 100vh;
   width: 100vw;
   background-color: black;
@@ -106,7 +106,7 @@ export default defineComponent({
 
 }
 
-.modal-box-content {
+.modal-box-app-content {
   animation: slideDown 0.3s ease;
   width: 80%;
   min-width: 150px;

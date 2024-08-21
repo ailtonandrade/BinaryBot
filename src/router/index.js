@@ -90,6 +90,7 @@ router.goToPath = (routerPath) => {
 };
 
 router.goTo = (routeName, objectData) => {
+  
   if (Array.isArray(objectData)) {
     router.push({ name: routeName, params: { obj: JSON.stringify(objectData) } });
   }
@@ -102,12 +103,13 @@ router.goTo = (routeName, objectData) => {
 
 
 router.beforeEach((to, from, next) => {
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Se a rota requer autenticação
     const token = localStorage.getItem('token'); // Recupere o token do localStorage
 
     if (!token) {
-
+      
       // Se não houver token, redirecione para a página de login
       next('/');
     } else {
@@ -115,6 +117,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else {
+
     // Se a rota não requer autenticação, continue para a rota desejada
     next();
   }

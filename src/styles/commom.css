@@ -848,6 +848,150 @@ tbody::-webkit-scrollbar-track,
   border-radius: 10px;
 }
 
+/* MODAL CUSTOM */
+.modal-body {
+  display: none;
+  position: absolute;
+  transition: 0.6s ease;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+
+.modal-box-back {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100dvh;
+  width: 100vw;
+  background-color: black;
+  opacity: 0.5;
+  z-index: -3;
+}
+
+.modal-icon-modal {
+  color: var(--switch-mode-elements-secondary);
+  margin-right: 10px;
+}
+
+.modal-title {
+  padding-top: 15px;
+  font-size: large;
+}
+
+.modal-box-app {
+}
+
+.modal-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 600px;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--switch-mode-secondary);
+}
+
+.modal-box-content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: var(--switch-mode-elements-tertiary);
+  padding-top: 5px;
+}
+
+.modal-text-message {
+  color: var(--switch-mode-elements-secondary);
+}
+
+.modal-sub-text-name {
+  opacity: 0.4;
+  font-size: 7pt;
+  padding: 0;
+}
+
+/* btn close */
+.modal-btn-close {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-mode-elements-secondary);
+  border-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+  outline: none;
+  opacity: 0.7;
+}
+
+.modal-btn-close:hover {
+  opacity: 1;
+}
+
+/* btn action */
+.modal-btn-action-cancel {
+  height: 25px;
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-mode-elements-secondary);
+  border-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+  outline: none;
+}
+
+.modal-btn-action-cancel:hover {
+  opacity: 0.9;
+}
+
+.modal-btn-action-cancel:active {
+  opacity: 0.2;
+  background-color: var(--switch-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
+}
+
+.modal-btn-action-confirm {
+  height: 35px;
+  width: 90%;
+  background-color: var(--switch-mode-tertiary);
+  color: var(--switch-mode-elements-tertiary);
+  border-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  transition: 0.2s;
+  outline: none;
+  cursor: pointer;
+}
+
+.modal-btn-action-confirm:hover {
+  color: var(--switch-mode-tertiary);
+  background-color: var(--decoration-primary-after);
+}
+
+.modal-btn-action-confirm:active {
+  opacity: 0.2;
+  background-color: var(--switch-mode-secondary);
+  color: var(--switch-mode-elements-secondary);
+}
+
+.modal-btn-action {
+  padding-top: 20px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
 /* ANIMATION */
 @keyframes expand {
   0% {

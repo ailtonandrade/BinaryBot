@@ -36,6 +36,13 @@
                 :options="[{ label: 'Salvar alterações', obj: menu, icon: 'save', message: 'Tem certeza que deseja salvar as alterações ?', disabled: menu.disabled ?? true, action: 'save-changes-' + menu.name }, { label: 'Adicionar Sub Menu em /' + menu.name, obj: menu, icon: 'add', disabled: false, action: 'add-sub-' + menu.name }, { label: 'Remover Menu /' + menu.name, obj: menu, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover este Menu e todos os seus itens ?', action: 'remove-menu-' + menu.name }]" />
             </div>
           </div>
+          <div v-if="!menu.subMenu" class="d-flex justify-center decoration-primary-after b-radius-bottom-10">
+            <div class="row d-flex justify-content-center align-center text-center p-1">
+              <small class="col-lg-6 col-md-6 col-12 handle-edit-permissions" @click="enjoyEditPerm(menu.id)">Editar
+                permissões para esta rota</small>
+              <small class="col-lg-6 col-md-6 col-12">/{{ menu.name }}</small>
+            </div>
+          </div>
         </div>
         <!-- SUBMENU -->
         <div v-for="(subMenu, indexSubMenu) in menu.subMenu" :key="subMenu.name" class="">
@@ -65,6 +72,13 @@
               <div class="col-2  d-flex justify-center">
                 <OptionsMenu :id="subMenu.name" @enjoyAction="enjoyAction($event)" :icon="'gear'"
                   :options="[{ label: 'Salvar alterações', obj: subMenu, icon: 'save', message: 'Tem certeza que deseja salvar as alterações ?', disabled: subMenu.disabled ?? true, action: 'save-changes-' + subMenu.name }, { label: 'Adicionar Página em /' + subMenu.name, obj: subMenu, icon: 'add', disabled: false, action: 'add-page-' + subMenu.name }, { label: 'Remover Sub Menu /' + subMenu.name, obj: subMenu, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover este Sub Menu e todas as suas páginas ?', action: 'remove-sub-' + subMenu.name }]" />
+              </div>
+            </div>
+            <div v-if="!subMenu.pages" class="d-flex justify-center decoration-primary-after b-radius-bottom-10">
+              <div class="row d-flex justify-content-center align-center text-center p-1">
+                <small class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
+                  @click="enjoyEditPerm(menu.id, subMenu.id)">Editar permissões para esta rota</small>
+                <small class="col-lg-6 col-md-6 col-12 ">/{{ menu.name }}/{{ subMenu.name }}</small>
               </div>
             </div>
           </div>
@@ -98,8 +112,13 @@
                     :options="[{ label: 'Salvar alterações', obj: page, icon: 'save', disabled: page.disabled ?? true, message: 'Tem certeza que deseja salvar as alterações ?', action: 'save-changes-' + page.name }, { label: 'Remover Página /' + page.name, obj: page, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover esta página ?', action: 'remove-page-' + page.name }]" />
                 </div>
               </div>
-              <div class="d-flex justify-center decoration-primary-after b-radius-bottom-10">
-                <small class="">/{{ menu.name }}/{{ subMenu.name }}/{{ page.name }}</small>
+              <div class="decoration-primary-after b-radius-bottom-10">
+                <div class="row d-flex justify-content-center align-center text-center py-1 px-5">
+                  <small class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
+                    @click="enjoyEditPerm(menu.id, subMenu.id, page.id)">
+                    Editar permissões para esta rota</small>
+                  <small class="col-lg-6 col-md-6 col-12">/{{ menu.name }}/{{ subMenu.name }}/{{ page.name }}</small>
+                </div>
               </div>
             </div>
           </div>
@@ -107,6 +126,7 @@
       </div>
     </div>
     <ModalConfirmActionPage :reference="reference" @execute="execute($event)" />
+    <ModalEditPermission :reference="referenceEditPerm" @execute="execute($event)" />
   </CardBox>
 </template>
 
@@ -119,10 +139,11 @@ import { useRouter, useRoute } from "vue-router";
 import ObjectUtils from "@/Utils/ObjectUtils";
 import OptionsMenu from "../components/GenericTable/Components/OptionsMenu.vue";
 import ModalConfirmActionPage from "./components/ModalConfirmActionPage.vue";
+import ModalEditPermission from "./components/ModalEditPermission.vue";
 
 export default {
   name: "EditPages",
-  components: { CardBox, OptionsMenu, ModalConfirmActionPage },
+  components: { CardBox, OptionsMenu, ModalConfirmActionPage, ModalEditPermission },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -130,12 +151,34 @@ export default {
     const addMessageBox = inject("addMessageBox");
 
     const reference = ref("action-page");
+    const referenceEditPerm = ref("edit-permissions")
     const configModalCustom = ref({});
+    const selectedPerms = ref([]);
     const openModalCustom = inject("openModalCustom");
 
     const menus = ref([]);
 
     const methods = reactive({
+      enjoyEditPerm(menuId, subMenuId, pageId) {
+        //todo recuperar as permissoes desta combinacao
+        MenuService.getPermissionsByMenu(menuId, subMenuId, pageId)
+          .then((resp) => {
+            selectedPerms.value = resp ?? [];
+            configModalCustom.value = {
+              reference: referenceEditPerm.value,
+              title: "Editar permissões de rota",
+              icon: "edit",
+              message: "",
+              action: "confirm-edit-permission",
+              description: "",
+              obj: selectedPerms.value,
+            }
+            openModalCustom(configModalCustom.value)
+          })
+          .catch((ex) => {
+            console.log(ex);
+          })
+      },
       enjoyAction(event) {
         console.log("event")
         console.log(event)
@@ -157,6 +200,7 @@ export default {
     });
 
     provide("configModalCustom", configModalCustom);
+    provide("selectedPerms", selectedPerms);
 
     onMounted(() => {
       MenuService.getAllMenu()
@@ -173,6 +217,8 @@ export default {
       route,
       router,
       reference,
+      selectedPerms,
+      referenceEditPerm,
       openModalCustom,
       configModalCustom,
       ...toRefs(methods),
@@ -181,4 +227,18 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.handle-edit-permissions {
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.handle-edit-permissions:hover {
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  text-decoration: underline;
+  background-color: var(--decoration-primary);
+}
+</style>

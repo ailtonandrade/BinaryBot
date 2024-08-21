@@ -17,7 +17,7 @@
       <MessageBox v-if="listMessageBox.length > 0" :listMessageBox="listMessageBox" @action="actionMessageBox($event)"
         @closeMessageBox="closeMessageBox()" />
     </div>
-    <div class="modal-box">
+    <div class="modal-box-app">
       <ModalBox v-if="showModalBox" @closeModal="closeModalBox()" :title="dataModalBox.title" :icon="dataModalBox.icon"
         :message="dataModalBox.message" :description="dataModalBox.description" :action="dataModalBox.action" />
     </div>
@@ -36,6 +36,7 @@ import {
   toRefs,
   inject,
   onMounted,
+  onCreated
 } from "vue";
 import ModalBox from "./views/components/ModalBox.vue";
 import MessageBox from "./views/components/MessageBox.vue";
@@ -131,8 +132,7 @@ export default {
           if (res.statusCode == 200) {
             listSideMenu.value = res.value.data;
             isLoggedIn.value = true;
-
-            if (router.currentRoute.value.name?.includes('home') || router.currentRoute.value.path === ('/')) {
+            if (router.currentRoute?.value?.name?.includes('home') || router.currentRoute?.value?.path === ('/')) {
               router.goTo("dashboard");
             }
           }
@@ -183,7 +183,6 @@ export default {
     });
 
     onMounted(async () => {
-      await methods.requestAccess();
     });
 
     watch(router.currentRoute, (oldValue, newValue) => {
