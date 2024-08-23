@@ -25,18 +25,18 @@
                       size="2x"></font-awesome-icon>
                   </div>
                   <small class="">Icon </small><br />
-                  <small class="modal-sub-text-name">Atribua um icone para representar esta nova rota.</small>
-                  <input class="form-control b-radius-top-0" @blur="setIcon($event)" v-model="data.icon" />
+                  <small class="modal-sub-text-icon">Atribua um icone para representar esta nova rota.</small>
+                  <input :id="'modal-sub-text-name'+ reference" class="form-control b-radius-top-0" @blur="setIcon($event)" v-model="data.icon" />
                 </div>
               </div>
               <div class="col-lg-6 col-md-6 col-12">
                 <div class="flex-column align-center justify-center modal-icon-area-menu  b-shadow-1">
                   <small class="">Name </small><br />
-                  <small class="modal-sub-text-name">Define o nome da rota que será concatenada ao path.</small>
-                  <input class="form-control small b-radius-top-0" @keyup="toLower($event)" v-model="data.name" />
+                  <small class="modal-sub-text-name'+ reference">Define o nome da rota que será concatenada ao path.</small>
+                  <input :id="'modal-sub-text-name'+ reference" class="form-control small b-radius-top-0" @keyup="validateInputName($event)" @input="validateInputName($event)" v-model="data.name" />
                   <small class="">Display Name </small><br />
                   <small class="modal-sub-text-name">Adiciona um apelido ou uma descrição breve da rota.</small>
-                  <input class="form-control small b-radius-top-0" v-model="data.displayName" />
+                  <input :id="'modal-sub-text-displayname'+ reference" class="form-control small b-radius-top-0" v-model="data.displayName" />
                 </div>
               </div>
             </div>
@@ -89,14 +89,12 @@ export default defineComponent({
           data.value.icon = 'fa-' + event?.target?.value;
         }
       },
-      toLower(event) {
-        event.target.value = event.target.value.toLowerCase();
+      validateInputName(event) {
+        event.target.value = event.target.value.toLowerCase().trim().replace(" ","");
       },
       toAction() {
         let obj = configModal.value;
         obj.data = data.value;
-        console.log("execute")
-        console.log(obj)
         emit("execute", obj);
         methods.closeModal();
       },

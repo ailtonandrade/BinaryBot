@@ -6,10 +6,10 @@
         <div :id="'options-group'" class="options-group b-shadow-1">
             <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
                 <div v-if="option.disabled === false" class="options-btn-group">
-                    <button class="options-btn" :alt="option.label">
+                    <button :id="'options-btn-'+index" class="options-btn" :alt="option.label">
                         <font-awesome-icon class="f-icon" :icon="option.icon" />
                     </button>
-                    <label>{{ option.label }}</label>
+                    <label :for="'options-btn-'+index">{{ option.label }}</label>
                 </div>
             </div>
         </div>

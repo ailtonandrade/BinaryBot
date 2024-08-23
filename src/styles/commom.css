@@ -859,10 +859,10 @@ tbody::-webkit-scrollbar-track,
 }
 
 .modal-box-back {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
-  height: 100dvh;
+  height: 100vh;
   width: 100vw;
   background-color: black;
   opacity: 0.5;

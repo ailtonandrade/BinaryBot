@@ -12,8 +12,11 @@ class MenuService {
   async getPermissionsByMenu(menuId, subMenuId, pageId) {
     return http.post(baseUrl + "/get-perms-menu", { menuId, subMenuId, pageId })
   }
-  async getAllPermissions(){
+  async getAllPermissions() {
     return http.post(baseUrl + "/get-all-permissions")
+  }
+  async editMenus(obj) {
+    return http.post(baseUrl + "/edit-menus", obj);
   }
 }
 export default new MenuService();
