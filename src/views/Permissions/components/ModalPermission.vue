@@ -18,57 +18,7 @@
       <div class="modal-box-content">
         <div class="container">
           <div class="row area-content">
-            <div class="col-lg-5 col-md-5 col-12 area-selector">
-              <small>Disponivel(is)</small>
-              <div class="col-12 d-flex justify-content-center">
-                <div class="col-11 area-search">
-                  <div class="col-2 px-0 icon">
-                    <font-awesome-icon class="" :icon="'fa-solid fa-search'" size="1x" />
-                  </div>
-                  <div class="col-10 px-0">
-                    <input class="form-control" type="text" v-model="filterAble" />
-                  </div>
-                </div>
-              </div>
-              <div v-for="(p) in filteredAblePerms" :key="'add-perm' + p.name">
-                <div class="row selection px-0 mx-0" @click="setToAdd(p)">
-                  <div class="col-12">
-                    <b>{{ p.name }}</b>
-                  </div>
-                  <div class="col-12">
-                    <small>{{ p.description }}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-5 col-md-5 col-12 area-selector">
-              <small>Adicinado(s)</small>
-              <div class="col-12 d-flex justify-content-center">
-                <div class="col-11 area-search">
-                  <div class="col-2 px-0 icon">
-                    <font-awesome-icon class="" :icon="'fa-solid fa-search'" size="1x" />
-                  </div>
-                  <div class="col-10 px-0">
-                    <input class="form-control" type="text" v-model="filterSelected" />
-                  </div>
-                </div>
-              </div>
-              <div v-for="(p) in selectedPerms" :key="'del-perm' + p.permission.name">
-                <div class="col-12 selection active p-0 mx-0">
-                  <div class="col-10 px-0 mx-0">
-                    <div class="col-12">
-                      <b>{{ p.permission.name }}</b>
-                    </div>
-                    <div class="col-12">
-                      <small>{{ p.permission.description }}</small>
-                    </div>
-                  </div>
-                  <div class="col-2 px-0 mx-0 area-remove-selected" @click="setToRemove(p)">
-                    <span class="remove-selected">x</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -95,20 +45,10 @@ import MenuService from "@/services/MenuService";
 export default defineComponent({
   emits: ["closeModal", "execute"],
   props: ["reference"],
-  name: "ModalEditPermission",
+  name: "ModalPermission",
   setup(props, { emit }) {
     const closeModalCustom = inject("closeModalCustom");
     const configModal = ref(inject("configModalCustom"));
-    const selectedPerms = ref(inject("selectedPerms"));
-    const filterAble = ref("");
-    const filterSelected = ref("");
-    const ablePerms = ref([]);
-    const filteredAblePerms = computed(() => {
-      let names = selectedPerms.value?.map(s => s.permission?.name);
-      return ablePerms.value?.filter(p =>
-        !names.includes(p.name)
-      );
-    })
     const data = ref({
       icon: 'fa-regular fa-circle',
       name: '',
@@ -123,64 +63,18 @@ export default defineComponent({
           displayName: ''
         };
       },
-      setToAdd(permission){
-        selectedPerms.value.push({
-          menuId: configModal.value?.obj?.menuId,
-          subMenuId: configModal.value?.obj?.subMenuId,
-          pageId: configModal.value?.obj?.pageId,
-          permission: permission
-        })
-      },
-      setToRemove(event){
-        console.log(event)
-        console.log(selectedPerms.value)
-        selectedPerms.value = selectedPerms.value?.filter(p => p.permission?.name !== event?.permission?.name)
-      },
-      setIcon(event) {
-        if (!event?.target?.value?.includes('fa-')) {
-          data.value.icon = 'fa-' + event?.target?.value;
-        }
-      },
-      toLower(event) {
-        event.target.value = event.target.value.toLowerCase();
-      },
       toAction() {
         let obj = configModal.value;
         obj.data = selectedPerms.value;
-        console.log("execute")
-        console.log(obj)
         emit("execute", obj);
         methods.closeModal();
       },
-      getAllPermissions() {
-        MenuService.getAllPermissions()
-          .then((resp) => {
-            if (resp) {
-              resp.forEach((r) => {
-                ablePerms.value.push({
-                  id: r.id,
-                  name: r.name,
-                  description: r.description
-                })
-              })
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
     });
 
     onMounted(() => {
-      methods.getAllPermissions();
     })
     return {
       data,
-      filterAble,
-      filterSelected,
-      ablePerms,
-      filteredAblePerms,
-      selectedPerms,
       configModal,
       closeModalCustom,
       ...toRefs(methods),

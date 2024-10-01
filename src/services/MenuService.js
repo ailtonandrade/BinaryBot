@@ -18,5 +18,8 @@ class MenuService {
   async editMenus(obj) {
     return http.post(baseUrl + "/edit-menus", obj);
   }
+  async editPermission(obj) {
+    return http.post(baseUrl + "/edit-permission", obj);
+  }
 }
 export default new MenuService();

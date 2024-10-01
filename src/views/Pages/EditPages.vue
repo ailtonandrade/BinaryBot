@@ -16,19 +16,20 @@
                 <div class="d-flex justify-center py-1">
                   <font-awesome-icon class="" :icon="menu.icon ?? 'fa-regular fa-circle'" size="2x"></font-awesome-icon>
                 </div>
-                <label :for="'input-menu-icon'+menu.name+indexMenu" class="small">Icon </label>
-                <input :id="'input-menu-icon'+menu.name+indexMenu" class="form-control b-radius-top-0" @change="() => { menu.disabled = false }" v-model="menu.icon"
-                  :placeholder="menu.icon" />
+                <label :for="'input-menu-icon' + menu.name + indexMenu" class="small">Icon </label>
+                <input :id="'input-menu-icon' + menu.name + indexMenu" class="form-control b-radius-top-0"
+                  @change="() => { menu.disabled = false }" v-model="menu.icon" :placeholder="menu.icon" />
               </div>
             </div>
             <div class="col-6 px-1">
               <div class="flex-column align-center justify-center icon-area-menu b-shadow-1">
-                <label :for="'input-menu-name'+menu.name+indexMenu" class="small px-1">Name </label>
-                <input :id="'input-menu-name'+menu.name+indexMenu" class="form-control small b-radius-top-0" @change="() => { menu.disabled = false }"
-                  v-model="menu.name" :placeholder="menu.name" />
-                <label :for="'input-menu-displayname'+menu.name+indexMenu" class="small px-1">Display Name </label>
-                <input :id="'input-menu-displayname'+menu.name+indexMenu" class="form-control small b-radius-top-0" @change="() => { menu.disabled = false }"
-                  v-model="menu.displayName" :placeholder="menu.displayName" />
+                <label :for="'input-menu-name' + menu.name + indexMenu" class="small px-1">Name </label>
+                <input :id="'input-menu-name' + menu.name + indexMenu" class="form-control small b-radius-top-0"
+                  @change="() => { menu.disabled = false }" v-model="menu.name" :placeholder="menu.name" />
+                <label :for="'input-menu-displayname' + menu.name + indexMenu" class="small px-1">Display Name </label>
+                <input :id="'input-menu-displayname' + menu.name + indexMenu" class="form-control small b-radius-top-0"
+                  @change="() => { menu.disabled = false }" v-model="menu.displayName"
+                  :placeholder="menu.displayName" />
               </div>
             </div>
             <div class="col-2 d-flex justify-center">
@@ -36,10 +37,10 @@
                 :options="[{ label: 'Salvar alterações', obj: menu, icon: 'save', message: 'Tem certeza que deseja salvar as alterações ?', disabled: menu.disabled ?? true, action: 'save-menu-' + menu.name }, { label: 'Adicionar Sub Menu em /' + menu.name, obj: menu, icon: 'add', disabled: false, action: 'add-sub-' + menu.name }, { label: 'Remover Menu /' + menu.name, obj: menu, icon: 'trash', disabled: false, message: 'Tem certeza que deseja remover este Menu e todos os seus itens ?', action: 'remove-menu-' + menu.name }]" />
             </div>
           </div>
-          <div v-if="menu.subMenu?.length === 0"
-            class="decoration-primary-after b-radius-bottom-10">
+          <div v-if="menu.subMenu?.length === 0" class="decoration-primary-after b-radius-bottom-10">
             <div class="row d-flex justify-content-center align-center text-center p-1">
-              <small :id="'footer-'+menu.name+indexMenu" class="col-lg-6 col-md-6 col-12 handle-edit-permissions" @click="enjoyEditPerm(menu.id)">Editar
+              <small :id="'footer-' + menu.name + indexMenu" class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
+                @click="enjoyEditPerm(menu.id)">Editar
                 permissões</small>
               <small class="col-lg-6 col-md-6 col-12">/{{ menu.name }}</small>
             </div>
@@ -55,18 +56,21 @@
                     <font-awesome-icon class="" :icon="subMenu.icon ?? 'fa-regular fa-circle'"
                       size="2x"></font-awesome-icon>
                   </div>
-                  <label :for="'input-submenu-icon'+subMenu.name+indexSubMenu" class="small">Icon </label>
-                  <input :id="'input-submenu-icon'+subMenu.name+indexSubMenu" class="form-control b-radius-top-0" @change="() => { subMenu.disabled = false }"
-                    v-model="subMenu.icon" :placeholder="subMenu.icon" />
+                  <label :for="'input-submenu-icon' + subMenu.name + indexSubMenu" class="small">Icon </label>
+                  <input :id="'input-submenu-icon' + subMenu.name + indexSubMenu" class="form-control b-radius-top-0"
+                    @change="() => { subMenu.disabled = false }" v-model="subMenu.icon" :placeholder="subMenu.icon" />
                 </div>
               </div>
               <div class="col-6 px-1">
                 <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
-                  <label :for="'input-submenu-name'+subMenu.name+indexSubMenu" class="small">Name </label>
-                  <input :id="'input-submenu-name'+subMenu.name+indexSubMenu" class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
+                  <label :for="'input-submenu-name' + subMenu.name + indexSubMenu" class="small">Name </label>
+                  <input :id="'input-submenu-name' + subMenu.name + indexSubMenu"
+                    class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
                     v-model="subMenu.name" :placeholder="subMenu.name" />
-                  <label :for="'input-submenu-displayname'+subMenu.name+indexSubMenu" class="small">Display Name </label>
-                  <input :id="'input-submenu-displayname'+subMenu.name+indexSubMenu" class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
+                  <label :for="'input-submenu-displayname' + subMenu.name + indexSubMenu" class="small">Display Name
+                  </label>
+                  <input :id="'input-submenu-displayname' + subMenu.name + indexSubMenu"
+                    class="form-control small b-radius-top-0" @change="() => { subMenu.disabled = false }"
                     v-model="subMenu.displayName" :placeholder="subMenu.displayName" />
                 </div>
               </div>
@@ -77,7 +81,8 @@
             </div>
             <div v-if="subMenu.pages?.length === 0" class="col-12 decoration-primary-after b-radius-bottom-10">
               <div class="row d-flex justify-content-center align-center text-center p-1">
-                <small :id="'footer-'+subMenu.name+indexSubMenu" class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
+                <small :id="'footer-' + subMenu.name + indexSubMenu"
+                  class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
                   @click="enjoyEditPerm(menu.id, subMenu.id)">Editar permissões</small>
                 <small class="col-lg-6 col-md-6 col-12 ">/{{ menu.name }}/{{ subMenu.name }}</small>
               </div>
@@ -93,18 +98,19 @@
                       <font-awesome-icon class="" :icon="page.icon ?? 'fa-regular fa-circle'"
                         size="2x"></font-awesome-icon>
                     </div>
-                    <label :for="'input-page-icon'+page.name+indexPage" class="small">Icon </label>
-                    <input :id="'input-page-icon'+page.name+indexPage" class="form-control b-radius-top-0" @change="() => { page.disabled = false }"
-                      v-model="page.icon" :placeholder="page.icon" />
+                    <label :for="'input-page-icon' + page.name + indexPage" class="small">Icon </label>
+                    <input :id="'input-page-icon' + page.name + indexPage" class="form-control b-radius-top-0"
+                      @change="() => { page.disabled = false }" v-model="page.icon" :placeholder="page.icon" />
                   </div>
                 </div>
                 <div class="col-6 px-1">
                   <div class="flex-column align-center justify-center icon-area-menu  b-shadow-1">
-                    <label :for="'input-page-name'+page.name+indexPage" class="small">Name </label>
-                    <input :id="'input-page-name'+page.name+indexPage" class="form-control small b-radius-top-0" @change="() => { page.disabled = false }"
-                      v-model="page.name" :placeholder="page.name" />
-                    <label :for="'input-page-displayname'+page.name+indexPage" class="small">Display Name </label>
-                    <input :id="'input-page-displayname'+page.name+indexPage" class="form-control small b-radius-top-0" @change="() => { page.disabled = false }"
+                    <label :for="'input-page-name' + page.name + indexPage" class="small">Name </label>
+                    <input :id="'input-page-name' + page.name + indexPage" class="form-control small b-radius-top-0"
+                      @change="() => { page.disabled = false }" v-model="page.name" :placeholder="page.name" />
+                    <label :for="'input-page-displayname' + page.name + indexPage" class="small">Display Name </label>
+                    <input :id="'input-page-displayname' + page.name + indexPage"
+                      class="form-control small b-radius-top-0" @change="() => { page.disabled = false }"
                       v-model="page.displayName" :placeholder="page.displayName" />
                   </div>
                 </div>
@@ -115,7 +121,8 @@
               </div>
               <div class="decoration-primary-after b-radius-bottom-10">
                 <div class="row d-flex justify-content-center align-center text-center py-1 px-5">
-                  <small :id="'footer-'+page.name+indexPage" class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
+                  <small :id="'footer-' + page.name + indexPage"
+                    class="col-lg-6 col-md-6 col-12 handle-edit-permissions"
                     @click="enjoyEditPerm(menu.id, subMenu.id, page.id)">
                     Editar permissões</small>
                   <small class="col-lg-6 col-md-6 col-12">/{{ menu.name }}/{{ subMenu.name }}/{{ page.name }}</small>
@@ -126,8 +133,8 @@
         </div>
       </div>
     </div>
-    <ModalConfirmActionPage :reference="reference" @execute="execute($event)" />
-    <ModalEditPermission :reference="referenceEditPerm" @execute="execute($event)" />
+    <ModalConfirmActionPage :reference="reference" @execute="executeEditMenu($event)" />
+    <ModalEditPermission :reference="referenceEditPerm" @execute="executeEditPermission($event)" />
   </CardBox>
 </template>
 
@@ -181,7 +188,7 @@ export default {
               message: "",
               action: "confirm-edit-permission",
               description: "",
-              obj: selectedPerms.value,
+              obj: { menuId: menuId, subMenuId: subMenuId, pageId: pageId },
             }
             openModalCustom(configModalCustom.value)
           })
@@ -202,8 +209,18 @@ export default {
         }
         openModalCustom(configModalCustom.value)
       },
-      execute(event) {
+      executeEditMenu(event) {
         MenuService.editMenus(event)
+          .then((resp) => {
+            console.log(resp);
+            methods.getAllMenu();
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      },
+      executeEditPermission(event) {
+        MenuService.editPermission(event)
           .then((resp) => {
             console.log(resp);
             methods.getAllMenu();

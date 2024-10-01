@@ -4,12 +4,12 @@
             @click="handle($event)" />
         <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="closeMenu()"></div>
         <div :id="'options-group'" class="options-group b-shadow-1">
-            <div v-for="(option, index) in options" :key="index" class="" @click="enjoyAction(option)">
-                <div v-if="option.disabled === false" class="options-btn-group">
-                    <button :id="'options-btn-'+index" class="options-btn" :alt="option.label">
+            <div v-for="(option, index) in options" :key="index" class="">
+                <div v-if="option.disabled === false" class="options-btn-group" @click="enjoyAction(option)">
+                    <button :id="'options-btn-' + id + '-' + index" class="options-btn" :alt="option.label">
                         <font-awesome-icon class="f-icon" :icon="option.icon" />
                     </button>
-                    <label :for="'options-btn-'+index">{{ option.label }}</label>
+                    <label :for="'options-label-' + id + '-' + index">{{ option.label }}</label>
                 </div>
             </div>
         </div>
