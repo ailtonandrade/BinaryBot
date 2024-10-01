@@ -208,6 +208,7 @@ export default {
     });
 
     provide("pagination", pagination);
+    provide("contentTable", contentTable);
     return {
       pagination,
       orderBy,

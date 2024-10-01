@@ -3,15 +3,15 @@
     :breadcrumb="[{ name: 'Dashboard', link: 'dashboard' }, { name: pageConfig.title, link: '' }]">
     <genericTable :objHeader="headers" :objContents="contentTable" :options="optionsTable" :type="'object'"
       :orderBy="orderBy" :optionsPagination="pagination" @selectedLineObj="selectedLine($event)"
-      @orderByField="getAllUsers($event)" @togglePagination="getAllUsers()" @action="action($event)"
-      @filterSearch="getAllUsers($event)" />
-    <ModalPermission :reference="'modal-permission'" @execute="executeModal($event)" />
+      @orderByField="getAll($event)" @togglePagination="getAll()" @action="action($event)"
+      @filterSearch="getAll($event)" />
+    <ModalPermission :reference="referenceModal" @execute="executeModal($event)" />
   </CardBox>
 </template>
 
 <script>
 import { ref, inject, provide, onMounted, reactive, toRefs, computed } from "vue";
-import AccountService from "@/services/AccountService";
+import PermissionService from "@/services/PermissionService";
 import GenericTable from "@/views/components/GenericTable/GenericTable.vue";
 import CardBox from "@/views/components/Layout/CardBox.vue";
 import auxiliar from "@/global/auxiliar";
@@ -27,8 +27,11 @@ export default {
       title: "Lista de Permissões",
       description: "Manipule as permissões do sistema"
     });
+    const referenceModal = ref("modal-permission");
     const openModalBox = inject("openModalBox");
+    const openModalCustom = inject("openModalCustom");
     const addMessageBox = inject("addMessageBox");
+    const configModalCustom = ref({});
     const selectedLine = ref("");
     const pagination = ref({
       offset: 0,
@@ -58,17 +61,18 @@ export default {
     const contentTable = ref([]);
     const optionsTable = computed(() => {
       if (!selectedLine.value) {
-        return [];
+        return [
+          {
+            icon: "fa-solid fa-add",
+            label: "Inserir Permissão",
+            action: "insert",
+            disabled: false,
+          },
+        ];
       } else {
         return [
           {
-            icon: "fa-regular fa-edit",
-            label: "Inserir Permissão",
-            action: "insert",
-            disabled: methods.handleActions("insert"),
-          },
-          {
-            icon: "fa-regular fa-edit",
+            icon: "fa-solid fa-trash",
             label: "Remover Permissão",
             action: "remove",
             disabled: methods.handleActions("remove"),
@@ -84,44 +88,46 @@ export default {
     });
 
     const methods = reactive({
-      getAllPermissions(event) {
+      getAll(event) {
         PermissionService.getAllPermissions(pagination.value, orderBy.value, ObjectUtils.getEvent(event?.search))
           .then((resp) => {
             pagination.value = resp;
             methods.responseTable(resp.dataSet);
           })
           .catch((ex) => {
-
+            console.log(ex)
           })
       },
       handleActions(action) {
         switch (action) {
-          case "insert", "edit", "remove": {
+          case "edit", "remove": {
             return selectedLine.value == null
           }
         }
       },
       action(event) {
-        let obj = {};
         switch (event.action) {
           case "insert": {
-            openModalBox({
+            configModalCustom.value = {
               title: "Inserir Permissão",
+              reference: referenceModal.value,
               icon: "fa-solid fa-circle-exclamation",
               message: "Tem certeza que deseja inserir a permissão ?",
-              description: selectedLine.value.Name,
-              action: methods.insertPermission(selectedLine.value),
-            });
+              action: methods.insertPermission,
+            }
+            openModalCustom(configModalCustom.value)
             break;
           }
           case "edit": {
-            openModalBox({
+            configModalCustom.value = {
               title: "Editar Permissão",
+              reference: referenceModal.value,
               icon: "fa-solid fa-circle-exclamation",
               message: "Tem certeza que deseja editar a permissão ?",
-              description: selectedLine.value.Name,
-              action: methods.editPermission(selectedLine.value),
-            });
+              action: methods.editPermission,
+              obj: selectedLine.value
+            }
+            openModalCustom(configModalCustom.value)
             break;
           }
           case "remove": {
@@ -130,24 +136,90 @@ export default {
               icon: "fa-solid fa-circle-exclamation",
               message: "Tem certeza que deseja remover a permissão ?",
               description: selectedLine.value.Name,
-              action: methods.removePermission(selectedLine.value),
+              action: methods.removePermission,
             });
             break;
           }
         }
       },
       executeModal(event) {
-        console.log("event");
-        console.log(event);
+        selectedLine.value = event;
+        openModalBox({
+          title: event.title,
+          icon: event.icon,
+          message: event.message,
+          description: event.name,
+          action: event.action,
+        });
       },
-      insertPermission(data) {
-        console.log("inserir permissão: " + data.Id)
+      insertPermission() {
+        PermissionService.insertPermission(selectedLine.value)
+          .then((resp) => {
+            addMessageBox(
+              "Ok...",
+              "Permissão inserida com sucesso.",
+              null,
+              "success",
+              null
+            );
+            selectedLine.value = null;
+            methods.getAll();
+          })
+          .catch((ex) => {
+            addMessageBox(
+              "Oops...",
+              ex.message,
+              null,
+              "danger",
+              null
+            );
+          })
       },
-      editPermission(data) {
-        console.log("editar permissão: " + data.Id)
+      editPermission() {
+        PermissionService.editPermission(selectedLine.value)
+          .then((resp) => {
+            addMessageBox(
+              "Ok...",
+              "Permissão atualizada com sucesso.",
+              null,
+              "success",
+              null
+            );
+            selectedLine.value = null;
+            methods.getAll();
+          })
+          .catch((ex) => {
+            addMessageBox(
+              "Oops...",
+              ex.message,
+              null,
+              "danger",
+              null
+            );
+          })
       },
-      removePermission(data) {
-        console.log("remover permissão: " + data.Id)
+      removePermission() {
+        PermissionService.removePermission(selectedLine.value)
+          .then((resp) => {
+            addMessageBox(
+              "Ok...",
+              "Permissão removida com sucesso.",
+              null,
+              "success",
+              null
+            );
+            selectedLine.value = null;
+            methods.getAll();
+          })
+          .catch((ex) => {
+            addMessageBox(
+              "Oops...",
+              ex.message,
+              null,
+              "danger",
+              null
+            );
+          })
       },
       responseTable(response) {
         contentTable.value = response;
@@ -158,21 +230,27 @@ export default {
     });
 
     onMounted(() => {
-      methods.getAllUsers();
+      methods.getAll();
     });
 
     provide("pagination", pagination);
+    provide("contentTable", contentTable);
+    provide("configModalCustom", configModalCustom);
+
     return {
       pagination,
       pageConfig,
       router,
       orderBy,
       headers,
+      referenceModal,
       addMessageBox,
       optionsTable,
       contentTable,
       selectedLine,
       openModalBox,
+      configModalCustom,
+      openModalCustom,
       ...toRefs(methods),
     };
   },

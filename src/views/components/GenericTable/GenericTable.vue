@@ -13,7 +13,7 @@
             </div>
           </th>
         </thead>
-        <tbody v-if="objContents?.length > 0">
+        <tbody v-if="objContents?.length && objContents?.length > 0">
           <tr class="row-content" v-for="(row, indexRow) in objContents" :key="indexRow">
             <td v-for="(content, indexCnt) in row" :key="indexCnt">
               <div class="content" @click="selectLine(row, indexRow, $event)">
@@ -41,7 +41,7 @@ import FilterSearch from "./Components/FilterSearch.vue";
 import Pagination from "./Components/Pagination.vue";
 
 export default ({
-  props: ["objHeader", "objContents", "options", "type", "orderBy"],
+  props: ["objHeader", "options", "type", "orderBy"],
   emits: ['action', 'filterSearch', 'orderByField', 'selectedLineObj', 'selectedLineArr', "togglePagination"],
   components: {
     FilterSearch,
@@ -51,6 +51,7 @@ export default ({
   setup(props, { emit }) {
     const handleOptions = ref(false);
     const pagination = inject("pagination");
+    const objContents = inject("contentTable");
     const filter = ref({
       search: ""
     });
@@ -158,6 +159,7 @@ export default ({
     return {
       filter,
       pagination,
+      objContents,
       selectedLineObj,
       selectedLineArr,
       toggleSelection,

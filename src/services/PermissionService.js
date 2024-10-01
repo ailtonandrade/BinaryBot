@@ -24,5 +24,15 @@ class PermissionService {
       "&maxItems=" + pagination.maxItems +
       "&limit=" + pagination.limit)
   }
+  async insertPermission(data) {
+    return http.post(baseUrl + "/insert-permission", data);
+  }
+  async editPermission(data) {
+    return http.post(baseUrl + "/edit-permission", data);
+  }
+  async removePermission(data) {
+    return http.post(baseUrl + "/remove-permission", data);
+  }
+
 }
 export default new PermissionService();

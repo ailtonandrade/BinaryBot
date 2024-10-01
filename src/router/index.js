@@ -9,6 +9,7 @@ import ValidateCodeVue from "@/views/Register/ValidateCode.vue";
 import EditVue from "@/views/Users/Edit.vue";
 import ListUsers from "@/views/Users/ListUsers.vue";
 import EditPagesVue from "@/views/Pages/EditPages.vue";
+import ListPermissionsVue from "@/views/Permissions/ListPermissions.vue";
 
 
 const router = createRouter({
@@ -66,6 +67,12 @@ const router = createRouter({
       name: "edit-user-perfil",
       path: "/edit-user-perfil/:id",
       component: EditVue,
+      meta: { requiresAuth: true },
+    },
+    {
+      name: "edit-permissions",
+      path: "/management/pages/edit-permissions",
+      component: ListPermissionsVue,
       meta: { requiresAuth: true },
     },
     {

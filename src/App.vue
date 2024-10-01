@@ -59,7 +59,7 @@ export default {
     const isLoggedIn = ref(false);
     const showModalBox = ref(false);
     const isDarkMode = ref(true);
-    const showMainBar = ref(false);
+    const showMainBar = ref(true);
     const showNotifyBar = ref(false);
     const router = useRouter();
     const imgUser = ref(localStorage.getItem("imgUser"));
@@ -190,7 +190,7 @@ export default {
         try {
           showMainBar.value = false;
           showNotifyBar.value = false;
-          showSideMenu.value = false;
+          //showSideMenu.value = true;
 
           methods.requestAccess();
         } catch (err) {

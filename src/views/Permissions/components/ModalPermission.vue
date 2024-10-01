@@ -15,10 +15,20 @@
       <!-- MODAL CONTENT HERE -->
       <!-- MODAL CONTENT HERE -->
       <!-- MODAL CONTENT HERE -->
-      <div class="modal-box-content">
-        <div class="container">
-          <div class="row area-content">
-
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="col-10">
+          <div class="col-12 py-2">
+            <div class="flex-column justify-center modal-icon-area-menu  b-shadow-1">
+              <label for="modal-sub-text-name">Nome</label>
+              <input id="modal-sub-text-name" @keyup="onlyTextNoSpace($event)" class="form-control b-radius-top-0"
+                v-model="data.name" />
+            </div>
+          </div>
+          <div class="col-12 py-2">
+            <div class="flex-column justify-center modal-icon-area-menu  b-shadow-1">
+              <label for="modal-sub-text-description">Descrição</label>
+              <input id="modal-sub-text-description" class="form-control b-radius-top-0" v-model="data.description" />
+            </div>
           </div>
         </div>
       </div>
@@ -41,6 +51,7 @@
 import { onMounted } from "vue";
 import { defineComponent, reactive, toRefs, inject, ref, computed } from "vue";
 import MenuService from "@/services/MenuService";
+import { onUpdated } from "vue";
 
 export default defineComponent({
   emits: ["closeModal", "execute"],
@@ -49,29 +60,37 @@ export default defineComponent({
   setup(props, { emit }) {
     const closeModalCustom = inject("closeModalCustom");
     const configModal = ref(inject("configModalCustom"));
-    const data = ref({
-      icon: 'fa-regular fa-circle',
-      name: '',
-      displayName: ''
+    const data = computed(() => {
+      console.log("configModal")
+      console.log(configModal.value)
+      return {
+        id: configModal.value?.obj?.Id ?? null,
+        title: configModal.value?.title ?? '',
+        message: configModal.value?.message ?? '',
+        name: methods.onlyTextNoSpace(configModal.value?.obj?.Name ?? ''),
+        description: configModal.value?.obj?.Description ?? '',
+        action: configModal.value?.action ?? ''
+      }
     });
     const methods = reactive({
       closeModal() {
         closeModalCustom(configModal.value);
-        data.value = {
-          icon: 'fa-regular fa-circle',
-          name: '',
-          displayName: ''
-        };
       },
       toAction() {
-        let obj = configModal.value;
-        obj.data = selectedPerms.value;
-        emit("execute", obj);
+        emit("execute", data.value);
         methods.closeModal();
       },
+      onlyTextNoSpace(event) {
+        return event.target?.value ?? event
+          .toUpperCase()
+          .replace(/[^A-Z]/g, '');
+      }
     });
 
     onMounted(() => {
+    })
+
+    onUpdated(() => {
     })
     return {
       data,
@@ -89,78 +108,8 @@ export default defineComponent({
   justify-content: space-evenly;
 }
 
-.area-search {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-  margin: 0;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--switch-mode-tertiary);
-  color: var(--switch-mode-elements-secondary);
-  background-color: var(--switch-mode-primary);
-  border-radius: 5px;
-}
-
 input[type="text"] {
   background-color: var(--switch-mode-primary) !important;
   border-style: none !important;
-}
-
-.icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--switch-mode-tertiary);
-  color: var(--switch-mode-elements-primary);
-}
-
-.area-selector {
-  background-color: var(--switch-mode-primary);
-  border-radius: 5px;
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 10px 5px;
-}
-
-.selection {
-  display: flex;
-  cursor: pointer;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--switch-mode-tertiary);
-  color: var(--switch-mode-elements-secondary);
-  background-color: var(--switch-mode-primary);
-  border-radius: 5px;
-  padding: 5px 15px;
-  margin: 5px;
-}
-
-.selection.active {
-  cursor: unset;
-  color: var(--switch-mode-elements-secondary);
-  background-color: var(--switch-mode-tertiary);
-}
-
-.selection:hover {
-  background-color: var(--switch-mode-tertiary);
-}
-
-.area-remove-selected {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  background-color: var(--switch-mode-secondary);
-}
-
-.area-remove-selected:hover {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--switch-mode-elements-primary);
-  background-color: var(--switch-mode-secondary);
 }
 </style>
