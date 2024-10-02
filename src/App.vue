@@ -6,7 +6,7 @@
     </div>
     <div v-if="isLoggedIn" class="toggle-side-menu" :class="showSideMenu ? 'open' : ''">
       <ToggleSideMenu v-if="isLoggedIn" />
-      <SideMenu v-if="isLoggedIn" :listMenu="listSideMenu" class="side-menu" />
+      <SideMenu v-if="isLoggedIn" :listMenu="listSideMenu" class="side-menu" :class="!showSideMenu ? 'd-none': ''" />
     </div>
     <div class="router-view" :class="isLoggedIn ? 'p-t-custom h-100' : 'p-0'">
       <router-view>
@@ -190,7 +190,7 @@ export default {
         try {
           showMainBar.value = false;
           showNotifyBar.value = false;
-          //showSideMenu.value = true;
+          showSideMenu.value = false;
 
           methods.requestAccess();
         } catch (err) {

@@ -65,10 +65,12 @@ html body {
 
 .modal-box-title {
   font-weight: 600;
+  color: black;
 }
 
 .modal-box-message {
   font-weight: 200;
+  color: black;
 }
 
 .modal-box-btn {

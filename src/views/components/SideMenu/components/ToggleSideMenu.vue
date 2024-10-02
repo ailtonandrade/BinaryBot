@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="toggle-side-menu-btn b-radius-10 b-shadow-2" :class="showSideMenu ? 'open':''" @click="toggleSideMenu()">
-      <font-awesome-icon class="toggle-side-icon" icon="fa-solid fa-arrow-right" size="1x" />
+      <font-awesome-icon class="toggle-side-icon" :icon="!showSideMenu ? 'fa-bars' : 'fa-x'" size="1x" />
     </button>
   </div>
 </template>

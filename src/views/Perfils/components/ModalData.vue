@@ -56,7 +56,7 @@ import { onUpdated } from "vue";
 export default defineComponent({
   emits: ["closeModal", "execute"],
   props: ["reference"],
-  name: "ModalPermission",
+  name: "ModalPerfilData",
   setup(props, { emit }) {
     const closeModalCustom = inject("closeModalCustom");
     const configModal = ref(inject("configModalCustom"));
@@ -79,9 +79,10 @@ export default defineComponent({
         methods.closeModal();
       },
       onlyTextNoSpace(event) {
-        return event.target?.value ?? event
-          .toUpperCase()
-          .replace(/[^A-Z]/g, '');
+        if (event.target?.value) {
+          event.target.value = event.target.value.toUpperCase()
+            .replace(/[^A-Z]/g, '')
+        };
       }
     });
 

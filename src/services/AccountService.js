@@ -12,10 +12,10 @@ class AccountService {
   async edit(data) {
     return http.post(baseUrl + "/edit", await Auxiliar.getHash(data));
   }
-  async getInfoUser(id) {
+  async getInfoUser(user) {
     let obj = {
-      Id: Number(id),
-      UserName: id ? null : localStorage.getItem("userName")
+      Id: Number.isNaN(user) ? null : Number(user),
+      UserName: user
     }
     return http.post(baseUrl + "/get-info-user", obj);
   }

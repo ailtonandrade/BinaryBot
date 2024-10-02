@@ -484,7 +484,7 @@ export default {
         imgUser.value = data.imgUser;
       },
       getInfoUser() {
-        AccountService.getInfoUser(route?.params?.id)
+        AccountService.getInfoUser(route?.params?.id ?? route?.params?.userName)
           .then((response) => {
             methods.responseData(response.result);
           })

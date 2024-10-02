@@ -180,7 +180,6 @@ export default {
               "success",
               null
             );
-            console.log(resp)
           })
           .catch((ex) => {
             console.error(ex);
@@ -193,7 +192,6 @@ export default {
       },
       editUser(data) {
         router.push("/edit-user-perfil/" + data.Id)
-        console.log("editando o usuario: " + data.Id)
       },
       responseTable(response) {
         contentTable.value = response;

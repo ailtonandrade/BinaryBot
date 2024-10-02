@@ -62,12 +62,12 @@ li {
 
 .btn-side-menu .toggle-side-menu-icon {
   transform: rotate(0deg);
-  transition: 0.5s ease-in-out
+  transition: 0.5s 
 }
 
 .btn-side-menu.drop .toggle-side-menu-icon {
   transform: rotate(180deg);
-  transition: 0.5s ease-in-out
+  transition: 0.5s 
 }
 
 /* end - button MENU of side bar */
@@ -86,14 +86,14 @@ li {
 
 .btn-side-submenu li {
   cursor: pointer;
-  transition: 0.5s ease-in-out
+  transition: 0.5s 
 }
 
 .btn-side-submenu li:hover {
   border-radius: 5px;
   background-color: var(--switch-mode-tertiary);
   cursor: pointer;
-  transition: 0.5s ease-in-out
+  transition: 0.5s 
 }
 
 .btn-side-submenu li button {
@@ -125,6 +125,12 @@ li {
   transition: 0.3s;
   color: var(--switch-mode-elements-primary);
   cursor: pointer;
+}
+
+.toggle-side-icon{
+  opacity: 0.7;
+  text-align: center;
+  font-size: small;
 }
 
 .btn-side-submenu .toggle-side-menu-icon {
@@ -219,20 +225,19 @@ li {
   top: 50px;
   width: 70px;
   height: 100%;
-  transition: transform 0.5s ease-in-out, opacity 0.4s, width 0.3s ease-in-out;
+  transition: transform 0.5s , opacity 0.4s, width 0.3s ;
 }
 
 .toggle-side-menu.open {
   width: 230px;
   transform: translateX(0%);
-  transition: transform 0.5s ease-in-out, opacity 0.4s, width 0.3s ease-in-out;
+  transition: transform 0.2s , opacity 0.2s, width 0.2s ;
 }
 
 .toggle-side-menu .toggle-side-menu-btn {
   position: absolute !important;
-  left: 80%;
   transform: rotate(0);
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ;
   z-index: 7;
 }
 
@@ -242,14 +247,14 @@ li {
 
 .btn-side-page {
   opacity: 1;
-  transition: 0.5s ease-in-out;
+  transition: 0.2s ;
 }
 
 .btn-side-page:hover span,
 .btn-side-page:hover button {
   color: var(--decoration-primary);
   opacity: 1;
-  transition: 0.5s ease-in-out;
+  transition: 0.2s ;
 }
 
 .toggle-side-menu.open .toggle-side-menu-btn {
@@ -278,14 +283,4 @@ li {
 
 .btn-side-submenu.drop .btn-side-page {
   display: block;
-}
-
-@media screen and (max-width:600px) {
-  .toggle-side-menu {
-    transform: translateX(-50px);
-  }
-
-  .toggle-side-menu.open {
-    max-width: 200px;
-  }
 }

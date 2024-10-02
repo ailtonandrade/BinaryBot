@@ -12,7 +12,7 @@
                 icon="fa-solid fa-moon" size="1x" />
             </button>
           </div>
-          <!-- Edut -->
+          <!-- Edit -->
           <div class="main-bar-btn" @click="editPerfil()">
             <span class=" main-bar-text">Editar perfil</span>
             <button class=" main-bar-btn-icon">
@@ -52,7 +52,7 @@ export default {
         router.goTo("home");
       },
       editPerfil() {
-        router.goTo("edit-perfil")
+        router.push("/edit-user-perfil/" + localStorage.getItem("userName"))
       },
       toggleDarkMode() {
         isDarkMode.value = !isDarkMode.value

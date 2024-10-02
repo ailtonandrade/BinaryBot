@@ -45,7 +45,7 @@ export default ({
         const indexPaginatorOffset = ref(0);
         const showPaginatorArr = ref([]);
         const maxPaginatorArr = computed(() => {
-            return optionsPagination.value?.offsetOptions[optionsPagination.value?.offsetOptions.length - 1];
+            return optionsPagination.value?.offsetOptions[optionsPagination.value?.offsetOptions?.length - 1];
         })
         const offsetActive = computed(() => {
             return optionsPagination.value.offset + 1;

@@ -50,7 +50,7 @@ export default ({
 </script>
 <style scoped>
 .card-box {
-  margin: 0 10px;
+  margin: 0 70px 0 5px;
   padding: 20px 5px 0 20px;
   background-color: var(--switch-mode-primary);
 }

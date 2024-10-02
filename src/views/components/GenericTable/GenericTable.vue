@@ -1,17 +1,19 @@
 <template>
-  <div class="col-12 d-flex flex-column aligm-itms-start">
+  <div class="col-12 d-flex flex-column align-items-start">
     <FilterSearch :options="options" :type="type" :objContents="objContents"
       @handleSelectionAll="handleSelectionAll($event)" />
     <div class="generic-table">
       <table>
         <thead>
-          <th v-for="(header, indexHead) in objHeader" :key="indexHead">
-            <div class="header d-flex justify-content-around" @dblclick="toggleOrderBy(header)">
-              {{ header.displayName }}
-              <font-awesome-icon class="f-icon" :class="{ 'd-none': orderBy.field != header.name }"
-                :icon="header.order ? 'fa-solid fa-arrow-up' : 'fa-solid fa-arrow-down'" />
-            </div>
-          </th>
+          <tr>
+            <th v-for="(header, indexHead) in objHeader" :key="indexHead">
+              <div class="header d-flex justify-content-around" @dblclick="toggleOrderBy(header)">
+                {{ header.displayName }}
+                <font-awesome-icon class="f-icon" :class="{ 'd-none': orderBy.field != header.name }"
+                  :icon="header.order ? 'fa-solid fa-arrow-up' : 'fa-solid fa-arrow-down'" />
+              </div>
+            </th>
+          </tr>
         </thead>
         <tbody v-if="objContents?.length && objContents?.length > 0">
           <tr class="row-content" v-for="(row, indexRow) in objContents" :key="indexRow">
@@ -23,9 +25,13 @@
           </tr>
         </tbody>
         <tbody v-else>
-          <div class="contents-none">
-            <h5>Nenhum dado retornado.</h5>
-          </div>
+          <tr>
+            <td colspan="100%">
+              <div class="contents-none">
+                <h5>Nenhum dado retornado.</h5>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -33,6 +39,7 @@
     <div class="backdrop-options" :class="{ 'active': handleOptions }" @click="toggleOptions()"></div>
   </div>
 </template>
+
 
 <script>
 import { computed, watch, reactive, toRefs, ref, inject, provide, onMounted } from "vue";
@@ -134,9 +141,9 @@ export default ({
         elementosSelecionados.forEach(e => {
           e.classList.remove('selected');
         });
-        pagination.value.offsetOptions = [];
-        pagination.value.dataSet = [];
-        pagination.value.maxItems = 0;
+        //pagination.value.offsetOptions = [];
+        //pagination.value.dataSet = [];
+        //pagination.value.maxItems = 0;
 
         toggleSelection.value = false;
         selectedLineObj.value = null;
@@ -172,86 +179,46 @@ export default ({
 
 <style scoped>
 .generic-table {
-  padding: 0 !important;
-  overflow: auto;
+  width: 100%;
+  overflow-x: auto;
 }
 
 table {
-  overflow: auto;
-  min-width: 500px;
-  font-size: 9pt;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 300px;
 }
 
 thead {
+  width: 100%;
   background-color: var(--decoration-primary);
   color: var(--fixed-dark-mode-tertiary);
-  border-radius: 0 5px 0 0;
   user-select: none;
   cursor: pointer;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header .f-icon {
-  font-size: 8pt;
-}
-
-th {
-  padding: 5px;
-  transition: 0.1s;
-}
-
-th:hover {
-  transition: 0.1s;
-  background-color: var(--decoration-primary-after);
+thead th {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  font-size: 9pt;
 }
 
 tbody {
-  display: block;
-  overflow: auto;
-  height: fit-content;
-  max-height: 600px;
+  display: table-row-group; /* Garante que o tbody compartilhe o mesmo comportamento que o thead */
 }
 
-thead,
-tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-tr {
-  cursor: pointer;
-  background-color: var(--switch-mode-secondary);
-  transition: 0.1s;
-}
-
-tr:hover {
-  transition: 0.1s;
+tbody tr:hover {
   background-color: var(--switch-mode-tertiary);
 }
 
-td {
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: var(--switch-mode-tertiary);
-}
-
-.content {}
-
-td .content {
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--switch-mode-tertiary);
   word-wrap: break-word;
-  height: 100% !important;
-  padding: 0 2px;
-}
-
-.row-content {
-  padding: 0;
-  margin: 0;
+  width: auto;
 }
 
 .row-content.selected {
@@ -259,4 +226,10 @@ td .content {
   color: var(--switch-mode-elements-primary);
   font-weight: 500;
 }
+
+.contents-none {
+  text-align: center;
+  padding: 10px;
+}
+
 </style>

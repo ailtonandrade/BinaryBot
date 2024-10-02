@@ -10,6 +10,7 @@ import EditVue from "@/views/Users/Edit.vue";
 import ListUsers from "@/views/Users/ListUsers.vue";
 import EditPagesVue from "@/views/Pages/EditPages.vue";
 import ListPermissionsVue from "@/views/Permissions/ListPermissions.vue";
+import ListPerfilsVue from "@/views/Perfils/ListPerfils.vue";
 
 
 const router = createRouter({
@@ -59,13 +60,19 @@ const router = createRouter({
     },
     {
       name: "edit-perfil",
-      path: "/edit-perfil",
-      component: EditVue,
+      path: "/management/pages/edit-perfil",
+      component: ListPerfilsVue,
       meta: { requiresAuth: true },
     },
     {
       name: "edit-user-perfil",
       path: "/edit-user-perfil/:id",
+      component: EditVue,
+      meta: { requiresAuth: true },
+    },
+    {
+      name: "edit-user-perfil",
+      path: "/edit-user-perfil/:userName",
       component: EditVue,
       meta: { requiresAuth: true },
     },
@@ -110,7 +117,6 @@ router.goTo = (routeName, objectData) => {
 
 
 router.beforeEach((to, from, next) => {
-
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Se a rota requer autenticação
     const token = localStorage.getItem('token'); // Recupere o token do localStorage
