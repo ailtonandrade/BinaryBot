@@ -11,6 +11,7 @@ import ListUsers from "@/views/Users/ListUsers.vue";
 import EditPagesVue from "@/views/Pages/EditPages.vue";
 import ListPermissionsVue from "@/views/Permissions/ListPermissions.vue";
 import ListPerfilsVue from "@/views/Perfils/ListPerfils.vue";
+import Book from "../views/Book/Book.vue";
 
 
 const router = createRouter({
@@ -92,6 +93,11 @@ const router = createRouter({
       path: "/:pathMatch(.*)*",
       name: "not-found",
       component: NotFound,
+    },
+    {
+      path: "/book/:bookname",
+      name: "book",
+      component: Book,
     }
   ],
 
