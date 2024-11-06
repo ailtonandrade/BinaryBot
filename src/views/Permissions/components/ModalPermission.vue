@@ -65,7 +65,7 @@ export default defineComponent({
         id: configModal.value?.obj?.Id ?? null,
         title: configModal.value?.title ?? '',
         message: configModal.value?.message ?? '',
-        name: methods.onlyTextNoSpace(configModal.value?.obj?.Name ?? ''),
+        name: configModal.value?.obj?.Name ?? '',
         description: configModal.value?.obj?.Description ?? '',
         action: configModal.value?.action ?? ''
       }

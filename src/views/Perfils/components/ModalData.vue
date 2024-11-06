@@ -65,10 +65,11 @@ export default defineComponent({
         id: configModal.value?.obj?.Id ?? null,
         title: configModal.value?.title ?? '',
         message: configModal.value?.message ?? '',
-        name: methods.onlyTextNoSpace(configModal.value?.obj?.Name ?? ''),
+        name: configModal.value?.obj?.Name ?? '',
         description: configModal.value?.obj?.Description ?? '',
         action: configModal.value?.action ?? ''
       }
+
     });
     const methods = reactive({
       closeModal() {
@@ -82,7 +83,11 @@ export default defineComponent({
         if (event.target?.value) {
           event.target.value = event.target.value.toUpperCase()
             .replace(/[^A-Z]/g, '')
+
+          return event?.target?.value;
+          
         };
+        return null;
       }
     });
 

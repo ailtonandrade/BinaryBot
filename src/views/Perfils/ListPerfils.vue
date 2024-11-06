@@ -137,7 +137,8 @@ export default {
               action: methods.editPerfil,
               obj: selectedLine.value
             }
-            openModalCustom(configModalCustom.value)
+            openModalCustom(configModalCustom.value);
+            selectedLine.value = null;
             break;
           }
           case "remove": {
@@ -168,8 +169,10 @@ export default {
               .catch((ex) => {
                 console.log(ex);
               })
+              break;
+            }
           }
-        }
+          selectedLine.value = null;
       },
       editPermission() {
         PerfilService.editPermission(selectedLine.value)
