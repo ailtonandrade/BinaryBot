@@ -344,6 +344,9 @@ h4 {
   flex-direction: row;
 }
 
+.disabled{
+  user-select: none;
+}
 .direction-row {
   flex-direction: row;
 }

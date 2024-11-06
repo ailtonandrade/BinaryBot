@@ -58,7 +58,7 @@ export default {
   setup() {
     const isLoggedIn = ref(false);
     const showModalBox = ref(false);
-    const isDarkMode = ref(true);
+    const isDarkMode = inject("isDarkMode");
     const showMainBar = ref(true);
     const showNotifyBar = ref(false);
     const router = useRouter();

@@ -1,33 +1,33 @@
 <template>
-  <div class="card-box m-2 p-2  d-flex flex-column align-center justify-center">
-    <!-- Switch Mode -->
-    <div class="col-12 mx-0 px-0 d-flex justify-content-end">
-      <div class="col-1" @click="toggleDarkMode()">
-        <button class="user-select-none main-bar-btn-icon col-12 d-flex justify-center p-1">
-          <font-awesome-icon class="dark-mode-sun p-r-10" :class="{ 'light-mode-active': !isDarkMode }"
-            icon="fa-solid fa-sun" size="1x" />
-          <font-awesome-icon class="dark-mode-moon" :class="{ 'dark-mode-active': isDarkMode }" icon="fa-solid fa-moon"
-            size="1x" />
-        </button>
-      </div>
-    </div>
-    <div class="container-fluid d-flex flex-column align-center justify-center">
-      <h1 style="font-weight: 900;">{{ title }}</h1>
-      <h5>{{ description }}</h5>
-      <LineDecoration></LineDecoration>
-      <div class="mb-3 p-0 row breadcrumb-container">
-        <div v-for="(text, index) in breadcrumb" :key="index">
-          <div class="breadcrumb-content">
-            <span class="breadcrumb-link" @click=goToRoute(text.link)>
-              {{ text.name }}
-            </span>
-            <b v-if="++index < breadcrumb?.length" class="breadcrumb-dot medium"> - </b>
+  <div>
+    <div class="card-box">
+      <div class="m-2 p-2">
+        <!-- Switch Mode -->
+        <div class="col-12 mx-0 px-0 d-flex justify-content-end">
+          <div class="col-1" @click="toggleDarkMode()">
+            <button class="user-select-none main-bar-btn-icon col-12 d-flex justify-center p-1">
+              <font-awesome-icon class="dark-mode-sun p-r-10" :class="{ 'light-mode-active': !isDarkMode }"
+                icon="fa-solid fa-sun" size="1x" />
+              <font-awesome-icon class="dark-mode-moon" :class="{ 'dark-mode-active': isDarkMode }"
+                icon="fa-solid fa-moon" size="1x" />
+            </button>
           </div>
         </div>
+        <div class="container-fluid d-flex flex-column align-center justify-center">
+          <h1 style="font-weight: 900;">{{ title }}</h1>
+          <h5>{{ description }}</h5>
+          <LineDecoration></LineDecoration>
+        </div>
+        <div class="card-box-content container-fluid d-flex align-center justify-center">
+          <slot></slot>
+        </div>
       </div>
-    </div>
-    <div class="card-box-content container-fluid d-flex align-center justify-center">
-      <slot></slot>
+      <div class="text-center small" style="opacity: 0.8;">
+        <span>powered by</span>
+        <p>
+          <b>Atend.io</b>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -66,21 +66,23 @@ export default ({
 </script>
 <style scoped>
 .card-box {
-  margin: 0 70px 0 5px;
-  padding: 20px 5px 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
   background-color: var(--switch-mode-primary);
 }
 
 @media (min-width: 600px) {
   .card-box {
-    padding: 20px 5px 0 70px;
     overflow: hidden;
   }
 }
 
 .card-box-content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 10px 0px;
   border-radius: 20px;
   box-shadow: 1px 1px 1px 1px rgb(0, 0, 0, 0.2);
