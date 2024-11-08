@@ -95,7 +95,7 @@ const router = createRouter({
       component: NotFound,
     },
     {
-      path: "/book/:bookname",
+      path: "/:bookname",
       name: "book",
       component: Book,
     }

@@ -11,6 +11,9 @@ export default class ObjectUtils {
   static getImgBlank() {
     return "img/img-user-blank.png";
   }
+  static getImgCoverBlank() {
+    return "img/img-cover-blank.png";
+  }
   static getEvent(event) {
     return (event !== undefined) ? event : "";
   }

@@ -1,90 +1,140 @@
 <template>
-  <CardBoxBook :title="pageConfig.title" :description="pageConfig.description" :breadcrumb="[]">
-    <div class="container-fluid">
-      <div class="d-flex flex-wrap">
-        <div class="col-lg-6 col-md-6 col-12 p-1">
-          <div class="d-flex justify-content-lg-start justify-content-md-start justify-content-center">
-            <img class="img-perfil b-radius-100 b-shadow-2" :src="handleImgUser()" />
-          </div>
-          <div class="card-custom">
-            <span>
-              Para exibir um calendário sempre visível e em modo escuro, você pode utilizar o vue3-datepicker.
-              Aqui está um exemplo de como configurar o vue3-datepicker:
-            </span>
-            <div class="social-media">
-              <a href="https://www.instagram.com" target="_blank">
-                <font-awesome-icon class="brands" icon="fa-brands fa-instagram" />
-              </a>
-              <a href="https://www.facebook.com" target="_blank">
-                <font-awesome-icon class="brands" icon="fa-brands fa-facebook" />
-              </a>
-              <a href="https://www.youtube.com" target="_blank">
-                <font-awesome-icon class="brands" icon="fa-brands fa-youtube" />
-              </a>
+  <div class="book">
+    <CardBoxBook :title="pageConfig.title" :description="pageConfig.description" :breadcrumb="[]">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-12 px-1 py-4">
+            <div class="titles">
+              <span class="title-label">Sobre</span>
+              <div class="separator-line"></div>
             </div>
+            <Infos />
           </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-12 p-1 d-flex align-items-center justify-content-center">
-          <DatePicker id="datepicker-24h" showTime hourFormat="24" fluid v-model="selectedDate" inline showWeek
-            class="w-full calendar-custom" @click="handleSelectedDate()" :showIcon="true" placeholder="Selecione uma data"
-            showButtonBar />
+          <div class="col-lg-6 col-md-6 col-12 px-1 py-4">
+            <div class="titles">
+              <span class="title-label">Calenrário</span>
+              <div class="separator-line"></div>
+            </div>
+            <Calendar />
+          </div>
+          <div class="col-lg-6 col-md-6 col-12 px-1 py-4">
+            <div class="titles">
+              <span class="title-label">Serviços e Produtos</span>
+              <div class="separator-line"></div>
+            </div>
+            <Services />
+          </div>
+          <div class="col-lg-6 col-md-6 col-12 px-1 py-4">
+            <div class="titles">
+              <span class="title-label">Contato</span>
+              <div class="separator-line"></div>
+            </div>
+            <Form />
+          </div>
         </div>
       </div>
-    </div>
-  </CardBoxBook>
+    </CardBoxBook>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted, computed, reactive, toRefs, inject } from "vue";
-import GenericTable from "@/views/components/GenericTable/GenericTable.vue";
+import { ref, onMounted, reactive, toRefs, provide, inject } from "vue";
 import CardBoxBook from "@/views/components/Layout/CardBoxBook.vue";
 import { useRouter } from "vue-router";
-import ObjectUtils from "@/Utils/ObjectUtils";
-import DatePicker from 'primevue/datepicker';
+import Infos from "./components/Infos.vue";
+import Calendar from "./components/calendar.vue";
+import Services from "./components/services.vue";
+import Form from "./components/form.vue";
+import BookService from "@/services/BookService";
 
 export default {
-  components: { CardBoxBook, GenericTable, DatePicker },
+  components: { CardBoxBook, Calendar, Infos, Services, Form },
   setup() {
     const router = useRouter();
     const isDarkMode = inject("isDarkMode");
-    const pageConfig = ref({
-      title: "Otomandrade",
-      description: "Agende seu atendimento",
-      imgUser: "img/img-user-blank.png"
+    const openModalBox = inject("openModalBox");
+    const openModalCustom = inject("openModalCustom");
+    const addMessageBox = inject("addMessageBox");
+    const pageDefaults = ref({
+      imgUser: "img/img-user-blank.png",
+      imgCoverUser: "img/img-cover-blank.png"
     });
-
-    const selectedDate = ref(null);
-    const methods = reactive({
-      getAll(event) {
-        // Implementação de chamada ao serviço
-      },
-      handleImgUser() {
-        const imgUser = pageConfig.value.imgUser;
-        if (imgUser === ObjectUtils.getImgBlank()) {
-          return require(`@/assets/${imgUser}`);
+    const pageConfig = ref({
+      title: "Book perdido  =( ???",
+      description: "Começe um novo book e gerencie seus agendamentos",
+      data: {
+        bookName: null,
+        bookTitle: null,
+        darkMode: null,
+        themePrimaryColor: null,
+        themeSecondaryColor: null,
+        imgUser: null,
+        imgCoverUser: null,
+        bio: null,
+        linkInstagram: null,
+        linkFacebook: null,
+        linkYoutube: null,
+        linkSite: null,
+        email: null,
+        phone: null,
+        disabledDays: [],
+        servicesList: [],
+        address: {
+          displayAddress: null,
+          linkGoogleMaps: null,
         }
-        return ObjectUtils.getImgFromBytes(imgUser);
-      },
-      handleSelectedDate() {
-        console.log("Data selecionada:", selectedDate.value);
       }
     });
 
+    const pageForm = ref({
+      idBook: pageConfig.value.id,
+      selectedService: null,
+      nome: null,
+      telefone: null,
+      mensagem: null,
+      selectedDate: null
+    });
+
+    const methods = reactive({
+      getAll() {
+        BookService.getAllBookInfo(pageConfig.value)
+          .then((resp) => {
+            pageConfig.value = methods.responseTable(resp);
+          })
+          .catch((ex) => {
+            addMessageBox(
+              "Oops...",
+              "Esse book não foi encontrado.",
+              null,
+              "danger",
+              null
+            );
+          });
+      },
+      responseTable(resp) {
+        console.log(resp);
+        return resp;
+      }
+    });
+
+    provide("pageConfig", pageConfig);
+    provide("pageForm", pageForm);
+    provide("pageDefaults", pageDefaults);
+
     onMounted(() => {
-      document.querySelectorAll(".p-datepicker-minute-picker")[0].classList.add("disabled");
-      const elem = document.querySelectorAll(".p-datepicker-minute-picker");
-      elem[0].children[1].innerHTML = '00';
-      elem[0].children[0].disabled = true;
-      elem[0].children[2].disabled = true;
-      console.log(elem);
+      pageConfig.value.data.bookName = router.currentRoute?.value?.path?.split("/")[1];
       methods.getAll();
     });
 
     return {
       isDarkMode,
       router,
-      selectedDate,
       pageConfig,
+      pageForm,
+      pageDefaults,
+      openModalBox,
+      openModalCustom,
+      addMessageBox,
       ...toRefs(methods),
     };
   }
@@ -92,68 +142,27 @@ export default {
 </script>
 
 <style scoped>
-.b-radius-100 {
-  border-radius: 100%;
-}
-
-.b-shadow-2 {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.img-perfil {
-  max-width: 150px;
-}
-
-.calendar-custom {
-  border-radius: 10px;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: var(--switch-mode-tertiary);
-}
-.brands {
-  margin-top: 30px;
-  height: 25px;
-  padding: 0 10px;
-  color: var(--switch-mode-elements-tertiary);
-  transition: 0.2s;
-}
-
-.brands:hover {
-  padding: 0 10px;
-  color: var(--decoration-primary);
-  transition: 0.2s;
-}
-
-.card-custom {
+.book {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: -20px;
-  margin-left: 0px;
-  padding: 50px 20px;
-  text-align: justify;
-  border-radius: 10px;
-  background-color: var(--switch-mode-tertiary);
+  justify-content: center;
 }
 
-/* Estilos para o calendário em modo escuro */
-.dark-mode-calendar .vue3-datepicker__calendar {
-  background-color: #2c2c2c;
-  color: #ffffff;
+.titles {
+  margin: 20px 0;
 }
 
-.dark-mode-calendar .vue3-datepicker__header {
-  background-color: #444;
-  color: #ffffff;
+.separator-line {
+  width: 30%;
+  height: 2px;
+  margin: 0 10px;
+  background-color: var(--decoration-primary);
 }
 
-.dark-mode-calendar .vue3-datepicker__day--today {
-  background-color: #ff6600;
-  color: #fff;
-}
-
-.dark-mode-calendar .vue3-datepicker__day--selected {
-  background-color: #ffcc00;
-  color: #000;
+.title-label {
+  margin: 10px 0;
+  padding: 10px;
+  font-weight: 600;
+  font-size: large;
+  color: var(--decoration-primary);
 }
 </style>
